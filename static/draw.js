@@ -26,7 +26,7 @@ function draw() {
     request_id = window.requestAnimationFrame(draw);
     if (click) {
         context.fillStyle = "black";
-        context.fillRect(mouseX , mouseY , 5, 5);
+        context.fillRect(mouseX - 10, mouseY - 10, 5, 5);
     }
 }
 
