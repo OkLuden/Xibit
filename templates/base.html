@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Drawing Tool</title>
+        <script src="../static/draw.js" type="module"></script>
+    </head>
+    <body>
+        <header>
+            <div class="topnav">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="paint.html">Paint</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    {% if g.user %}
+                    <li><a class="logout" href="logout.html">Logout</a></li>
+                    {% else %}
+                    <li><a class="register" href="register.html">Register</a></li>
+                    <li><a class="login" href="login.html">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </header>
+        <main>
+            {% block main_content %}
+            {% endblock %}
+        </main>
+    </body>
+</html>
