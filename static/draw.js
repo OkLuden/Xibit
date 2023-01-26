@@ -14,9 +14,10 @@ function init() {
     canvas.width = window.innerWidth;
     context = canvas.getContext("2d");
 
-    window.addEventListener("mousedown", activate, false);
-    window.addEventListener("mouseup", deactivate, false);
-    window.addEventListener("mousemove", track, false);
+    // mouse, touch and pen compatibility
+    window.addEventListener("pointerdown", activate, false);
+    window.addEventListener("pointerup", deactivate, false);
+    window.addEventListener("pointermove", track, false);
 
     draw();
 }
