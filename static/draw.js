@@ -43,6 +43,6 @@ function deactivate() {
 
 // tracks mouse position
 function track(event) {
-    mouseX = event.clientX - 10;
-    mouseY = event.clientY - 10;
+    mouseX = event.clientX - 7;
+    mouseY = event.clientY - 7;
 }
