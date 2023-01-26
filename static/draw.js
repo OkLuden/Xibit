@@ -1,22 +1,22 @@
 let canvas;
 let context;
+let request_id;
 
 let click = false; 
 let mouseX;
 let mouseY;
-let request_id;
 
 document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
     canvas = document.querySelector("canvas");
-    canvas.height = window.innerHeight
-    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
     context = canvas.getContext("2d");
 
-    window.addEventListener("mousedown",activate,false);
-    window.addEventListener("mouseup",deactivate,false);
-    window.addEventListener("mousemove",track,false);
+    window.addEventListener("mousedown", activate, false);
+    window.addEventListener("mouseup", deactivate, false);
+    window.addEventListener("mousemove", track, false);
 
     draw();
 }
@@ -25,14 +25,15 @@ function init() {
 function draw() {
     request_id = window.requestAnimationFrame(draw);
     if (click) {
-        context.fillStyle = "black";
-        context.fillRect(mouseX - 10, mouseY - 10, 5, 5);
+        context.lineTo(mouseX, mouseY);
+        context.stroke();
     }
 }
 
 // activates the brush by holding down
-function activate(event) {
+function activate() {
     click = true;
+    context.beginPath();
 }
 
 // deactivates brush
@@ -42,6 +43,6 @@ function deactivate() {
 
 // tracks mouse position
 function track(event) {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
+    mouseX = event.clientX - 10;
+    mouseY = event.clientY - 10;
 }
