@@ -18,6 +18,6 @@ def page_not_found(error):
 def index():
     return render_template("index.html", page = "Home")
 
-@app.route("/paint")
+@app.route("/paint", methods = ["GET","POST"])
 def paint():
     return render_template("paint.html", page = "Paint" )
