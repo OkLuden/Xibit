@@ -33,7 +33,7 @@ def register():
     return render_template("register.html", page = "Register")
 
 @app.route("/login" , methods = ["GET","POST"])
-def register():
+def login():
     form = LoginForm()
     #TO DO
     return render_template("login.html", page = "Login")
