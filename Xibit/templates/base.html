@@ -2,22 +2,26 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Drawing Tool - {{ page }}</title>
+        <title>Xibit - {{ page }}</title>
         <link rel="stylesheet" href="{{ url_for('static', filename = 'styles.css') }}" />
         <script src="../static/draw.js" type="module"></script>
+        <link rel="icon" type="image/x-icon" href="../static/images/xibit_logo.ico">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
         <header>
             <div class="topnav">
                 <ul>
-                    <li><a href="{{ url_for('index') }}">Home</a></li>
-                    <li><a href="{{ url_for('paint') }}">Paint</a></li>
-                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
+                    <li style="float:left"><img src="../static/images/logo2.png" class="logo" alt="Xibit Logo"></li>
+                    <li class="nav_text" style="float:left"><a href="{{ url_for('index') }}">Home</a></li>
+                    <li class="nav_text" style="float:left"><a href="{{ url_for('paint') }}">Paint</a></li>
+                    <li class="nav_text" style="float:left"><a href="{{ url_for('profile') }}">Profile</a></li>
                     <!-- {% if g.user %} -->
-                    <li><a class="logout" href="{{ url_for('logout') }}">Logout</a></li>
+                    <li class="nav_text" style="float:right"><a href="{{ url_for('logout') }}">Logout</a></li>
                     <!-- {% else %} -->
-                    <li><a class="register" href="{{ url_for('register') }}">Register</a></li>
-                    <li><a class="login" href="{{ url_for('login') }}">Login</a></li>
+                    <li class="nav_text" style="float:right"><a href="{{ url_for('register') }}">Register</a></li>
+                    <li class="nav_text" style="float:right"><a href="{{ url_for('login') }}">Login</a></li>
                     <!-- {% endif %} -->
                 </ul>
             </div>
@@ -26,5 +30,8 @@
             {% block main_content %}
             {% endblock %}
         </main>
+        <footer>
+
+        </footer>
     </body>
 </html>

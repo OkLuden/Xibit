@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 
 {% block main_content %}
-    <canvas></canvas>
-    <button id="thick">Thickness</button> 
-    <select id="colour">
-        <option value="red">Red</option>
-        <option value="green">Green</option>
-        <option value="blue">Blue</option>
-        <option value="black">Black</option>
-    </select>
+    <div class="art_tool">
+        <aside class="toolbox">
+            <a>Buttons go in here</a>
+            <button id="thick">Thickness</button> 
+            <select id="colour">
+                <option value="red">Red</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="black">Black</option>
+            </select>
+        </aside>
+        <canvas></canvas>
+    </div>
 {% endblock %}
