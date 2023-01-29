@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>Drawing Tool</title>
-    <script src="../static/draw.js" type="module"></script>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block main_content %}
     <canvas></canvas>
     <button id="thick">Thickness</button> 
     <select id="colour">
@@ -14,5 +9,4 @@
         <option value="blue">Blue</option>
         <option value="black">Black</option>
     </select>
-</body>
-</html>
+{% endblock %}

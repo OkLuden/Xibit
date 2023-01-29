@@ -13,7 +13,11 @@ Session(app)
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("error404.html", page="Error!"), 404
-    
+
 @app.route("/")
-def test():
-    return render_template("index.html" , page = "Home")
+def index():
+    return render_template("index.html", page = "Home")
+
+@app.route("/paint")
+def paint():
+    return render_template("paint.html", page = "Paint" )
