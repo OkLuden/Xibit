@@ -21,3 +21,24 @@ def index():
 @app.route("/paint", methods = ["GET","POST"])
 def paint():
     return render_template("paint.html", page = "Paint" )
+
+@app.route("/profile", methods = ["GET","POST"])
+def profile():
+    return render_template("profile.html", page = "Profile")
+
+@app.route("/register" , methods = ["GET","POST"])
+def register():
+    form = RegistrationForm()
+    #TO DO
+    return render_template("register.html", page = "Register")
+
+@app.route("/login" , methods = ["GET","POST"])
+def register():
+    form = LoginForm()
+    #TO DO
+    return render_template("login.html", page = "Login")
+
+@app.route("/logout")
+def logout():
+    #TO DO
+    return redirect(url_for("index"))
