@@ -3,21 +3,21 @@
     <head>
         <meta charset="utf-8" />
         <title>Drawing Tool - {{ page }}</title>
-        <link rel="stylesheet" href="../static/styles.css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'styles.css') }}" />
         <script src="../static/draw.js" type="module"></script>
     </head>
     <body>
         <header>
             <div class="topnav">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="paint.html">Paint</a></li>
-                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('paint') }}">Paint</a></li>
+                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
                     {% if g.user %}
-                    <li><a class="logout" href="logout.html">Logout</a></li>
+                    <li><a class="logout" href="{{ url_for('logout') }}">Logout</a></li>
                     {% else %}
-                    <li><a class="register" href="register.html">Register</a></li>
-                    <li><a class="login" href="login.html">Login</a></li>
+                    <li><a class="register" href="{{ url_for('register') }}">Register</a></li>
+                    <li><a class="login" href="{{ url_for('login') }}">Login</a></li>
                     {% endif %}
                 </ul>
             </div>
