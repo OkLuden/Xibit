@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
     canvas = document.querySelector("canvas");
+    canvas.height = 800;
+    canvas.width = 1200;
     context = canvas.getContext("2d");
 
     // mouse, touch and pen compatibility
