@@ -13,12 +13,12 @@
                     <li><a href="{{ url_for('index') }}">Home</a></li>
                     <li><a href="{{ url_for('paint') }}">Paint</a></li>
                     <li><a href="{{ url_for('profile') }}">Profile</a></li>
-                    {% if g.user %}
+                    <!-- {% if g.user %} -->
                     <li><a class="logout" href="{{ url_for('logout') }}">Logout</a></li>
-                    {% else %}
+                    <!-- {% else %} -->
                     <li><a class="register" href="{{ url_for('register') }}">Register</a></li>
                     <li><a class="login" href="{{ url_for('login') }}">Login</a></li>
-                    {% endif %}
+                    <!-- {% endif %} -->
                 </ul>
             </div>
         </header>
