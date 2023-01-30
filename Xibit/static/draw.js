@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
     canvas = document.querySelector("canvas");
-    canvas.height = 800;
+    canvas.height = 600;
     canvas.width = 1200;
     context = canvas.getContext("2d");
 
@@ -33,7 +33,7 @@ function draw() {
         // creates single coloured square
         if (brush.value == "square") {
             context.fillStyle = colour.value;
-            context.fillRect(mouseX, mouseY, thick.value * 3, thick.value * 3);
+            context.fillRect(mouseX - (thick.value * 2), mouseY - (thick.value * 2), thick.value * 4, thick.value * 4);
             click = false;
         // normal brush stroke
         } else {

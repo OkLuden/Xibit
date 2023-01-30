@@ -67,7 +67,7 @@ a {
 
 .toolbox {
     width: 350px;
-    height: 800px;
+    height: 600px;
     background-color: #383838;
     border-radius: 5px;
 }
@@ -76,6 +76,7 @@ canvas {
     /*margin-top: calc(((100vh - 50px)/2) - 420px);
     margin-left: calc(((100vw)/2) - 600px);*/
     border-radius: 5px;
+    cursor: crosshair;
 }
 
 /* FOOTER */
