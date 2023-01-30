@@ -3,6 +3,7 @@ from forms import RegistrationForm, LoginForm
 from db import get_db, close_db
 from flask_session import Session
 from functools import wraps
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
@@ -18,7 +19,7 @@ def close_db_at_end_of_requests(e=None):
 @app.before_request
 def load_logged_in_user():
     g.user = session.get("user_id", None)
-    
+
 def login_required(view):
     @wraps(view)
     def wrapped_view(**kwargs):
@@ -47,7 +48,26 @@ def profile():
 def register():
     form = RegistrationForm()
     #TO DO
-    return render_template("register.html", page = "Register")
+    if form.validate_on_submit():
+        user_id = form.user_id.data
+        user_id = user_id.lower()
+        password = form.password.data
+        password2 = form.password2.data
+        profanity = ["fuck","bitch","cunt","fucker","shithead","dick","shit","pharaoh","asshole","crap","idiot","bastard","bollocks","wanker","twat","whore"]
+        if user_id in profanity:
+            form.user_id.errors.append("User ID invalid.")
+        else:
+            db = get_db()
+            user = db.execute(''' SELECT * FROM users
+                                    WHERE user_id = ?;''',(user_id,)).fetchone()
+            if user is None:
+                db.execute('''INSERT INTO users (user_id,password)
+                            VALUES (?,?);''',(user_id,generate_password_hash(password)))
+                db.commit()
+                return redirect(url_for("login"))
+            elif user is not None:
+                form.user_id.errors.append("User ID already taken.")
+    return render_template("register.html", form = form, page = "Register")
 
 @app.route("/login" , methods = ["GET","POST"])
 def login():
