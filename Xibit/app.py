@@ -97,5 +97,5 @@ def login():
 
 @app.route("/logout")
 def logout():
-    #TO DO
+    session.clear()
     return redirect(url_for("index"))
