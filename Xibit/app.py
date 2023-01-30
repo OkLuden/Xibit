@@ -75,8 +75,25 @@ def register():
 @app.route("/login" , methods = ["GET","POST"])
 def login():
     form = LoginForm()
-    #TO DO
-    return render_template("login.html", page = "Login")
+    if form.validate_on_submit():
+        user_id = form.user_id.data
+        user_id = user_id.lower()
+        password = form.password.data
+        db = get_db()
+        user = db.execute(''' SELECT * FROM users
+                                WHERE user_id = ?;''',(user_id,)).fetchone()
+        if user is None:
+            form.user_id.errors.append("Unknown User ID.")
+        elif not check_password_hash(user["password"],password):
+            form.password.errors.append("Incorrect password!")
+        else:
+            session.clear()
+            session["user_id"] = user_id
+            next_page = request.args.get("next")
+            if not next_page:
+                next_page = url_for("index")
+            return redirect(next_page)
+    return render_template("login.html", form=form, page="Login")
 
 @app.route("/logout")
 def logout():
