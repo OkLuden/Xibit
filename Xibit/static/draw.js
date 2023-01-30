@@ -18,10 +18,9 @@ function init() {
     context = canvas.getContext("2d");
 
     // mouse, touch and pen compatibility
-    canvas.addEventListener("pointerdown", activate, false);
-    canvas.addEventListener("pointerup", deactivate, false);
-    window.addEventListener("pointermove", track, false);
-    thick.addEventListener("click", changeThickness, false);
+    window.addEventListener("pointerdown", activate, false);
+    window.addEventListener("pointerup", deactivate, false);
+    canvas.addEventListener("pointermove", track, false);
 
     draw();
 }
@@ -30,7 +29,6 @@ function init() {
 function draw() {
     request_id = window.requestAnimationFrame(draw);
     if (click) {
-        console.log(colour.value);
         context.strokeStyle = colour.value;
         context.lineWidth = thick.value;
         context.lineTo(mouseX, mouseY);
@@ -51,8 +49,8 @@ function deactivate() {
 
 // tracks mouse position
 function track(event) {
-    mouseX = event.clientX - 7;
-    mouseY = event.clientY - 7;
+    mouseX = event.clientX - canvas.offsetLeft;
+    mouseY = event.clientY - canvas.offsetTop;
 }
 
 // changes brush thickness
