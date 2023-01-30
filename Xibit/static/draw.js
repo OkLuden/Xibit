@@ -8,6 +8,7 @@ let mouseY;
 
 colour = document.querySelector("#colour")
 thick = document.getElementById("thick");
+brush = document.getElementById("brush");
 
 document.addEventListener("DOMContentLoaded", init, false);
 
@@ -20,7 +21,7 @@ function init() {
     // mouse, touch and pen compatibility
     window.addEventListener("pointerdown", activate, false);
     window.addEventListener("pointerup", deactivate, false);
-    canvas.addEventListener("pointermove", track, false);
+    window.addEventListener("pointermove", track, false);
 
     draw();
 }
@@ -29,10 +30,18 @@ function init() {
 function draw() {
     request_id = window.requestAnimationFrame(draw);
     if (click) {
+        // creates single coloured square
+        if (brush.value == "square") {
+            context.fillStyle = colour.value;
+            context.fillRect(mouseX, mouseY, thick.value * 3, thick.value * 3);
+            click = false;
+        // normal brush stroke
+        } else {
         context.strokeStyle = colour.value;
         context.lineWidth = thick.value;
         context.lineTo(mouseX, mouseY);
         context.stroke();
+        }
     }
 }
 
@@ -51,10 +60,7 @@ function deactivate() {
 function track(event) {
     mouseX = event.clientX - canvas.offsetLeft;
     mouseY = event.clientY - canvas.offsetTop;
-}
-
-// changes brush thickness
-function changeThickness() {
-    context.lineWidth = 20;
-    console.log("us");
+    if (mouseX <= 0 || mouseY <= 0) {
+        click = false;
+    }
 }
