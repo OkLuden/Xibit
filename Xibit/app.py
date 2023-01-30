@@ -53,6 +53,7 @@ def register():
         user_id = user_id.lower()
         password = form.password.data
         password2 = form.password2.data
+        email = form.email.data
         profanity = ["fuck","bitch","cunt","fucker","shithead","dick","shit","pharaoh","asshole","crap","idiot","bastard","bollocks","wanker","twat","whore"]
         if user_id in profanity:
             form.user_id.errors.append("User ID invalid.")
@@ -61,8 +62,8 @@ def register():
             user = db.execute(''' SELECT * FROM users
                                     WHERE user_id = ?;''',(user_id,)).fetchone()
             if user is None:
-                db.execute('''INSERT INTO users (user_id,password)
-                            VALUES (?,?);''',(user_id,generate_password_hash(password)))
+                db.execute('''INSERT INTO users (user_id,password,email)
+                            VALUES (?,?,?);''',(user_id,generate_password_hash(password),email))
                 db.commit()
                 return redirect(url_for("login"))
             elif user is not None:
