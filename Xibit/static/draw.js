@@ -32,6 +32,7 @@ function draw() {
     if (click) {
         console.log(colour.value);
         context.strokeStyle = colour.value;
+        context.lineWidth = thick.value;
         context.lineTo(mouseX, mouseY);
         context.stroke();
     }
