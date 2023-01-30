@@ -18,6 +18,14 @@ def close_db_at_end_of_requests(e=None):
 def load_logged_in_user():
     g.user = session.get("user_id", None)
 
+def login_required(view):
+    @wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for("login", next=request.url))
+        return view(**kwargs)
+    return wrapped_view
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("error404.html", page="Error!"), 404
