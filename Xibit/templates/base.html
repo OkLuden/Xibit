@@ -17,12 +17,12 @@
                     <li class="nav_text" style="float:left"><a href="{{ url_for('index') }}">Home</a></li>
                     <li class="nav_text" style="float:left"><a href="{{ url_for('paint') }}">Paint</a></li>
                     <li class="nav_text" style="float:left"><a href="{{ url_for('profile') }}">Profile</a></li>
-                    <!-- {% if g.user %} -->
+                    {% if g.user %}
                     <li class="nav_text" style="float:right"><a href="{{ url_for('logout') }}">Logout</a></li>
-                    <!-- {% else %} -->
+                    {% else %}
                     <li class="nav_text" style="float:right"><a href="{{ url_for('register') }}">Register</a></li>
                     <li class="nav_text" style="float:right"><a href="{{ url_for('login') }}">Login</a></li>
-                    <!-- {% endif %} -->
+                    {% endif %}
                 </ul>
             </div>
         </header>
