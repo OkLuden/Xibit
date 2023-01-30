@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, redirect, request, jsonify, g
 from forms import RegistrationForm, LoginForm
 from db import get_db, close_db
 from flask_session import Session
+from functools import wraps
 
 
 app = Flask(__name__)
@@ -17,7 +18,7 @@ def close_db_at_end_of_requests(e=None):
 @app.before_request
 def load_logged_in_user():
     g.user = session.get("user_id", None)
-
+    
 def login_required(view):
     @wraps(view)
     def wrapped_view(**kwargs):
