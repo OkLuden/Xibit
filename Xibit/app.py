@@ -57,6 +57,8 @@ def register():
         profanity = ["fuck","bitch","cunt","fucker","shithead","dick","shit","pharaoh","asshole","crap","idiot","bastard","bollocks","wanker","twat","whore"]
         if user_id in profanity:
             form.user_id.errors.append("User ID invalid.")
+        elif "@" not in email:
+            form.email.errors.append("Enter a valid email address.") 
         else:
             db = get_db()
             user = db.execute(''' SELECT * FROM users
