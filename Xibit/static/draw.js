@@ -11,7 +11,12 @@ let scaleY;
 let height = 600;
 let width = 1200;
 
-colour = document.querySelector("#colour")
+let colour;
+let thick;
+let brush;
+let clear;
+
+colour = document.getElementById("colour");
 thick = document.getElementById("thick");
 brush = document.getElementById("brush");
 clear = document.getElementById("clear");
@@ -68,7 +73,7 @@ function track(event) {
     bounds = canvas.getBoundingClientRect();
     scaleX = canvas.width / bounds.width;
     scaleY = canvas.height / bounds.height;
-    mouseX = (event.clientX - bounds.left) * scaleX
+    mouseX = (event.clientX - bounds.left) * scaleX;
     mouseY = (event.clientY - bounds.top) * scaleY;
     // mouseX = event.clientX - bounds.left;
     // mouseY = event.clientY - bounds.top;
