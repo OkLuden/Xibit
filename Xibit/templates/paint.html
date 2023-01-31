@@ -3,20 +3,28 @@
 {% block main_content %}
     <div class="art_tool">
         <aside class="toolbox">
-            <a>Buttons go in here</a>
-            <input type="range" min="1" max="15" value="2" id="thick">
+            <br><br>
+            <a class="text">Brush size</a> <br>
+            <input type="range" min="1" max="100" value="2" step="0.5" id="thick"> <br>
+            <a class="textsmall">Current size: </a>
+            <br><br><br>
+            <a class="text">Color</a> <br>
             <select id="colour">
                 <option value="black">Black</option>
                 <option value="white">White</option>
                 <option value="red">Red</option>
-                <option value="green">Green</option>
-                <option value="blue">Blue</option>
+                <option value="#49e65c">Green</option>
+                <option value="#17bce6">Blue</option>
             </select>
+            <br><br><br>
+            <a class="text">Brush Shape</a> <br>
             <select id="brush">
                 <option value="regular">Regular</option>
                 <option value="square">Square</option>
             </select>
+            <br><br><br>
             <button id="clear">Clear Screen</button>
+            <br><br><br>
             <button id="save">Save as Image</button>
         </aside>
         <canvas></canvas>
