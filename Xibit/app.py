@@ -37,10 +37,12 @@ def index():
     return render_template("index.html", page = "Home")
 
 @app.route("/paint", methods = ["GET","POST"])
+@login_required
 def paint():
     return render_template("paint.html", page = "Paint" )
 
 @app.route("/profile", methods = ["GET","POST"])
+@login_required
 def profile():
     return render_template("profile.html", page = "Profile")
 
