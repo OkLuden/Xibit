@@ -6,6 +6,8 @@ let click = false;
 let mouseX;
 let mouseY;
 let bounds;
+let scaleX;
+let scaleY;
 let height = 600;
 let width = 1200;
 
@@ -53,9 +55,7 @@ function draw() {
 // activates the brush by holding down
 function activate() {
     click = true;
-    if (brush.value != "fill"){
-        context.beginPath();
-    }
+    context.beginPath();    
 }
 
 // deactivates brush
@@ -66,8 +66,14 @@ function deactivate() {
 // tracks mouse position
 function track(event) {
     bounds = canvas.getBoundingClientRect();
-    mouseX = event.clientX - bounds.left;
-    mouseY = event.clientY - bounds.top;
+    scaleX = canvas.width / bounds.width;
+    scaleY = canvas.height / bounds.height;
+    mouseX = (event.clientX - bounds.left) * scaleX
+    mouseY = (event.clientY - bounds.top) * scaleY;
+    // mouseX = event.clientX - bounds.left;
+    // mouseY = event.clientY - bounds.top;
+    console.log(mouseX);
+    console.log(mouseY);
     if (mouseX <= 0 || mouseY <= 0 || mouseX >= width || mouseY >= height) {
         click = false;
     }
