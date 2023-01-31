@@ -37,7 +37,6 @@ def index():
     return render_template("index.html", page = "Home")
 
 @app.route("/paint", methods = ["GET","POST"])
-@login_required
 def paint():
     return render_template("paint.html", page = "Paint" )
 
