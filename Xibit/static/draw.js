@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", init, false);
 function init() {
     canvas = document.querySelector("canvas");
     canvas.height = 600;
-    canvas.width = 1200;
+    canvas.width = 600;
     context = canvas.getContext("2d");
 
     // mouse, touch and pen compatibility
@@ -35,12 +35,12 @@ function draw() {
             context.fillStyle = colour.value;
             context.fillRect(mouseX - (thick.value * 2), mouseY - (thick.value * 2), thick.value * 4, thick.value * 4);
             click = false;
-        // normal brush stroke
+        // normal brush stroke    
         } else {
-        context.strokeStyle = colour.value;
-        context.lineWidth = thick.value;
-        context.lineTo(mouseX, mouseY);
-        context.stroke();
+            context.strokeStyle = colour.value;
+            context.lineWidth = thick.value;
+            context.lineTo(mouseX, mouseY);
+            context.stroke();
         }
     }
 }
@@ -48,7 +48,9 @@ function draw() {
 // activates the brush by holding down
 function activate() {
     click = true;
-    context.beginPath();
+    if (brush.value != "fill"){
+        context.beginPath();
+    }
 }
 
 // deactivates brush
@@ -60,7 +62,7 @@ function deactivate() {
 function track(event) {
     mouseX = event.clientX - canvas.offsetLeft;
     mouseY = event.clientY - canvas.offsetTop;
-    if (mouseX <= 0 || mouseY <= 0) {
+    if (mouseX <= 0 || mouseY <= 0 || mouseX >= 600 || mouseY >= 600) {
         click = false;
     }
 }
