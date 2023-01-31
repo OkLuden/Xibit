@@ -6,6 +6,9 @@ let click = false;
 let mouseX;
 let mouseY;
 let bounds;
+let height = 600;
+let width = 1200;
+let imgData;
 
 colour = document.querySelector("#colour")
 thick = document.getElementById("thick");
@@ -15,8 +18,8 @@ document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
     canvas = document.querySelector("canvas");
-    canvas.height = 600;
-    canvas.width = 600;
+    canvas.height = height;
+    canvas.width = width;
     context = canvas.getContext("2d");
 
     // mouse, touch and pen compatibility
@@ -64,7 +67,7 @@ function track(event) {
     bounds = canvas.getBoundingClientRect();
     mouseX = event.clientX - bounds.left;
     mouseY = event.clientY - bounds.top;
-    if (mouseX <= 0 || mouseY <= 0 || mouseX >= 600 || mouseY >= 600) {
+    if (mouseX <= 0 || mouseY <= 0 || mouseX >= width || mouseY >= height) {
         click = false;
     }
 }
