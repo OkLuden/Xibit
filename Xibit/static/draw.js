@@ -5,6 +5,7 @@ let request_id;
 let click = false; 
 let mouseX;
 let mouseY;
+let bounds;
 
 colour = document.querySelector("#colour")
 thick = document.getElementById("thick");
@@ -60,8 +61,9 @@ function deactivate() {
 
 // tracks mouse position
 function track(event) {
-    mouseX = event.clientX - canvas.offsetLeft;
-    mouseY = event.clientY - canvas.offsetTop;
+    bounds = canvas.getBoundingClientRect();
+    mouseX = event.clientX - bounds.left;
+    mouseY = event.clientY - bounds.top;
     if (mouseX <= 0 || mouseY <= 0 || mouseX >= 600 || mouseY >= 600) {
         click = false;
     }
