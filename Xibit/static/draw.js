@@ -8,11 +8,11 @@ let mouseY;
 let bounds;
 let height = 600;
 let width = 1200;
-let imgData;
 
 colour = document.querySelector("#colour")
 thick = document.getElementById("thick");
 brush = document.getElementById("brush");
+clear = document.getElementById("clear");
 
 document.addEventListener("DOMContentLoaded", init, false);
 
@@ -26,6 +26,7 @@ function init() {
     window.addEventListener("pointerdown", activate, false);
     window.addEventListener("pointerup", deactivate, false);
     window.addEventListener("pointermove", track, false);
+    clear.addEventListener("click", clearCanvas, false);
 
     draw();
 }
@@ -70,4 +71,10 @@ function track(event) {
     if (mouseX <= 0 || mouseY <= 0 || mouseX >= width || mouseY >= height) {
         click = false;
     }
+}
+
+// clears canvas
+function clearCanvas() {
+    context.fillStyle = "white";
+    context.fillRect(0, 0, width, height);
 }
