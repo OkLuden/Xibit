@@ -8,6 +8,7 @@ let mouseY;
 let bounds;
 let scaleX;
 let scaleY;
+let image;
 let height = 600;
 let width = 1200;
 
@@ -15,11 +16,13 @@ let colour;
 let thick;
 let brush;
 let clear;
+let save;
 
 colour = document.getElementById("colour");
 thick = document.getElementById("thick");
 brush = document.getElementById("brush");
 clear = document.getElementById("clear");
+save = document.getElementById("save");
 
 document.addEventListener("DOMContentLoaded", init, false);
 
@@ -34,6 +37,7 @@ function init() {
     window.addEventListener("pointerup", deactivate, false);
     window.addEventListener("pointermove", track, false);
     clear.addEventListener("click", clearCanvas, false);
+    save.addEventListener("click", saveImage, false);
 
     draw();
 }
@@ -88,4 +92,10 @@ function track(event) {
 function clearCanvas() {
     context.fillStyle = "white";
     context.fillRect(0, 0, width, height);
+}
+
+// saves canvas as image
+function saveImage() {
+    image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    window.location.href=image;
 }
