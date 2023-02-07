@@ -18,6 +18,7 @@ let thick_label = document.getElementsByClassName("textsmall")[0];
 let brush = document.getElementById("brush");
 let clear = document.getElementById("clear");
 let save = document.getElementById("save");
+let fill = document.getElementById("fill");
 
 document.addEventListener("DOMContentLoaded", init, false);
 
@@ -51,13 +52,17 @@ function draw() {
         // creates single coloured square
         if (brush.value == "square") {
             context.rect(mouseX - (thick.value * 2), mouseY - (thick.value * 2), thick.value * 4, thick.value * 4);
-            context.fill();
+            if (fill.checked) {
+                context.fill();
+            } 
             context.stroke();
             click = false;
         // creates single coloured circle
         } else if (brush.value == "circle") {
             context.arc(mouseX, mouseY, thick.value, 0, 360);
-            context.fill();
+            if (fill.checked) {
+                context.fill();
+            } 
             context.stroke(); 
             click = false;
         // normal brush stroke    
@@ -85,6 +90,7 @@ function track(event) {
     bounds = canvas.getBoundingClientRect();
     mouseX = event.clientX - bounds.left;
     mouseY = event.clientY - bounds.top;
+    console.log(fill.checked);
     if (mouseX <= -30 || mouseY <= -30 || mouseX >= width+30 || mouseY >= height+30) {
         click = false;
     }
