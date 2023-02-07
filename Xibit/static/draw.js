@@ -14,7 +14,7 @@ let width = 1200;
 
 let colour = document.getElementById("colour");
 let thick = document.getElementById("thick");
-let thickLabel = document.getElementsByClassName("textsmall")[0];
+let thick_label = document.getElementsByClassName("textsmall")[0];
 let brush = document.getElementById("brush");
 let clear = document.getElementById("clear");
 let save = document.getElementById("save");
@@ -26,6 +26,10 @@ function init() {
     canvas.height = height;
     canvas.width = width;
     context = canvas.getContext("2d");
+
+    // create white background for png image
+    context.fillStyle = "white";
+    context.fillRect(0, 0, canvas.width, canvas.height);
 
     // mouse, touch and pen compatibility
     window.addEventListener("pointerdown", activate, false);
@@ -40,18 +44,26 @@ function init() {
 // draws
 function draw() {
     request_id = window.requestAnimationFrame(draw);
-    thickLabel.innerHTML = "Current Size: " + (thick.value).toString();
+    thick_label.innerHTML = "Current Size: " + (thick.value).toString();
     if (click) {
+        context.fillStyle = colour.value;
+        context.strokeStyle = colour.value;
         // creates single coloured square
         if (brush.value == "square") {
-            context.fillStyle = colour.value;
-            context.fillRect(mouseX - (thick.value * 2), mouseY - (thick.value * 2), thick.value * 4, thick.value * 4);
+            context.rect(mouseX - (thick.value * 2), mouseY - (thick.value * 2), thick.value * 4, thick.value * 4);
+            context.fill();
+            context.stroke();
+            click = false;
+        // creates single coloured circle
+        } else if (brush.value == "circle") {
+            context.arc(mouseX, mouseY, thick.value, 0, 360);
+            context.fill();
+            context.stroke(); 
             click = false;
         // normal brush stroke    
         } else {
-            context.strokeStyle = colour.value;
             context.lineWidth = thick.value;
-            context.lineTo(mouseX, mouseY);
+            context.lineTo(mouseX, mouseY); 
             context.stroke();
         }
     }
@@ -60,7 +72,7 @@ function draw() {
 // activates the brush by holding down
 function activate() {
     click = true;
-    context.beginPath();    
+    context.beginPath();  
 }
 
 // deactivates brush
