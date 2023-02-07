@@ -12,17 +12,12 @@ let image;
 let height = 600;
 let width = 1200;
 
-let colour;
-let thick;
-let brush;
-let clear;
-let save;
-
-colour = document.getElementById("colour");
-thick = document.getElementById("thick");
-brush = document.getElementById("brush");
-clear = document.getElementById("clear");
-save = document.getElementById("save");
+let colour = document.getElementById("colour");
+let thick = document.getElementById("thick");
+let thickLabel = document.getElementsByClassName("textsmall")[0];
+let brush = document.getElementById("brush");
+let clear = document.getElementById("clear");
+let save = document.getElementById("save");
 
 document.addEventListener("DOMContentLoaded", init, false);
 
@@ -34,7 +29,7 @@ function init() {
 
     // mouse, touch and pen compatibility
     window.addEventListener("pointerdown", activate, false);
-    window.addEventListener("pointerup", deactivate, false);
+    canvas.addEventListener("pointerup", deactivate, false);
     window.addEventListener("pointermove", track, false);
     clear.addEventListener("click", clearCanvas, false);
     save.addEventListener("click", saveImage, false);
@@ -45,6 +40,7 @@ function init() {
 // draws
 function draw() {
     request_id = window.requestAnimationFrame(draw);
+    thickLabel.innerHTML = "Current Size: " + (thick.value).toString();
     if (click) {
         // creates single coloured square
         if (brush.value == "square") {
@@ -75,15 +71,9 @@ function deactivate() {
 // tracks mouse position
 function track(event) {
     bounds = canvas.getBoundingClientRect();
-    scaleX = canvas.width / bounds.width;
-    scaleY = canvas.height / bounds.height;
-    mouseX = (event.clientX - bounds.left) * scaleX;
-    mouseY = (event.clientY - bounds.top) * scaleY;
-    // mouseX = event.clientX - bounds.left;
-    // mouseY = event.clientY - bounds.top;
-    console.log(mouseX);
-    console.log(mouseY);
-    if (mouseX <= 0 || mouseY <= 0 || mouseX >= width || mouseY >= height) {
+    mouseX = event.clientX - bounds.left;
+    mouseY = event.clientY - bounds.top;
+    if (mouseX <= -30 || mouseY <= -30 || mouseX >= width+30 || mouseY >= height+30) {
         click = false;
     }
 }
