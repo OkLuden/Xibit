@@ -11,6 +11,8 @@ let scaleY;
 let image;
 let height = 600;
 let width = 1200;
+let current_stroke = [];
+let stroke_list = [];
 
 let colour = document.getElementById("colour");
 let thick = document.getElementById("thick");
@@ -19,6 +21,7 @@ let brush = document.getElementById("brush");
 let clear = document.getElementById("clear");
 let save = document.getElementById("save");
 let fill = document.getElementById("fill");
+let undo = document.getElementById("undo");
 
 document.addEventListener("DOMContentLoaded", init, false);
 
@@ -38,6 +41,7 @@ function init() {
     window.addEventListener("pointermove", track, false);
     clear.addEventListener("click", clearCanvas, false);
     save.addEventListener("click", saveImage, false);
+    undo.addEventListener("click", erasePreviousStroke, false);
 
     draw();
 }
@@ -69,6 +73,7 @@ function draw() {
         } else {
             context.lineWidth = thick.value;
             context.lineTo(mouseX, mouseY); 
+            current_stroke.push([mouseX, mouseY]);
             context.stroke();
         }
     }
@@ -77,11 +82,15 @@ function draw() {
 // activates the brush by holding down
 function activate() {
     click = true;
+    current_stroke = [];
+    current_stroke.push([mouseX, mouseY]);
     context.beginPath();  
 }
 
 // deactivates brush
 function deactivate() {
+    stroke_list.push(current_stroke);
+    current_stroke = [];
     click = false;
 }
 
@@ -90,7 +99,6 @@ function track(event) {
     bounds = canvas.getBoundingClientRect();
     mouseX = event.clientX - bounds.left;
     mouseY = event.clientY - bounds.top;
-    console.log(fill.checked);
     if (mouseX <= -30 || mouseY <= -30 || mouseX >= width+30 || mouseY >= height+30) {
         click = false;
     }
@@ -106,4 +114,21 @@ function clearCanvas() {
 function saveImage() {
     image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
     window.location.href=image;
+}
+
+// erases previous stroke
+function erasePreviousStroke() {
+    click = false;
+    if (stroke_list.length == 0) {
+        // pass
+    } else {
+        current_stroke = stroke_list.pop();
+        context.strokeStyle = "white";
+        context.moveTo(current_stroke[0][0], current_stroke[0][1]);
+        for (let i = 1; i < current_stroke.length; i++) {
+            context.lineWidth = thick.value;
+            context.lineTo(current_stroke[i][0], current_stroke[i][1]); 
+            context.stroke();
+        }
+    }
 }
