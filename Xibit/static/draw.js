@@ -11,7 +11,7 @@ let scaleY;
 let image;
 let height = 600;
 let width = 1200;
-let current_stroke;
+let current_stroke = [];
 let stroke_list = [];
 
 let colour = document.getElementById("colour");
@@ -88,8 +88,12 @@ function activate() {
 
 // deactivates brush
 function deactivate() {
-    stroke_list.push(current_stroke);
-    current_stroke = [];
+    if (current_stroke.length == 0) {
+        // pass
+    } else {
+        stroke_list.push(current_stroke);
+        current_stroke = [];
+    }
     click = false;
 }
 
@@ -98,8 +102,8 @@ function track(event) {
     bounds = canvas.getBoundingClientRect();
     mouseX = event.clientX - bounds.left;
     mouseY = event.clientY - bounds.top;
-    if (mouseX <= -30 || mouseY <= -30 || mouseX >= width+30 || mouseY >= height+30) {
-        click = false;
+    if ((mouseX <= -30 || mouseY <= -30 || mouseX >= width+30 || mouseY >= height+30) && click == true) {
+        deactivate();
     }
 }
 
