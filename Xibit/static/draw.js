@@ -11,7 +11,7 @@ let scaleY;
 let image;
 let height = 600;
 let width = 1200;
-let current_stroke = [];
+let current_stroke;
 let stroke_list = [];
 
 let colour = document.getElementById("colour");
@@ -73,7 +73,7 @@ function draw() {
         } else {
             context.lineWidth = thick.value;
             context.lineTo(mouseX, mouseY); 
-            current_stroke.push([mouseX, mouseY]);
+            current_stroke[1].push([mouseX, mouseY]);
             context.stroke();
         }
     }
@@ -82,8 +82,7 @@ function draw() {
 // activates the brush by holding down
 function activate() {
     click = true;
-    current_stroke = [];
-    current_stroke.push([mouseX, mouseY]);
+    current_stroke = [thick.value, [[mouseX, mouseY]]];
     context.beginPath();  
 }
 
@@ -123,11 +122,12 @@ function erasePreviousStroke() {
         // pass
     } else {
         current_stroke = stroke_list.pop();
+        let current_stroke_list = current_stroke[1];
+        context.lineWidth = current_stroke[0];
         context.strokeStyle = "white";
-        context.moveTo(current_stroke[0][0], current_stroke[0][1]);
-        for (let i = 1; i < current_stroke.length; i++) {
-            context.lineWidth = thick.value;
-            context.lineTo(current_stroke[i][0], current_stroke[i][1]); 
+        context.moveTo(current_stroke_list[0][0], current_stroke_list[0][1]);
+        for (let i = 1; i < current_stroke_list.length; i++) {
+            context.lineTo(current_stroke_list[i][0], current_stroke_list[i][1]); 
             context.stroke();
         }
     }
