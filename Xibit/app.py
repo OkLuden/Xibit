@@ -44,7 +44,16 @@ def paint():
 @login_required
 def profile():
     form = DisplayNameForm()
-    return render_template("profile.html", page = "Profile")
+    db = get_db()
+    display_name = db.execute(''' SELECT display_name FROM users
+                                    WHERE user_id = ?;''',(g.user,)).fetchone()
+    if form.validate_on_submit():
+        new_display_name = form.display_name.data
+        db.execute(''' UPDATE users
+                        SET display_name = ?
+                        WHERE user_id = ?;''',(new_display_name,g.user,))
+        db.commit()
+    return render_template("profile.html", display_name = display_name, form = form, page = "Profile")
 
 @app.route("/register" , methods = ["GET","POST"])
 def register():
