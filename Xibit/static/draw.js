@@ -3,6 +3,7 @@ let context;
 let request_id;
 
 let click = false; 
+let brush = "regular";
 let mouseX;
 let mouseY;
 let bounds;
@@ -17,7 +18,9 @@ let stroke_list = [];
 let colour = document.getElementById("colour");
 let thick = document.getElementById("thick");
 let thick_label = document.getElementsByClassName("textsmall")[0];
-let brush = document.getElementById("brush");
+let regular = document.getElementById("brush");
+let square = document.getElementById("square");
+let circle = document.getElementById("circle");
 let clear = document.getElementById("clear");
 let save = document.getElementById("save");
 let fill = document.getElementById("fill");
@@ -39,6 +42,11 @@ function init() {
     window.addEventListener("pointerdown", activate, false);
     canvas.addEventListener("pointerup", deactivate, false);
     window.addEventListener("pointermove", track, false);
+
+    regular.addEventListener("click", function(){ changeBrush("regular"); }, false);
+    square.addEventListener("click", function(){ changeBrush("square"); }, false);
+    circle.addEventListener("click", function(){ changeBrush("circle"); }, false);
+
     clear.addEventListener("click", clearCanvas, false);
     save.addEventListener("click", saveImage, false);
     undo.addEventListener("click", erasePreviousStroke, false);
@@ -53,16 +61,17 @@ function draw() {
     if (click) {
         context.fillStyle = colour.value;
         context.strokeStyle = colour.value;
+        context.lineWidth = 3;
         // creates single coloured square
-        if (brush.value == "square") {
-            context.rect(mouseX - (thick.value * 2), mouseY - (thick.value * 2), thick.value * 4, thick.value * 4);
+        if (brush == "square") {
+            context.rect(mouseX - thick.value , mouseY - thick.value, thick.value * 2, thick.value * 2);
             if (fill.checked) {
                 context.fill();
             } 
             context.stroke();
             click = false;
         // creates single coloured circle
-        } else if (brush.value == "circle") {
+        } else if (brush == "circle") {
             context.arc(mouseX, mouseY, thick.value, 0, 360);
             if (fill.checked) {
                 context.fill();
@@ -70,6 +79,9 @@ function draw() {
             context.stroke(); 
             click = false;
         // normal brush stroke    
+        //} else if (brush.value == "fill"){
+        //    click = false;
+        //    floodFill()
         } else {
             context.lineWidth = thick.value;
             context.lineTo(mouseX, mouseY); 
@@ -107,9 +119,15 @@ function track(event) {
     }
 }
 
+// changes brush type
+function changeBrush(brush_type) {
+    brush = brush_type;
+}
+
 // clears canvas
 function clearCanvas() {
     context.fillStyle = "white";
+    stroke_list = []; // reset all stored strokes
     context.fillRect(0, 0, width, height);
 }
 
