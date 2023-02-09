@@ -162,7 +162,7 @@ function colourChange() {
     colour_stack.push(colour.value);
     Coloris({
         themeMode: "dark",
-        format: 'rgb',
+        format: 'hex',
         swatches: [
         colour_stack[4],
         colour_stack[3],
