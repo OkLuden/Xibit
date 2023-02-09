@@ -37,7 +37,8 @@ function init() {
 
     Coloris({
         themeMode: "dark",
-        format: 'rgb',
+        format: 'hex',
+        defaultColor: '#000000',
         swatches: [
         '#264653',
         '#2a9d8f',
