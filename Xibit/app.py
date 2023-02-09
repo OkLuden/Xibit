@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, request, jsonify, g, session, make_response
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, DisplayNameForm
 from db import get_db, close_db
 from flask_session import Session
 from functools import wraps
@@ -43,6 +43,7 @@ def paint():
 @app.route("/profile", methods = ["GET","POST"])
 @login_required
 def profile():
+    form = DisplayNameForm()
     return render_template("profile.html", page = "Profile")
 
 @app.route("/register" , methods = ["GET","POST"])
