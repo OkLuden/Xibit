@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block head_content %}
+<link rel="stylesheet" href="{{ url_for('static', filename = 'coloris.min.css') }}" />
+<script src="../static/draw.js" type="module"></script>
+<script src="../static/coloris.min.js"></script>
+{% endblock %}
+
 {% block main_content %}
     <div class="art_tool">
         <aside class="toolbox">
@@ -14,6 +20,8 @@
             <a class="text">Brush Shape</a> <br>
             <br><br><br>
             <button id="brush">Brush</button>
+            <br><br><br>
+            <button id="fill">Paint Bucket</button>
             <br><br><br>
             <button id="square">Square</button>
             <br><br><br>

@@ -14,6 +14,7 @@ let height = 600;
 let width = 1200;
 let current_stroke = [];
 let stroke_list = [];
+let colour_stack = ['#264653', '#2a9d8f', '#e9c46a', '#e76f51', '#d62828'];
 
 let colour = document.getElementById("colour");
 let thick = document.getElementById("thick");
@@ -34,6 +35,18 @@ function init() {
     canvas.width = width;
     context = canvas.getContext("2d");
 
+    Coloris({
+        themeMode: "dark",
+        format: 'rgb',
+        swatches: [
+        '#264653',
+        '#2a9d8f',
+        '#e9c46a',
+        '#e76f51',
+        '#d62828'
+        ]
+    });
+
     // create white background for png image
     context.fillStyle = "white";
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -43,13 +56,17 @@ function init() {
     canvas.addEventListener("pointerup", deactivate, false);
     window.addEventListener("pointermove", track, false);
 
+    colour.addEventListener("change", colourChange, false);
+
     regular.addEventListener("click", function(){ changeBrush("regular"); }, false);
+    fill.addEventListener("click", function(){ changeBrush("fill"); }, false);
     square.addEventListener("click", function(){ changeBrush("square"); }, false);
     circle.addEventListener("click", function(){ changeBrush("circle"); }, false);
 
     clear.addEventListener("click", clearCanvas, false);
     save.addEventListener("click", saveImage, false);
     undo.addEventListener("click", erasePreviousStroke, false);
+
 
     draw();
 }
@@ -79,9 +96,10 @@ function draw() {
             context.stroke(); 
             click = false;
         // normal brush stroke    
-        //} else if (brush.value == "fill"){
-        //    click = false;
-        //    floodFill()
+        } else if (brush == "fill"){
+            click = false;
+            imageData = context.getImageData(0, 0, width, height);
+            getPixel(imageData, mouseX, mouseY);
         } else {
             context.lineWidth = thick.value;
             context.lineTo(mouseX, mouseY); 
@@ -137,6 +155,23 @@ function saveImage() {
     window.location.href=image;
 }
 
+// tracks colour pick changes and adds to swatches
+function colourChange() {
+    colour_stack.shift();
+    colour_stack.push(colour.value);
+    Coloris({
+        themeMode: "dark",
+        format: 'rgb',
+        swatches: [
+        colour_stack[4],
+        colour_stack[3],
+        colour_stack[2],
+        colour_stack[1],
+        colour_stack[0]
+        ]
+    });
+}
+
 // erases previous stroke
 function erasePreviousStroke() {
     click = false;
@@ -152,5 +187,14 @@ function erasePreviousStroke() {
             context.lineTo(current_stroke_list[i][0], current_stroke_list[i][1]); 
             context.stroke();
         }
+    }
+}
+
+function getPixel(imageData, x, y) {
+    if (x < 0 || y < 0 || x >= imageData.width || y >= imageData.height) {
+      return [-1, -1, -1, -1];  // impossible color
+    } else {
+      const offset = (y * imageData.width + x) * 4;
+      console.log(imageData.data.slice(offset, offset + 4));
     }
 }
