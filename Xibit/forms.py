@@ -13,3 +13,6 @@ class LoginForm(FlaskForm):
     user_id = StringField("User ID:",validators=[InputRequired()])
     password = PasswordField("Password:",validators=[InputRequired()])
     submit = SubmitField("Submit")
+
+class DisplayNameForm(FlaskForm):
+    display_name = StringField("Display Name:",validators=[InputRequired(),Length(min=4,max=20)])
