@@ -29,6 +29,7 @@ button {
     border: none;
     border-radius: 3px;
     color: #ffffff;
+    transition: background-color .25s;
 }
 
 button:hover {
@@ -53,8 +54,6 @@ input[type="range"] {
     /*margin-right: 4%;*/
     height: 39px;
     font-size: 20px;
-    /*padding-left: 30px;
-    padding-right: 30px;*/
     list-style-type: none;
     color: #ffffff;
 }
@@ -89,7 +88,7 @@ ul {
 }
 
 .nav_text {
-    transition: transform .2s;
+    transition: transform .15s;
 }
 
 /* CANVAS */
@@ -97,7 +96,8 @@ ul {
     display: inline-flex;
     width: 100%;
     justify-content: space-around;
-    margin-top: 40px;
+    margin-top: 100px;
+    /*margin-top: calc(((100vh - 50px)/2) - 420px);*/
 }
 
 .toolbox {
@@ -108,12 +108,58 @@ ul {
     text-align: center;
 }
 
+.tool_top {
+    margin-top: 50px;
+}
+
+.tool_divider {
+    height: 20px;
+}
+
 canvas {
     background-color: #ffffff;
     /*margin-top: calc(((100vh - 50px)/2) - 420px);
     margin-left: calc(((100vw)/2) - 600px);*/
     border-radius: 5px;
     cursor: crosshair;
+}
+
+#colour {
+    width: 150px;
+    font-family: "Lato", sans-serif;
+    height: 20px;
+    font-size: 20px;
+}
+
+#thick {
+    margin-top: 8px;
+    width: 150px;
+}
+
+.pt_icon {
+    margin-top: 8px;
+    height: 25px;
+    padding: 7px;
+    cursor: pointer;
+    transition: background-color 0.25s;
+    border-radius: 20px;
+}
+
+.pt_icon:hover {
+    background-color: #282828;
+}
+
+.tool_btn {
+    background: linear-gradient(0deg, rgba(0,141,221,1) 0%, rgba(15,179,222,1) 100%);
+    font-size: 15px;
+    width: 160px;
+    transition: background-color 0.25s;
+    margin: 10px;
+    font-family: "Lato", sans-serif;
+}
+
+.tool_btn:hover {
+    background: linear-gradient(0deg, rgba(0,117,182,1) 0%, rgba(2,147,185,1) 100%);
 }
 
 /* FOOTER */
