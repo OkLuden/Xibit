@@ -84,7 +84,7 @@ def register():
                 form.user_id.errors.append("User ID already taken.")
     return render_template("register.html", form = form, page = "Register")
 
-def salt(unsaltedPassword)
+def salt(unsaltedPassword):
     saltedPassword = unsaltedPassword[:3] + "345" + unsaltedPassword[3:6] + "543" + unsaltedPassword[6:]
     return saltedPassword
 
