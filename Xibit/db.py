@@ -1,5 +1,6 @@
 from flask import g
 import pymysql.connections as dbConnection
+import pymysql.cursors as cursor
 import sshtunnel
 
 def openSSH(self):
@@ -17,8 +18,8 @@ def get_db():
         user='root', 
         password='H1@l//C$rT', 
         database='XibitDB', 
-        port=server.local_bind_port
-        cursorclass=pymsql.cursors.DictCursor)
+        port=server.local_bind_port,
+        cursorclass=cursor.DictCursor)
     return g.db
 
 def close_db(e=None):
