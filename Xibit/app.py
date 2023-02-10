@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, request, jsonify, g, session, make_response
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, DisplayNameForm
 from db import get_db, close_db
 from flask_session import Session
 from functools import wraps
@@ -43,7 +43,17 @@ def paint():
 @app.route("/profile", methods = ["GET","POST"])
 @login_required
 def profile():
-    return render_template("profile.html", page = "Profile")
+    form = DisplayNameForm()
+    db = get_db()
+    if form.validate_on_submit():
+        new_display_name = form.display_name.data
+        db.execute(''' UPDATE users
+                        SET display_name = ?
+                        WHERE user_id = ?;''',(new_display_name,g.user,))
+        db.commit()
+    display_name = db.execute(''' SELECT display_name FROM users
+                                    WHERE user_id = ?;''',(g.user,)).fetchone()
+    return render_template("profile.html", display_name = display_name, form = form, page = "Profile")
 
 @app.route("/register" , methods = ["GET","POST"])
 def register():
@@ -61,6 +71,7 @@ def register():
         elif "@" not in email:
             form.email.errors.append("Enter a valid email address.") 
         else:
+            password = salt(password)
             db = get_db()
             user = db.execute(''' SELECT * FROM users
                                     WHERE user_id = ?;''',(user_id,)).fetchone()
@@ -73,6 +84,10 @@ def register():
                 form.user_id.errors.append("User ID already taken.")
     return render_template("register.html", form = form, page = "Register")
 
+def salt(unsaltedPassword):
+    saltedPassword = unsaltedPassword[:3] + "345" + unsaltedPassword[3:6] + "543" + unsaltedPassword[6:]
+    return saltedPassword
+
 @app.route("/login" , methods = ["GET","POST"])
 def login():
     form = LoginForm()
@@ -80,6 +95,7 @@ def login():
         user_id = form.user_id.data
         user_id = user_id.lower()
         password = form.password.data
+        password = salt(password)
         db = get_db()
         user = db.execute(''' SELECT * FROM users
                                 WHERE user_id = ?;''',(user_id,)).fetchone()

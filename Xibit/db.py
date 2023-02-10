@@ -1,15 +1,14 @@
 from flask import g
-import os
-import sqlite3
-
-DATABASE = os.path.join(os.path.abspath(os.path.dirname(__file__)), "app.db")
+import pymysql.connections as dbConnection
 
 def get_db():
     if "db" not in g:
-        g.db = sqlite3.connect(DATABASE,
-            detect_types=sqlite3.PARSE_DECLTYPES
-        )
-        g.db.row_factory = sqlite3.Row
+        db = dbConnection.Connection(host='127.0.0.1', 
+        user='root', 
+        password='H1@l//C$rT', 
+        database='XibitDB', 
+        port=server.local_bind_port
+        cursorclass=pymsql.cursors.DictCursor)
     return g.db
 
 def close_db(e=None):

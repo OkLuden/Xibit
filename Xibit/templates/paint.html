@@ -1,28 +1,38 @@
 {% extends "base.html" %}
 
+{% block head_content %}
+<link rel="stylesheet" href="{{ url_for('static', filename = 'coloris.min.css') }}" />
+<script src="../static/draw.js" type="module"></script>
+<script src="../static/coloris.min.js"></script>
+{% endblock %}
+
 {% block main_content %}
     <div class="art_tool">
         <aside class="toolbox">
-            <br><br>
+            <div class="tool_top"></div>
             <a class="text">Brush size</a> <br>
             <input type="range" min="1" max="100" value="2" step="0.5" id="thick"> <br>
-            <a class="textsmall">Current size: </a>
-            <br><br><br>
-            <a class="text">Color</a> <br>
-            <input type="text" id="colour" data-coloris>
-            <br><br><br>
-            <a class="text">Brush Shape</a> <br>
-            <select id="brush">
-                <option value="regular">Regular</option>
-                <option value="square">Square</option>
-                <option value="circle">Circle</option>
-            </select>
-            <a class="textsmall"><input type="checkbox" id="fill">Fill</a>
-            <br><br><br>
-            <button id="clear">Clear Screen</button>
-            <br><br><br>
-            <button id="save">Save as Image</button>
-            
+            <a class="textsmall">Current size: </a> <br>
+            <div class="tool_divider"></div>
+            <a class="text" id="color_text">Color</a> <br>
+            <input type="text" id="colour" data-coloris> <br>
+            <div class="tool_divider"></div>
+            <a class="text">Tools</a> <br>
+            <img src="../static/images/brush.png" id="brush" class="pt_icon" alt="Brush">
+            <!--<button id="brush">Brush</button> <br>-->
+            <img src="../static/images/bucket.png" id="fill" class="pt_icon" alt="Bucket Fill">
+            <!--<button id="fill">Paint Bucket</button> <br>-->
+            <img src="../static/images/square.png" id="square" class="pt_icon" alt="Square">
+            <!--<button id="square">Square</button> <br>-->
+            <img src="../static/images/circle.png" id="circle" class="pt_icon" alt="Circle"> <br>
+            <!--<button id="circle">Circle</button> <br>-->
+            <a class="textsmall"><input type="checkbox" id="fill_shape">Fill</a> <br>
+            <div class="tool_divider"></div>
+            <a class="text">File</a> <br>
+            <button id="clear" class="tool_btn">Clear Screen</button> <br>
+            <button id="save" class="tool_btn">Save as Image</button> <br>
+            <button id="undo" class="tool_btn">Undo</button>
+            <div class="tool_bottom"></div>
         </aside>
         <canvas></canvas>
     </div>

@@ -4,9 +4,8 @@
         <meta charset="utf-8" />
         <title>Xibit - {{ page }}</title>
         <link rel="stylesheet" href="{{ url_for('static', filename = 'styles.css') }}" />
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'coloris.css') }}" />
-        <script src="../static/draw.js" type="module"></script>
-        <script src="../static/coloris.js" type="module"></script>
+        {% block head_content %}
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="../static/images/xibit_logo.ico">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -30,6 +29,9 @@
         </header>
         <main>
             {% block main_content %}
+            {% endblock %}
+            
+            {% block reg_login %}
             {% endblock %}
         </main>
         <footer>

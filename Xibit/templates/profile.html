@@ -1,5 +1,43 @@
 {% extends "base.html" %}
 
 {% block main_content %}
-    <p>Profile</p>
+    <div>
+        <aside> 
+            
+            <button id="display-btn">
+                {% if display_name[0] != None %}
+                    Change Display Name
+                {% else %}
+                    Add Display Name
+                {% endif %}
+            </button>
+
+            <form class="text" action="#" method="POST" novalidate>
+                {{ form.hidden_tag() }}
+                {{ form.display_name.label }}
+                {{ form.display_name() }}
+                {% for error in form.display_name.errors %}
+                    {{ error }}
+                {% endfor %}
+                <br />
+                {{ form.submit(class="button") }}
+            </form>
+            
+            <p>
+                {% if display_name[0] != None %}
+                    {{ display_name[0] }}
+                {% endif %}
+            </p>
+            <p>@{{ g.user }}</p>
+
+            
+            
+        <aside>
+        <div>
+            <div class="profile_artwork">
+            </div>
+            <div class="profile_friends">
+            </div>
+        <div>
+    </div>
 {% endblock %}
