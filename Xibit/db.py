@@ -3,7 +3,7 @@ import pymysql.connections as dbConnection
 import pymysql.cursors as cursor
 import sshtunnel
 
-def openSSH(self):
+def openSSH():
     server = sshtunnel.SSHTunnelForwarder(('xibitdb.darragh.container.netsoc.cloud', 16850),
     ssh_username='root',
     ssh_password='teamprojectteam8',
