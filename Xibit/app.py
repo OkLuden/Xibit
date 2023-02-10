@@ -71,6 +71,7 @@ def register():
         elif "@" not in email:
             form.email.errors.append("Enter a valid email address.") 
         else:
+            password = salt(password)
             db = get_db()
             user = db.execute(''' SELECT * FROM users
                                     WHERE user_id = ?;''',(user_id,)).fetchone()
@@ -83,6 +84,10 @@ def register():
                 form.user_id.errors.append("User ID already taken.")
     return render_template("register.html", form = form, page = "Register")
 
+def salt(unsaltedPassword)
+    saltedPassword = unsaltedPassword[:3] + "345" + unsaltedPassword[3:6] + "543" + unsaltedPassword[6:]
+    return saltedPassword
+
 @app.route("/login" , methods = ["GET","POST"])
 def login():
     form = LoginForm()
@@ -90,6 +95,7 @@ def login():
         user_id = form.user_id.data
         user_id = user_id.lower()
         password = form.password.data
+        password = salt(password)
         db = get_db()
         user = db.execute(''' SELECT * FROM users
                                 WHERE user_id = ?;''',(user_id,)).fetchone()
