@@ -1,12 +1,12 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 
 {% block reg_login %}
     <div class="center">
-        <input type="checkbox" id="show">
-        <label for="show" class="show-btn">Login</label>
-        <div class="container">
-            <label for="show" class="close-btn fas fa-times"></label>
+        <div class="login_container">
             <form class="text" action="#" method="POST" novalidate>
+                <h1>Log In</h1>
+                <a class="text">Username</a>
+                <br>
                 {{ form.hidden_tag() }}
                 {{ form.user_id.label }}
                 {{ form.user_id() }}
@@ -14,15 +14,19 @@
                     {{ error }}
                 {% endfor %}
                 <br />
+                <div class="tool_divider"></div>
+                <a class="text">Password</a>
+                <br>
                 {{ form.password.label }}
                 {{ form.password() }}
                 {% for error in form.password.errors %}
                     {{ error }}
                 {% endfor %}
                 <br />
+                <div class="tool_divider"></div>
                 {{ form.submit(class="button") }}
             </form>
-            <p class="text"><a href="{{ url_for('register') }}">Register here</a></p>
+            <p class="textsmall2">Don't have an account? <a href="{{ url_for('register') }}" class="link_text">Register here</a></p>
         </div>
     </div>
 
