@@ -25,6 +25,7 @@ let circle = document.getElementById("circle");
 let clear = document.getElementById("clear");
 let save = document.getElementById("save");
 let fill = document.getElementById("fill");
+let fill_shape = document.getElementById("fill_shape");
 let undo = document.getElementById("undo");
 
 document.addEventListener("DOMContentLoaded", init, false);
@@ -74,6 +75,7 @@ function init() {
 
 // draws
 function draw() {
+    console.log(fill_shape.checked);
     request_id = window.requestAnimationFrame(draw);
     thick_label.innerHTML = "Current Size: " + (thick.value).toString();
     if (click) {
@@ -83,7 +85,7 @@ function draw() {
         // creates single coloured square
         if (brush == "square") {
             context.rect(mouseX - thick.value , mouseY - thick.value, thick.value * 2, thick.value * 2);
-            if (fill.checked) {
+            if (fill_shape.checked) {
                 context.fill();
             } 
             context.stroke();
@@ -91,7 +93,7 @@ function draw() {
         // creates single coloured circle
         } else if (brush == "circle") {
             context.arc(mouseX, mouseY, thick.value, 0, 360);
-            if (fill.checked) {
+            if (fill_shape.checked) {
                 context.fill();
             } 
             context.stroke(); 
