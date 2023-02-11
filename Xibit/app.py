@@ -65,9 +65,14 @@ def register():
         password = form.password.data
         password2 = form.password2.data
         email = form.email.data
-        profanity = ["fuck","bitch","cunt","fucker","shithead","dick","shit","pharaoh","asshole","crap","idiot","bastard","bollocks","wanker","twat","whore"]
-        if user_id in profanity:
-            form.user_id.errors.append("User ID invalid.")
+        with open("profanity.txt", "r") as profanity_file:
+            profanity = profanity_file.read().splitlines()
+        with open("allowed.txt", "r") as allowed_file:
+            allowed = allowed_file.read().splitlines()
+        
+        if any(word in user_id for word in profanity):
+            if not any(word in user_id for word in allowed):
+                form.user_id.errors.append("User ID invalid.")
         elif "@" not in email:
             form.email.errors.append("Enter a valid email address.") 
         else:
