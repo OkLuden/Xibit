@@ -47,10 +47,19 @@ def profile():
     db = get_db()
     if form.validate_on_submit():
         new_display_name = form.display_name.data
-        db.execute(''' UPDATE users
-                        SET display_name = ?
-                        WHERE user_id = ?;''',(new_display_name,g.user,))
-        db.commit()
+        with open("profanity.txt", "r") as profanity_file:
+            profanity = profanity_file.read().splitlines()
+        with open("allowed.txt", "r") as allowed_file:
+            allowed = allowed_file.read().splitlines()
+        
+        if any(word in new_display_name for word in profanity):
+            if not any(word in new_display_name for word in allowed):
+                form.display_name.errors.append("Display name invalid.")
+        else:
+            db.execute(''' UPDATE users
+                            SET display_name = ?
+                            WHERE user_id = ?;''',(new_display_name,g.user,))
+            db.commit()
     display_name = db.execute(''' SELECT display_name FROM users
                                     WHERE user_id = ?;''',(g.user,)).fetchone()
     return render_template("profile.html", display_name = display_name, form = form, page = "Profile")
@@ -65,9 +74,14 @@ def register():
         user_id = user_id.lower()
         password = form.password.data
         email = form.email.data
-        profanity = ["fuck","bitch","cunt","fucker","shithead","dick","shit","pharaoh","asshole","crap","idiot","bastard","bollocks","wanker","twat","whore"]
-        if user_id in profanity:
-            form.user_id.errors.append("User ID invalid.")
+        with open("profanity.txt", "r") as profanity_file:
+            profanity = profanity_file.read().splitlines()
+        with open("allowed.txt", "r") as allowed_file:
+            allowed = allowed_file.read().splitlines()
+        
+        if any(word in user_id for word in profanity):
+            if not any(word in user_id for word in allowed):
+                form.user_id.errors.append("User ID invalid.")
         elif "@" not in email:
             form.email.errors.append("Enter a valid email address.") 
 
