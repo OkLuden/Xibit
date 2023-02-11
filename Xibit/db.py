@@ -19,7 +19,7 @@ def get_db():
         password='H1@l//C$rT', 
         database='XibitDB', 
         port=server.local_bind_port,
-        cursorclass=pymysql.cursor.DictCursor)
+        cursorclass=cursor.DictCursor)
     return g.db
 
 def close_db(e=None):
