@@ -45,6 +45,7 @@ def paint():
 def profile():
     form = DisplayNameForm()
     db = get_db()
+    cursor = db.cursor()
     if form.validate_on_submit():
         new_display_name = form.display_name.data
         with open("profanity.txt", "r") as profanity_file:
@@ -56,11 +57,11 @@ def profile():
             if not any(word in new_display_name for word in allowed):
                 form.display_name.errors.append("Display name invalid.")
         else:
-            db.execute(''' UPDATE users
+            cursor.execute(''' UPDATE users
                             SET display_name = ?
                             WHERE user_id = ?;''',(new_display_name,g.user,))
             db.commit()
-    display_name = db.execute(''' SELECT display_name FROM users
+    display_name = cursor.execute(''' SELECT display_name FROM users
                                     WHERE user_id = ?;''',(g.user,)).fetchone()
     return render_template("profile.html", display_name = display_name, form = form, page = "Profile")
 
@@ -88,10 +89,11 @@ def register():
         else:
             password = salt(password)
             db = get_db()
-            user = db.execute(''' SELECT * FROM users
+            cursor = db.cursor()
+            user = cursor.execute(''' SELECT * FROM users
                                     WHERE user_id = ?;''', (user_id,)).fetchone()
             if user is None:
-                db.execute('''INSERT INTO users (user_id, password, email)
+                cursor.execute('''INSERT INTO users (user_id, password, email)
                             VALUES (?,?,?);''',(user_id, generate_password_hash(password), email))
                 db.commit()
                 return redirect(url_for("login"))
@@ -113,7 +115,8 @@ def login():
         password = form.password.data
         password = salt(password)
         db = get_db()
-        user = db.execute(''' SELECT * FROM users
+        cursor = db.cursor()
+        user = cursor.execute(''' SELECT * FROM users
                                 WHERE user_id = ?;''',(user_id,)).fetchone()
         if user is None:
             form.user_id.errors.append("Incorrect username or password")
