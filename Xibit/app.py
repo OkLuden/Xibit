@@ -58,10 +58,10 @@ def profile():
                 form.display_name.errors.append("Display name invalid.")
         else:
             cursor.execute(''' UPDATE users
-                            SET display_name = %s
+                            SET displayName = %s
                             WHERE username = %s;''', (new_display_name,g.user,))
             db.commit()
-    cursor.execute(''' SELECT display_name FROM users
+    cursor.execute(''' SELECT displayName FROM users
                                     WHERE username = %s;''', (g.user))
     display_name = cursor.fetchone()
     return render_template("profile.html", display_name = display_name, form = form, page = "Profile")
