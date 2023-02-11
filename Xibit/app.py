@@ -47,10 +47,19 @@ def profile():
     db = get_db()
     if form.validate_on_submit():
         new_display_name = form.display_name.data
-        db.execute(''' UPDATE users
-                        SET display_name = ?
-                        WHERE user_id = ?;''',(new_display_name,g.user,))
-        db.commit()
+        with open("profanity.txt", "r") as profanity_file:
+            profanity = profanity_file.read().splitlines()
+        with open("allowed.txt", "r") as allowed_file:
+            allowed = allowed_file.read().splitlines()
+        
+        if any(word in new_display_name for word in profanity):
+            if not any(word in new_display_name for word in allowed):
+                form.display_name.errors.append("Display name invalid.")
+        else:
+            db.execute(''' UPDATE users
+                            SET display_name = ?
+                            WHERE user_id = ?;''',(new_display_name,g.user,))
+            db.commit()
     display_name = db.execute(''' SELECT display_name FROM users
                                     WHERE user_id = ?;''',(g.user,)).fetchone()
     return render_template("profile.html", display_name = display_name, form = form, page = "Profile")
