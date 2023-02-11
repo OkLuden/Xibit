@@ -1,5 +1,5 @@
 from flask import g
-import pymysql.connections as dbConnection
+import pymysql
 import pymysql.cursors as cursor
 import sshtunnel
 
@@ -14,7 +14,7 @@ def openSSH():
 def get_db():
     if "db" not in g:
         server = openSSH()
-        db = dbConnection.Connection(host='127.0.0.1', 
+        g.db = pymysql.connect(host='127.0.0.1', 
         user='root', 
         password='H1@l//C$rT', 
         database='XibitDB', 

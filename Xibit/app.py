@@ -55,6 +55,7 @@ def profile():
                                     WHERE user_id = ?;''',(g.user,)).fetchone()
     return render_template("profile.html", display_name = display_name, form = form, page = "Profile")
 
+
 @app.route("/register" , methods = ["GET","POST"])
 def register():
     form = RegistrationForm()
@@ -63,26 +64,27 @@ def register():
         user_id = form.user_id.data
         user_id = user_id.lower()
         password = form.password.data
-        password2 = form.password2.data
         email = form.email.data
         profanity = ["fuck","bitch","cunt","fucker","shithead","dick","shit","pharaoh","asshole","crap","idiot","bastard","bollocks","wanker","twat","whore"]
         if user_id in profanity:
             form.user_id.errors.append("User ID invalid.")
         elif "@" not in email:
             form.email.errors.append("Enter a valid email address.") 
+
         else:
             password = salt(password)
             db = get_db()
             user = db.execute(''' SELECT * FROM users
-                                    WHERE user_id = ?;''',(user_id,)).fetchone()
+                                    WHERE user_id = ?;''', (user_id,)).fetchone()
             if user is None:
-                db.execute('''INSERT INTO users (user_id,password,email)
-                            VALUES (?,?,?);''',(user_id,generate_password_hash(password),email))
+                db.execute('''INSERT INTO users (user_id, password, email)
+                            VALUES (?,?,?);''',(user_id, generate_password_hash(password), email))
                 db.commit()
                 return redirect(url_for("login"))
             elif user is not None:
                 form.user_id.errors.append("User ID already taken.")
     return render_template("register.html", form = form, page = "Register")
+
 
 def salt(unsaltedPassword):
     saltedPassword = unsaltedPassword[:3] + "345" + unsaltedPassword[3:6] + "543" + unsaltedPassword[6:]
@@ -100,9 +102,9 @@ def login():
         user = db.execute(''' SELECT * FROM users
                                 WHERE user_id = ?;''',(user_id,)).fetchone()
         if user is None:
-            form.user_id.errors.append("Unknown User ID.")
+            form.user_id.errors.append("Incorrect username or password")
         elif not check_password_hash(user["password"],password):
-            form.password.errors.append("Incorrect password!")
+            form.password.errors.append("Incorrect username or password")
         else:
             session.clear()
             session["user_id"] = user_id
