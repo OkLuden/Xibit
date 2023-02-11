@@ -61,8 +61,9 @@ def profile():
                             SET display_name = ?
                             WHERE user_id = ?;''',(new_display_name,g.user,))
             db.commit()
-    display_name = cursor.execute(''' SELECT display_name FROM users
-                                    WHERE user_id = ?;''',(g.user,)).fetchone()
+    cursor.execute(''' SELECT display_name FROM users
+                                    WHERE user_id = ?;''',(g.user))
+    display_name = cursor.fetchone()
     return render_template("profile.html", display_name = display_name, form = form, page = "Profile")
 
 
@@ -90,8 +91,9 @@ def register():
             password = salt(password)
             db = get_db()
             cursor = db.cursor()
-            user = cursor.execute(''' SELECT * FROM users
-                                    WHERE user_id = ?;''', (user_id,)).fetchone()
+            cursor.execute(''' SELECT * FROM users
+                                    WHERE user_id = ?;''', (user_id))
+            user = cursor.fetchone()
             if user is None:
                 cursor.execute('''INSERT INTO users (user_id, password, email)
                             VALUES (?,?,?);''',(user_id, generate_password_hash(password), email))
@@ -116,8 +118,9 @@ def login():
         password = salt(password)
         db = get_db()
         cursor = db.cursor()
-        user = cursor.execute(''' SELECT * FROM users
-                                WHERE user_id = ?;''',(user_id,)).fetchone()
+        cursor.execute(''' SELECT * FROM users
+                                WHERE user_id = ?;''',(user_id,))
+        user = cursor.fetchone()
         if user is None:
             form.user_id.errors.append("Incorrect username or password")
         elif not check_password_hash(user["password"],password):
