@@ -58,11 +58,11 @@ def profile():
                 form.display_name.errors.append("Display name invalid.")
         else:
             cursor.execute(''' UPDATE users
-                            SET display_name = ?
-                            WHERE user_id = ?;''',(new_display_name,g.user,))
+                            SET display_name = %s
+                            WHERE username = %s;''', (new_display_name,g.user,))
             db.commit()
     cursor.execute(''' SELECT display_name FROM users
-                                    WHERE user_id = ?;''',(g.user))
+                                    WHERE username = %s;''', (g.user))
     display_name = cursor.fetchone()
     return render_template("profile.html", display_name = display_name, form = form, page = "Profile")
 
@@ -92,11 +92,11 @@ def register():
             db = get_db()
             cursor = db.cursor()
             cursor.execute(''' SELECT * FROM users
-                                    WHERE user_id = ?;''', (user_id))
+                                    WHERE username = %s;''', (user_id))
             user = cursor.fetchone()
             if user is None:
-                cursor.execute('''INSERT INTO users (user_id, password, email)
-                            VALUES (?,?,?);''',(user_id, generate_password_hash(password), email))
+                cursor.execute('''INSERT INTO users (username, displayName, password, email)
+                            VALUES (%s, %s, %s, %s);''', (user_id, user_id, generate_password_hash(password), email))
                 db.commit()
                 return redirect(url_for("login"))
             elif user is not None:
@@ -119,7 +119,7 @@ def login():
         db = get_db()
         cursor = db.cursor()
         cursor.execute(''' SELECT * FROM users
-                                WHERE user_id = ?;''',(user_id,))
+                                WHERE username = %s;''', (user_id))
         user = cursor.fetchone()
         if user is None:
             form.user_id.errors.append("Incorrect username or password")
