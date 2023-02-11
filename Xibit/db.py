@@ -7,7 +7,7 @@ def get_db():
         user='root', 
         password='H1@l//C$rT', 
         database='XibitDB', 
-        port=server.local_bind_port
+        port=server.local_bind_port,
         cursorclass=pymsql.cursors.DictCursor)
     return g.db
 
