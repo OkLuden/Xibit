@@ -32,6 +32,13 @@ h1 {
     text-align: center;
 }
 
+.error_text {
+    color: #d11a33;
+    font-family: "Lato", sans-serif;
+    font-size: 16px;
+    margin: 0px;
+}
+
 .link_text {
     color: #1F90E3;
 }
