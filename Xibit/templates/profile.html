@@ -4,13 +4,16 @@
     <div>
         <aside> 
             
+            <div class="pfp">
+                <input type="file" class="pfp_file">
+            </div>
+
             <p>
                 {{ display_name.displayName }}
             </p>
             <p>@{{ g.user }}</p>
 
             <p></p>
-
 
             <form class="text" action="#" method="POST" novalidate>
                 {{ form.hidden_tag() }}
@@ -29,7 +32,7 @@
                 {{ form.submit(class="button") }}
             </form>
 
-            <button id="display-btn">Edit</button>
+            <button id="edit-btn">Edit</button>
             
         <aside>
         <div>
