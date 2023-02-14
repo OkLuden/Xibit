@@ -4,13 +4,6 @@
     <div>
         <aside> 
             
-            <button id="display-btn">
-                {% if display_name[0] != None %}
-                    Change Display Name
-                {% else %}
-                    Add Display Name
-                {% endif %}
-            </button>
 
             <form class="text" action="#" method="POST" novalidate>
                 {{ form.hidden_tag() }}
@@ -30,7 +23,7 @@
             </p>
             <p>@{{ g.user }}</p>
 
-            
+            <button id="display-btn">Edit</button>
             
         <aside>
         <div>
