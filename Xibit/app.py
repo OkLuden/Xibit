@@ -95,7 +95,7 @@ def profile():
     #cursor.execute(''' SELECT bio FROM users
     #                                WHERE username = %s;''', (g.user))
     #bio = cursor.fetchone()
-    return render_template("profile.html", display_name = display_name, bio = "Test", form = form, page = "Profile")
+    return render_template("profile.html", display_name = display_name, bio = "Test", pfp = None, form = form, page = "Profile")
 
 
 @app.route("/register" , methods = ["GET","POST"])

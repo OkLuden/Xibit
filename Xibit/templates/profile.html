@@ -5,6 +5,9 @@
         <aside> 
             
             <div class="pfp">
+                {% if pfp == None %}
+                    <img src="../static/images/default-profile.png">
+                {% endif %}
                 <input type="file" class="pfp_file">
             </div>
 
