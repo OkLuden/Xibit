@@ -10,13 +10,16 @@
     <div class="art_tool">
         <aside class="toolbox">
             <div class="tool_top"></div>
+
             <a class="text">Brush size</a> <br>
             <input type="range" min="1" max="100" value="2" step="0.5" id="thick"> <br>
             <a class="textsmall">Current size: </a> <br>
             <div class="tool_divider"></div>
+
             <a class="text" id="color_text">Color</a> <br>
             <input type="text" id="colour" data-coloris> <br>
             <div class="tool_divider"></div>
+
             <a class="text">Tools</a> <br>
             <img src="../static/images/brush.png" id="brush" class="pt_icon" alt="Brush">
             <!--<button id="brush">Brush</button> <br>-->
@@ -28,13 +31,21 @@
             <!--<button id="circle">Circle</button> <br>-->
             <a class="textsmall"><input type="checkbox" id="fill_shape">Fill</a> <br>
             <div class="tool_divider"></div>
-            <a class="text">File</a> <br>
             <button id="clear" class="tool_btn">Clear Screen</button> <br>
+            <div class="tool_divider"></div>
+
+            <a class="text">File</a> <br>
             <button id="save" class="tool_btn">Save as Image</button> <br>
-            <button id="undo" class="tool_btn">Undo</button>
             <button id="post" class="tool_btn">Post</button>   
             <div class="tool_bottom"></div>
         </aside>
-        <canvas></canvas>
+        <div class="canvas_container">
+            <div class="toolbox2">
+                <img src="../static/images/undo.png" id="undo" class="undo_btn" alt="Undo">
+                <!--<button id="undo" class="tool_btn">Undo</button>-->
+            </div>
+            <canvas>
+            </canvas>
+        </div>
     </div>
 {% endblock %}
