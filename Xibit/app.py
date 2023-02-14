@@ -55,8 +55,11 @@ def profile():
     form = ProfileEditForm()
     db = get_db()
     cursor = db.cursor()
+
     if form.validate_on_submit():
         new_display_name = form.display_name.data
+        bio = form.bio.data
+
         with open("profanity.txt", "r") as profanity_file:
             profanity = profanity_file.read().splitlines()
         with open("allowed.txt", "r") as allowed_file:
@@ -64,7 +67,7 @@ def profile():
         
         if any(word in new_display_name for word in profanity):
             if not any(word in new_display_name for word in allowed):
-                form.display_name.errors.append("Display name invalid.")
+                form.display_name.errors.append("Display name invalid. Profanity detected.")
         elif not new_display_name:
             pass
         else:
@@ -72,6 +75,11 @@ def profile():
                             SET displayName = %s
                             WHERE username = %s;''', (new_display_name,g.user,))
             db.commit()
+        
+        if any(word in bio for word in profanity):
+            if not any(word in bio for word in allowed):
+                form.bio.errors.append("Bio invalid. Profanity detected.")
+
     cursor.execute(''' SELECT displayName FROM users
                                     WHERE username = %s;''', (g.user))
     display_name = cursor.fetchone()
@@ -81,12 +89,13 @@ def profile():
 @app.route("/register" , methods = ["GET","POST"])
 def register():
     form = RegistrationForm()
-    #TO DO
+    
     if form.validate_on_submit():
         user_id = form.user_id.data
         user_id = user_id.lower()
         password = form.password.data
         email = form.email.data
+
         with open("profanity.txt", "r") as profanity_file:
             profanity = profanity_file.read().splitlines()
         with open("allowed.txt", "r") as allowed_file:
@@ -96,8 +105,7 @@ def register():
             if not any(word in user_id for word in allowed):
                 form.user_id.errors.append("User ID invalid.")
         elif "@" not in email:
-            form.email.errors.append("Enter a valid email address.") 
-
+            form.email.errors.append("Enter a valid email address.")
         else:
             password = salt(password)
             db = get_db()
@@ -132,6 +140,7 @@ def login():
         cursor.execute(''' SELECT * FROM users
                                 WHERE username = %s;''', (user_id))
         user = cursor.fetchone()
+        
         if user is None:
             form.user_id.errors.append("Incorrect username or password")
         elif not check_password_hash(user["password"],password):
