@@ -4,6 +4,7 @@ from db import get_db, close_db
 from flask_session import Session
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
+from json import loads
 
 
 app = Flask(__name__)
@@ -39,6 +40,14 @@ def index():
 @app.route("/paint", methods = ["GET","POST"])
 def paint():
     return render_template("paint.html", page = "Paint" )
+
+@app.route("/post/<string:blob>", methods = ["POST"])
+def post(blob):
+    nya = loads(blob)
+    print("nya")
+    print(nya)
+    print("nya")
+    return("/")
 
 @app.route("/profile", methods = ["GET","POST"])
 @login_required

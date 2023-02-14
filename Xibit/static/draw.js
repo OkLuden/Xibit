@@ -27,6 +27,7 @@ let save = document.getElementById("save");
 let fill = document.getElementById("fill");
 let fill_shape = document.getElementById("fill_shape");
 let undo = document.getElementById("undo");
+let post = document.getElementById("post");
 
 document.addEventListener("DOMContentLoaded", init, false);
 
@@ -68,14 +69,13 @@ function init() {
     clear.addEventListener("click", clearCanvas, false);
     save.addEventListener("click", saveImage, false);
     undo.addEventListener("click", erasePreviousStroke, false);
-
+    post.addEventListener("click", postImage, false)
 
     draw();
 }
 
 // draws
 function draw() {
-    console.log(fill_shape.checked);
     request_id = window.requestAnimationFrame(draw);
     thick_label.innerHTML = "Current Size: " + (thick.value).toString();
     if (click) {
@@ -156,7 +156,7 @@ function clearCanvas() {
 
 // saves canvas as image
 function saveImage() {
-    image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    image = canvas.toDataURL("image/png");
     window.location.href=image;
 }
 
@@ -194,6 +194,20 @@ function erasePreviousStroke() {
         }
     }
 }
+
+function postImage() {
+    canvas.toBlob((blob) => {
+        const request = new XMLHttpRequest();
+        image = canvas.toDataURL("image/png");
+        // replaces '/' with '@' to allow use in url
+        image = image.replaceAll("/", "@")
+        image = JSON.stringify(image);
+        request.open('POST', 'post/' + image);
+        request.send();
+    });
+
+}
+
 
 function getPixel(imageData, x, y) {
     if (x < 0 || y < 0 || x >= imageData.width || y >= imageData.height) {
