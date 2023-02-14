@@ -5,9 +5,7 @@
         <aside> 
             
             <p>
-                {% if display_name[0] != None %}
-                    {{ display_name[0] }}
-                {% endif %}
+                {{ display_name.displayName }}
             </p>
             <p>@{{ g.user }}</p>
 
