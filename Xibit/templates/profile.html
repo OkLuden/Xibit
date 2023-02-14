@@ -20,11 +20,7 @@
                     {{ error }}
                 {% endfor %}
                 <br />
-                {{ form.bio.label }}
-                {{ form.bio() }}
-                {% for error in form.bio.errors %}
-                    {{ error }}
-                {% endfor %}
+                
                 <br />
                 {{ form.submit(class="button") }}
             </form>
