@@ -4,6 +4,15 @@
     <div>
         <aside> 
             
+            <p>
+                {% if display_name[0] != None %}
+                    {{ display_name[0] }}
+                {% endif %}
+            </p>
+            <p>@{{ g.user }}</p>
+
+            <p></p>
+
 
             <form class="text" action="#" method="POST" novalidate>
                 {{ form.hidden_tag() }}
@@ -13,15 +22,14 @@
                     {{ error }}
                 {% endfor %}
                 <br />
+                {{ form.bio.label }}
+                {{ form.bio() }}
+                {% for error in form.bio.errors %}
+                    {{ error }}
+                {% endfor %}
+                <br />
                 {{ form.submit(class="button") }}
             </form>
-            
-            <p>
-                {% if display_name[0] != None %}
-                    {{ display_name[0] }}
-                {% endif %}
-            </p>
-            <p>@{{ g.user }}</p>
 
             <button id="display-btn">Edit</button>
             
