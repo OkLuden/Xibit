@@ -72,7 +72,6 @@ def profile():
                             SET displayName = %s
                             WHERE username = %s;''', (new_display_name,g.user,))
             db.commit()
-            return redirect(url_for("profile"))
     cursor.execute(''' SELECT displayName FROM users
                                     WHERE username = %s;''', (g.user))
     display_name = cursor.fetchone()
