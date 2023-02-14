@@ -56,11 +56,14 @@ def profile():
         if any(word in new_display_name for word in profanity):
             if not any(word in new_display_name for word in allowed):
                 form.display_name.errors.append("Display name invalid.")
+        elif not new_display_name:
+            pass
         else:
             cursor.execute(''' UPDATE users
                             SET displayName = %s
                             WHERE username = %s;''', (new_display_name,g.user,))
             db.commit()
+            return redirect(url_for("profile"))
     cursor.execute(''' SELECT displayName FROM users
                                     WHERE username = %s;''', (g.user))
     display_name = cursor.fetchone()
