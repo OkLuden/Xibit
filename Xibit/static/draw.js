@@ -82,6 +82,8 @@ function draw() {
         context.fillStyle = colour.value;
         context.strokeStyle = colour.value;
         context.lineWidth = 3;
+        context.lineCap = "round";
+        context.lineJoin="round";
         // creates single coloured square
         if (brush == "square") {
             context.rect(mouseX - thick.value , mouseY - thick.value, thick.value * 2, thick.value * 2);
