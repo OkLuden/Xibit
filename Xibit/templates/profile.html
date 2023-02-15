@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block main_content %}
-    <div>
-        <aside> 
+    <div class="profile_container">
+        <div class="profile_info" id="profile_elements">
             
-            <div class="pfp">
+            <div class="profile_image">
                 {% if pfp == None %}
                     <img src="../static/images/default-profile.png" height="100" width="100">
                 {% endif %}
@@ -18,30 +18,34 @@
 
             <p>{{ bio }}</p>
 
-            <form class="text" action="#" method="POST" novalidate>
+            <form class="text" action="#" method="POST" novalidate> 
                 {{ form.hidden_tag() }}
                 {{ form.display_name.label }}
                 {{ form.display_name() }}
                 {% for error in form.display_name.errors %}
                     {{ error }}
                 {% endfor %}
-                <br />
+                <br>
                 {{ form.bio.label }}
                 {{ form.bio() }}
                 {% for error in form.bio.errors %}
                     {{ error }}
                 {% endfor %}
-                <br />
+                <br>
                 {{ form.submit(class="button") }}
             </form>
 
             <button id="edit-btn">Edit</button>
             
-        </aside>
-        <div>
+        </div>
+        <div class="profile_container2" id="profile_elements">
             <div class="profile_artwork">
+                <div class="art_placeholder">
+                    <a class="text_artwork_profile">Artwork to be added</a>
+                </div>
             </div>
             <div class="profile_friends">
+                <a class="text">Friends List to be added</a>
             </div>
         </div>
     </div>
