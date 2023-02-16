@@ -202,12 +202,11 @@ function postImage() {
         // replaces '/' with '@' to allow use in url
         image = image.replaceAll("/", "@")
         image = JSON.stringify(image);
+        console.log(image.length);
         request.open('POST', 'post/' + image);
         request.send();
     });
-
 }
-
 
 function getPixel(imageData, x, y) {
     if (x < 0 || y < 0 || x >= imageData.width || y >= imageData.height) {

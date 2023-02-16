@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block head_content %}
+<script src="../static/feed.js" type="module"></script>
+{% endblock %}
+
+
 {% block main_content %}
     <p>Home</p>
+    <p id="post">{{ post }}</p>
 {% endblock %}

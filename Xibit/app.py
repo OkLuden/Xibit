@@ -35,7 +35,12 @@ def page_not_found(error):
 
 @app.route("/")
 def index():
-    return render_template("index.html", page = "Home")
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(''' SELECT image FROM posts;''')
+    post = cursor.fetchone()
+    print(post)
+    return render_template("index.html", page = "Home", post = post)
 
 @app.route("/paint", methods = ["GET","POST"])
 def paint():
@@ -43,10 +48,13 @@ def paint():
 
 @app.route("/post/<string:blob>", methods = ["POST"])
 def post(blob):
-    nya = loads(blob)
-    print("nya")
-    print(nya)
-    print("nya")
+    post_data = loads(blob)
+    db = get_db()
+    cursor = db.cursor()
+    
+    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (1, 1, %s);''', (post_data))
+    db.commit()
+ 
     return("/")
 
 @app.route("/profile", methods = ["GET","POST"])
@@ -95,7 +103,7 @@ def profile():
     #cursor.execute(''' SELECT bio FROM users
     #                                WHERE username = %s;''', (g.user))
     #bio = cursor.fetchone()
-    return render_template("profile.html", display_name = display_name, bio = "Test", pfp = None, form = form, page = "Profile")
+    return render_template("profile.html", display_name = display_name, bio = "Test", form = form, page = "Profile")
 
 
 @app.route("/register" , methods = ["GET","POST"])
