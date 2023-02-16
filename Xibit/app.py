@@ -38,8 +38,7 @@ def index():
     db = get_db()
     cursor = db.cursor()
     cursor.execute(''' SELECT image FROM posts;''')
-    post = cursor.fetchone()
-    print(post)
+    post = cursor.fetchall()
     return render_template("index.html", page = "Home", post = post)
 
 @app.route("/paint", methods = ["GET","POST"])
@@ -52,7 +51,7 @@ def post(blob):
     db = get_db()
     cursor = db.cursor()
     
-    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (1, 1, %s);''', (post_data))
+    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (2, 1, %s);''', (post_data))
     db.commit()
  
     return("/")
