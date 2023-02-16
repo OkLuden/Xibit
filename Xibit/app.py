@@ -46,16 +46,6 @@ def index():
 def paint():
     return render_template("paint.html", page = "Paint" )
 
-@app.route("/post/<string:blob>", methods = ["POST"])
-def post(blob):
-    post_data = loads(blob)
-    db = get_db()
-    cursor = db.cursor()
-    
-    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (1, 1, %s);''', (post_data))
-    db.commit()
- 
-    return("/")
 
 @app.route("/profile", methods = ["GET","POST"])
 @login_required
@@ -178,3 +168,36 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("index"))
+
+
+def createEntity(db, cursor):
+    createEntitySql = "INSERT INTO entity VALIUES ();"
+    cursor.execute(createEntitySql)
+    db.commit()
+    return
+    
+def getCreatedEntityID(cursor):
+    getEntityIDSql = "SELECT LAST_INSERT_ID();"
+    cursor.execute(getEntityIDSql)
+    return cursor.fetchone()[0]
+
+def getUserID(cursor):
+        getUserSql = """SELECT userID FROM users WHERE username = %s;""", (g.user)
+        cursor.execute(getUserSql)
+        return cursor.fetchone()[0]
+    
+
+@app.route("/post/<string:blob>", methods = ["POST"])
+def post(blob):
+    post_data = loads(blob)
+    db = get_db()
+    cursor = db.cursor()
+
+    createEntity()
+    createdEntityID = getCreatedEntityID()
+    creatorID = getUserID()
+    
+    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, %s, %s);''', (post_data, creatorID, createdEntityID))
+    db.commit()
+ 
+    return("/")
