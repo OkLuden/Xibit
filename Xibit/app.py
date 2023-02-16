@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, request, jsonify, g, session, make_response
+from flask import Flask, render_template, url_for, redirect, request, jsonify, g, session, make_response, logging
 from forms import RegistrationForm, LoginForm, ProfileEditForm
 from db import get_db, close_db
 from flask_session import Session
@@ -38,7 +38,7 @@ def index():
     db = get_db()
     cursor = db.cursor()
     cursor.execute(''' SELECT image FROM posts;''')
-    post = cursor.fetchone()
+    post = cursor.fetchone()[0]
     print(post)
     return render_template("index.html", page = "Home", post = post)
 
@@ -171,7 +171,7 @@ def logout():
 
 
 def createEntity(db, cursor):
-    createEntitySql = "INSERT INTO entity VALIUES ();"
+    createEntitySql = "INSERT INTO entity VALUES ();"
     cursor.execute(createEntitySql)
     db.commit()
     return
@@ -182,22 +182,22 @@ def getCreatedEntityID(cursor):
     return cursor.fetchone()[0]
 
 def getUserID(cursor):
-        getUserSql = """SELECT userID FROM users WHERE username = %s;""", (g.user)
-        cursor.execute(getUserSql)
+        getUserSql = """SELECT userID FROM users WHERE username = %s;"""
+        cursor.execute(getUserSql, session["user_id"])
         return cursor.fetchone()[0]
     
 
-@app.route("/post/<string:blob>", methods = ["POST"])
+@app.route("/post/<string:blob>", methods = ["GET", "POST"])
 def post(blob):
     post_data = loads(blob)
     db = get_db()
     cursor = db.cursor()
 
-    createEntity()
-    createdEntityID = getCreatedEntityID()
-    creatorID = getUserID()
+    createEntity(db=db, cursor=cursor)
+    createdEntityID = getCreatedEntityID(cursor=cursor)
+    creatorID = getUserID(cursor=cursor)
     
-    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, %s, %s);''', (post_data, creatorID, createdEntityID))
+    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, %s, %s);''', (createdEntityID, creatorID, post_data))
     db.commit()
  
     return("/")

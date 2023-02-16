@@ -18,8 +18,7 @@ def get_db():
         user='root', 
         password='H1@l//C$rT', 
         database='XibitDB', 
-        port=server.local_bind_port,
-        cursorclass=cursor.DictCursor)
+        port=server.local_bind_port)
     return g.db
 
 def close_db(e=None):
