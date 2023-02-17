@@ -45,17 +45,6 @@ def index():
 def paint():
     return render_template("paint.html", page = "Paint" )
 
-@app.route("/post/<string:blob>", methods = ["POST"])
-def post(blob):
-    post_data = loads(blob)
-    db = get_db()
-    cursor = db.cursor()
-    
-    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (2, 1, %s);''', (post_data))
-    db.commit()
- 
-    return("/")
-
 @app.route("/profile", methods = ["GET","POST"])
 @login_required
 def profile():
@@ -177,3 +166,24 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("index"))
+
+    
+
+@app.route("/post/<string:blob>", methods = ["GET", "POST"])
+def post(blob):
+    post_data = loads(blob)
+    db = get_db()
+    cursor = db.cursor()
+
+
+    cursor = db.cursor()
+    cursor.execute(''' SELECT MAX(postID) FROM posts''')
+    postID = cursor.fetchone()
+    postID = postID.get('MAX(postID)')
+    postID += 1
+    
+    
+    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, 1, %s);''', (postID, post_data))
+    db.commit()
+ 
+    return("/")
