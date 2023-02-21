@@ -202,7 +202,6 @@ function postImage() {
         // replaces '/' with '@' to allow use in url
         image = image.replaceAll("/", "@")
         image = JSON.stringify(image);
-        console.log(image.length);
         request.open('POST', 'post/' + image);
         request.send();
     });

@@ -180,7 +180,10 @@ def post(blob):
     cursor.execute(''' SELECT MAX(postID) FROM posts''')
     postID = cursor.fetchone()
     postID = postID.get('MAX(postID)')
-    postID += 1
+    if postID == None:
+        postID = 1
+    else:
+        postID += 1
     
     
     cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, 1, %s);''', (postID, post_data))
