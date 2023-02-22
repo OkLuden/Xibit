@@ -7,5 +7,7 @@
 
 {% block main_content %}
     <p>Home</p>
-    <p id="post">{{ post }}</p>
+    {% for pt in post %}
+        <option class="post">{{ pt }}</option>
+    {% endfor %}
 {% endblock %}

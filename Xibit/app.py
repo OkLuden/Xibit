@@ -38,14 +38,12 @@ def index():
     db = get_db()
     cursor = db.cursor()
     cursor.execute(''' SELECT image FROM posts;''')
-    post = cursor.fetchone()[0]
-    print(post)
+    post = cursor.fetchall()
     return render_template("index.html", page = "Home", post = post)
 
 @app.route("/paint", methods = ["GET","POST"])
 def paint():
     return render_template("paint.html", page = "Paint" )
-
 
 @app.route("/profile", methods = ["GET","POST"])
 @login_required
@@ -169,7 +167,7 @@ def logout():
     session.clear()
     return redirect(url_for("index"))
 
-
+'''
 def createEntity(db, cursor):
     createEntitySql = "INSERT INTO entity VALUES ();"
     cursor.execute(createEntitySql)
@@ -185,19 +183,30 @@ def getUserID(cursor):
         getUserSql = """SELECT userID FROM users WHERE username = %s;"""
         cursor.execute(getUserSql, session["user_id"])
         return cursor.fetchone()[0]
-    
+'''   
 
 @app.route("/post/<string:blob>", methods = ["GET", "POST"])
 def post(blob):
     post_data = loads(blob)
     db = get_db()
     cursor = db.cursor()
-
+    '''
     createEntity(db=db, cursor=cursor)
     createdEntityID = getCreatedEntityID(cursor=cursor)
     creatorID = getUserID(cursor=cursor)
     
     cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, %s, %s);''', (createdEntityID, creatorID, post_data))
+    '''
+    cursor.execute(''' SELECT MAX(postID) FROM posts''')
+    postID = cursor.fetchone()
+    postID = postID.get('MAX(postID)')
+    if postID == None:
+        postID = 1
+    else:
+        postID += 1
+    
+    
+    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, 1, %s);''', (postID, post_data))
     db.commit()
  
     return("/")
