@@ -157,7 +157,10 @@ function clearCanvas() {
 // saves canvas as image
 function saveImage() {
     image = canvas.toDataURL("image/png");
-    window.location.href=image;
+    var link = document.createElement('a');
+    link.download = 'MyDrawing.png';
+    link.href = image
+    link.click();
 }
 
 // tracks colour pick changes and adds to swatches
