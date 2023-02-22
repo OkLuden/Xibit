@@ -194,9 +194,9 @@ def post(blob):
     createEntity(db=db, cursor=cursor)
     createdEntityID = getCreatedEntityID(cursor=cursor)
     creatorID = getUserID(cursor=cursor)
-    
-    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, %s, %s);''', (createdEntityID, creatorID, post_data))
     '''
+    #cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, %s, %s);''', (createdEntityID, creatorID, post_data))
+
     cursor.execute(''' SELECT MAX(postID) FROM posts''')
     postID = cursor.fetchone()
     postID = postID.get('MAX(postID)')
