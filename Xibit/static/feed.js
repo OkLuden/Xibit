@@ -12,8 +12,11 @@ function init() {
         post = post.replaceAll("@", "/");
 
         const newImg = document.createElement('img');
+        const newDiv = document.createElement('div');
+        newDiv.setAttribute("id", "post" + i.toString());
         newImg.src = post;
-        document.body.appendChild(newImg);
+        document.body.appendChild(newDiv);
+        document.getElementById('post' + i.toString()).appendChild(newImg);
 
     }
 }
