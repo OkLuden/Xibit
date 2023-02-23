@@ -32,4 +32,11 @@ function init() {
         option.remove();
     });
 
+    users = document.querySelectorAll('.user');
+
+    users.forEach(option => {
+        option.remove();
+    });
+
+
 }
