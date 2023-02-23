@@ -39,7 +39,17 @@ def index():
     cursor = db.cursor()
     cursor.execute(''' SELECT image FROM posts;''')
     post = cursor.fetchall()
-    return render_template("index.html", page = "Home", post = post)
+
+    # fetch userID for post and then translate into username
+    cursor.execute(''' SELECT creatorID FROM posts;''')
+    users = cursor.fetchall()
+    cursor.execute(''' SELECT userID, username FROM users;''')
+    translate = dict(cursor.fetchall())
+    users_list = []
+    for user in users:
+        users_list.append(translate[user[0]])
+
+    return render_template("index.html", page = "Home", post = post, user=users_list)
 
 @app.route("/paint", methods = ["GET","POST"])
 def paint():
@@ -178,14 +188,15 @@ def getCreatedEntityID(cursor):
     getEntityIDSql = "SELECT LAST_INSERT_ID();"
     cursor.execute(getEntityIDSql)
     return cursor.fetchone()[0]
+'''
 
 def getUserID(cursor):
         getUserSql = """SELECT userID FROM users WHERE username = %s;"""
         cursor.execute(getUserSql, session["user_id"])
         return cursor.fetchone()[0]
-'''
 
 @app.route("/post/<string:blob>", methods = ["GET", "POST"])
+@login_required
 def post(blob):
     post_data = loads(blob)
     db = get_db()
@@ -204,10 +215,10 @@ def post(blob):
     else:
         postID += 1
 
-    #creatorID = getUserID(cursor=cursor)
+    creatorID = getUserID(cursor=cursor)
     
     
-    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, 1, %s);''', (postID, post_data))
+    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, %s, %s);''', (postID, creatorID, post_data))
     db.commit()
  
     return("/")
