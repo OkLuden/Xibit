@@ -145,13 +145,13 @@ def login():
         password = salt(password)
         db = get_db()
         cursor = db.cursor()
-        cursor.execute(''' SELECT * FROM users
+        cursor.execute(''' SELECT password FROM users
                                 WHERE username = %s;''', (user_id))
-        user = cursor.fetchone()
+        user = cursor.fetchone()[0]
 
         if user is None:
             form.user_id.errors.append("Incorrect username or password")
-        elif not check_password_hash(user["password"],password):
+        elif not check_password_hash(user,password):
             form.password.errors.append("Incorrect username or password")
         else:
             session.clear()
@@ -183,7 +183,7 @@ def getUserID(cursor):
         getUserSql = """SELECT userID FROM users WHERE username = %s;"""
         cursor.execute(getUserSql, session["user_id"])
         return cursor.fetchone()[0]
-'''   
+'''
 
 @app.route("/post/<string:blob>", methods = ["GET", "POST"])
 def post(blob):
@@ -193,17 +193,18 @@ def post(blob):
     '''
     createEntity(db=db, cursor=cursor)
     createdEntityID = getCreatedEntityID(cursor=cursor)
-    creatorID = getUserID(cursor=cursor)
     '''
     #cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, %s, %s);''', (createdEntityID, creatorID, post_data))
 
     cursor.execute(''' SELECT MAX(postID) FROM posts''')
-    postID = cursor.fetchone()
-    postID = postID.get('MAX(postID)')
+    
+    postID = cursor.fetchone()[0]
     if postID == None:
         postID = 1
     else:
         postID += 1
+
+    #creatorID = getUserID(cursor=cursor)
     
     
     cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, 1, %s);''', (postID, post_data))
