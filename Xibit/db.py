@@ -4,9 +4,9 @@ import pymysql.cursors as cursor
 import sshtunnel
 
 def openSSH():
-    server = sshtunnel.SSHTunnelForwarder(('xibitdb.darragh.container.netsoc.cloud', 16850),
-    ssh_username='root',
-    ssh_password='teamprojectteam8',
+    server = sshtunnel.SSHTunnelForwarder(('csgate.ucc.ie', 22),
+    ssh_username='dh29',
+    ssh_password='aaookeeb',
     remote_bind_address=('127.0.0.1', 3306))
     server.start()
     return server
@@ -14,11 +14,11 @@ def openSSH():
 def get_db():
     if "db" not in g:
         server = openSSH()
-        g.db = pymysql.connect(host='127.0.0.1', 
-        user='root', 
-        password='H1@l//C$rT', 
-        database='XibitDB', 
-        port=server.local_bind_port)
+        g.db = pymysql.connect(host='cs1.ucc.ie', 
+        user='dh29', 
+        password='uthao', 
+        database='cs2208_dh29', 
+        port=3306)
     return g.db
 
 def close_db(e=None):
