@@ -222,3 +222,12 @@ def post(blob):
     db.commit()
  
     return("/")
+
+@app.route("/viewPost/<postID>", methods = ['GET'])
+def viewPost(postID):
+    db = get_db()
+    cursor = db.cursor()
+    with cursor as cursor:
+        cursor.execute("""SELECT * FROM posts WHERE postID = %s);""", (postID))
+        post = cursor.fetchone()
+        return render_template("viewPost.html", post=post)

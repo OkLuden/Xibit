@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+<script src="../static/feed.js" type="module"></script>
+{% endblock %}
+
+{% block main_content %}
+    <option class="post">{{ post }}</option>
+    <button>Like</button>
+{% endblock %}
