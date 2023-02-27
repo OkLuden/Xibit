@@ -4,11 +4,14 @@ from db import get_db, close_db
 from flask_session import Session
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from json import loads
-
+import uuid as uuid
+import os
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "this-is-my-secret-key"
+app.config['UPLOAD_FOLDER'] = 'static/images'
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -65,6 +68,15 @@ def profile():
     if form.validate_on_submit():
         new_display_name = form.display_name.data
         new_bio = form.bio.data
+        new_pfp = form.profile_pic.data
+        pfp_filename = secure_filename(new_pfp.filename)
+        new_pfp_name = str(uuid.uuid1()) + "_" + pfp_filename
+        pfp_filename = new_pfp_name
+        
+        if new_pfp:
+            new_pfp.save(os.path.join(app.config['UPLOAD_FOLDER'], pfp_filename))
+            cursor.execute('''UPDATE users SET profilepic = %s WHERE username = %s;''', (new_pfp_name, g.user,))
+            db.commit()
 
         with open("profanity.txt", "r") as profanity_file:
             profanity = profanity_file.read().splitlines()
@@ -104,7 +116,12 @@ def profile():
     cursor.execute(''' SELECT bio FROM users
                                     WHERE username = %s;''', (g.user))
     bio = cursor.fetchone()
-    return render_template("profile.html", pfp = None, display_name = display_name, bio = bio, form = form, page = "Profile")
+
+    cursor.execute(''' SELECT profilepic FROM users
+                                    WHERE username = %s;''', (g.user))
+    profilepic = cursor.fetchone()
+
+    return render_template("profile.html", profilepic = profilepic, display_name = display_name, bio = bio, form = form, page = "Profile")
 
 
 @app.route("/register" , methods = ["GET","POST"])
@@ -135,8 +152,8 @@ def register():
                                     WHERE username = %s;''', (user_id))
             user = cursor.fetchone()
             if user is None:
-                cursor.execute('''INSERT INTO users (username, displayName, bio, password, email)
-                            VALUES (%s, %s, %s, %s, %s);''', (user_id, form_user_id, "", generate_password_hash(password), email))
+                cursor.execute('''INSERT INTO users (username, displayName, profilepic, bio, password, email)
+                            VALUES (%s, %s, %s, %s, %s, %s);''', (user_id, form_user_id, "default-profile.png", "", generate_password_hash(password), email))
                 db.commit()
                 return redirect(url_for("login"))
             elif user is not None:
