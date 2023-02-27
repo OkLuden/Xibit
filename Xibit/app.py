@@ -84,7 +84,7 @@ def profile():
         
         #if any(word in new_bio for word in profanity):
         #    if not any(word in new_bio for word in allowed):
-        #        form.bio.errors.append("Bio invalid. Profanity detected.")
+        #        form.bio.errors.append("Bio invalid.")
         #elif not new_bio:
         #    pass
         #else:
