@@ -48,8 +48,16 @@ def index():
     users_list = []
     for user in users:
         users_list.append(translate[user[0]])
+    
+    cursor.execute(''' SELECT likes FROM posts ORDER BY creatorID DESC;''')
+    likes = cursor.fetchall()
+    likes_list = []
+    for like in likes:
+        likes_list.append(like[0])
+    print(likes_list)
+    
 
-    return render_template("index.html", page = "Home", post = post, user=users_list)
+    return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list)
 
 @app.route("/paint", methods = ["GET","POST"])
 def paint():

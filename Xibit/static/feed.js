@@ -1,5 +1,6 @@
 let posts = document.getElementsByClassName("post");
 let users = document.getElementsByClassName("user");
+let likes = document.getElementsByClassName("likes");
 let post;
 let user; 
 
@@ -21,25 +22,33 @@ function init() {
         newDiv.setAttribute("class", "post_div");
         const username = document.createElement('p');
         username.setAttribute("id", "username_post");
+        const like = document.createElement('button');
+        like.setAttribute("id", "likes" + i.toString());
+
         newDiv.setAttribute("id", "post" + i.toString());
         newImg.src = post;
-        username.innerHTML = users[i].innerHTML
+        username.innerHTML = users[i].innerHTML;
+        like.innerHTML = "Likes: " + likes[i].innerHTML;
+
         document.getElementById('top_post').appendChild(newDiv);
         document.getElementById('post' + i.toString()).appendChild(username);
         document.getElementById('post' + i.toString()).appendChild(newImg);
+        document.getElementById('post' + i.toString()).appendChild(like);
         
     }
-    posts = document.querySelectorAll('.post');
 
+    posts = document.querySelectorAll('.post');
     posts.forEach(option => {
         option.remove();
     });
 
     users = document.querySelectorAll('.user');
-
     users.forEach(option => {
         option.remove();
     });
 
-
+    likes = document.querySelectorAll('.likes');
+    likes.forEach(option => {
+        option.remove();
+    });
 }
