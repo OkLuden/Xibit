@@ -160,7 +160,7 @@ def login():
         user = cursor.fetchone()[0]
 
         if user is None:
-            form.user_id.errors.append("Incorrect username or password")
+            form.password.errors.append("Incorrect username or password")
         elif not check_password_hash(user,password):
             form.password.errors.append("Incorrect username or password")
         else:
