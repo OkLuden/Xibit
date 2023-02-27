@@ -41,7 +41,7 @@ def index():
     post = cursor.fetchall()
 
     # fetch userID for post and then translate into username
-    cursor.execute(''' SELECT creatorID FROM posts;''')
+    cursor.execute(''' SELECT creatorID FROM posts ORDER BY creatorID DESC;;''')
     users = cursor.fetchall()
     cursor.execute(''' SELECT userID, username FROM users;''')
     translate = dict(cursor.fetchall())
