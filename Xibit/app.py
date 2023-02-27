@@ -37,7 +37,7 @@ def page_not_found(error):
 def index():
     db = get_db()
     cursor = db.cursor()
-    cursor.execute(''' SELECT image FROM posts;''')
+    cursor.execute(''' SELECT image FROM posts ORDER BY creatorID DESC;''')
     post = cursor.fetchall()
 
     # fetch userID for post and then translate into username
