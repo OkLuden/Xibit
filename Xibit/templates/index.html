@@ -10,7 +10,8 @@
         <option class="post">{{ pt }}</option>
     {% endfor %}
     {% for ur in user %}
-        <option class="user">{{ ur }}</option>
+        <option class="user">{{ ur[0] }}</option>
+        <option class="display">{{ ur[1] }}</option>
     {% endfor %}
     {% for l in likes %}
         <option class="likes">{{ l }}</option>
