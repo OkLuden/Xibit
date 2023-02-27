@@ -75,7 +75,10 @@ def profile():
             if not any(word in new_display_name for word in allowed):
                 form.display_name.errors.append("Display name invalid.")
         elif not new_display_name:
-            pass
+            cursor.execute(''' UPDATE users
+                            SET displayName = username
+                            WHERE username = %s;''', (g.user,))
+            db.commit()
         else:
             cursor.execute(''' UPDATE users
                             SET displayName = %s
