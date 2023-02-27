@@ -109,8 +109,8 @@ def register():
     form = RegistrationForm()
     
     if form.validate_on_submit():
-        user_id = form.user_id.data
-        user_id = user_id.lower()
+        form_user_id = form.user_id.data
+        user_id = form_user_id.lower()
         password = form.password.data
         email = form.email.data
 
@@ -133,7 +133,7 @@ def register():
             user = cursor.fetchone()
             if user is None:
                 cursor.execute('''INSERT INTO users (username, displayName, password, email)
-                            VALUES (%s, %s, %s, %s);''', (user_id, user_id, generate_password_hash(password), email))
+                            VALUES (%s, %s, %s, %s);''', (user_id, form_user_id, generate_password_hash(password), email))
                 db.commit()
                 return redirect(url_for("login"))
             elif user is not None:
