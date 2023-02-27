@@ -16,14 +16,17 @@ function init() {
         post = post.replaceAll("@", "/");
 
         const newImg = document.createElement('img');
+        newImg.setAttribute("id", "post_image");
         const newDiv = document.createElement('div');
+        newDiv.setAttribute("class", "post_div");
         const username = document.createElement('p');
+        username.setAttribute("id", "username_post");
         newDiv.setAttribute("id", "post" + i.toString());
         newImg.src = post;
-        username.innerHTML = "Created by " + users[i].innerHTML;
+        username.innerHTML = users[i].innerHTML;
         document.body.appendChild(newDiv);
-        document.getElementById('post' + i.toString()).appendChild(newImg);
         document.getElementById('post' + i.toString()).appendChild(username);
+        document.getElementById('post' + i.toString()).appendChild(newImg);
         
     }
     posts = document.querySelectorAll('.post');
