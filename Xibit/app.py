@@ -157,19 +157,23 @@ def login():
         cursor = db.cursor()
         cursor.execute(''' SELECT password FROM users
                                 WHERE username = %s;''', (user_id))
-        user = cursor.fetchone()[0]
 
-        if user is None:
-            form.password.errors.append("Incorrect username or password")
-        elif not check_password_hash(user,password):
+        if cursor.fetchone() is None:
             form.password.errors.append("Incorrect username or password")
         else:
-            session.clear()
-            session["user_id"] = user_id
-            next_page = request.args.get("next")
-            if not next_page:
-                next_page = url_for("index")
-            return redirect(next_page)
+            cursor.execute(''' SELECT password FROM users
+                                WHERE username = %s;''', (user_id))
+            user = cursor.fetchone()[0]
+            print(user)
+            if not check_password_hash(user,password):
+                form.password.errors.append("Incorrect username or password")
+            else:
+                session.clear()
+                session["user_id"] = user_id
+                next_page = request.args.get("next")
+                if not next_page:
+                    next_page = url_for("index")
+                return redirect(next_page)
     return render_template("login.html", form=form, page="Login")
 
 @app.route("/logout")
