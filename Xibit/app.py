@@ -37,7 +37,7 @@ def page_not_found(error):
 def index():
     db = get_db()
     cursor = db.cursor()
-    cursor.execute(''' SELECT image FROM posts;''')
+    cursor.execute(''' SELECT image FROM posts ORDER BY creatorID DESC;''')
     post = cursor.fetchall()
 
     # fetch userID for post and then translate into username
@@ -73,7 +73,7 @@ def profile():
         
         if any(word in new_display_name for word in profanity):
             if not any(word in new_display_name for word in allowed):
-                form.display_name.errors.append("Display name invalid. Profanity detected.")
+                form.display_name.errors.append("Display name invalid.")
         elif not new_display_name:
             pass
         else:
@@ -84,7 +84,7 @@ def profile():
         
         #if any(word in new_bio for word in profanity):
         #    if not any(word in new_bio for word in allowed):
-        #        form.bio.errors.append("Bio invalid. Profanity detected.")
+        #        form.bio.errors.append("Bio invalid.")
         #elif not new_bio:
         #    pass
         #else:
@@ -109,8 +109,8 @@ def register():
     form = RegistrationForm()
     
     if form.validate_on_submit():
-        user_id = form.user_id.data
-        user_id = user_id.lower()
+        form_user_id = form.user_id.data
+        user_id = form_user_id.lower()
         password = form.password.data
         email = form.email.data
 
@@ -133,7 +133,7 @@ def register():
             user = cursor.fetchone()
             if user is None:
                 cursor.execute('''INSERT INTO users (username, displayName, password, email)
-                            VALUES (%s, %s, %s, %s);''', (user_id, user_id, generate_password_hash(password), email))
+                            VALUES (%s, %s, %s, %s);''', (user_id, form_user_id, generate_password_hash(password), email))
                 db.commit()
                 return redirect(url_for("login"))
             elif user is not None:
