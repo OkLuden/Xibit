@@ -73,7 +73,7 @@ def profile():
         
         if any(word in new_display_name for word in profanity):
             if not any(word in new_display_name for word in allowed):
-                form.display_name.errors.append("Display name invalid. Profanity detected.")
+                form.display_name.errors.append("Display name invalid.")
         elif not new_display_name:
             pass
         else:
