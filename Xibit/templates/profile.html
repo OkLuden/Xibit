@@ -4,45 +4,69 @@
     <div class="profile_container">
         <div class="profile_info" id="profile_elements">
             
-            <div class="profile_image">
+            <div>
                 {% if pfp == None %}
-                    <img src="../static/images/default-profile.png" height="100" width="100">
+                    <img class="profile_image" src="../static/images/default-profile.png">
                 {% endif %}
-                <input type="file" class="pfp_file">
+                <p class="display_name">{{ display_name[0] }}</p>
+                <p class="textsmall_profile">@{{ g.user }}</p>
             </div>
 
-            <p>
-                {{ display_name[0] }}
-            </p>
-            <p>@{{ g.user }}</p>
+            <div class="profile_details">
+                <ul class="friends_art_likes">
+                    <li>x Friends</li>
+                    <li>x Artworks</li>
+                    <li>x Likes</li>
+                </ul>
+                <div class="tool_divider"></div>
+                
+                <p class="text_profile">{{ bio }}</p>
+            </div>
 
-            <p>{{ bio }}</p>
+            <input type="checkbox" id="disp_editprofile" name="disp_editprofile"/>
+            <div class="edit_profile_display">
+                <div class="edit_profile">
+                    {% if pfp == None %}
+                        <img class="profile_image" src="../static/images/default-profile.png">
+                    {% endif %}
+                    <input type="file" id="pfp_file" style="display:none;" name="pfp_file">
+                    <input type="button" value="Change profile image" onclick="document.getElementById('pfp_file').click();" />
+                    <div class="tool_divider"></div>
+    
+                    <form class="text" action="#" method="POST" novalidate> 
+                        {{ form.hidden_tag() }}
+                        {{ form.display_name.label }}
+                        {{ form.display_name() }}
+                        {% for error in form.display_name.errors %}
+                            {{ error }}
+                        {% endfor %}
+                        <div class="tool_divider"></div>
+                        {{ form.bio.label }}
+                        {{ form.bio() }}
+                        {% for error in form.bio.errors %}
+                            {{ error }}
+                        {% endfor %}
+                        <div class="tool_divider"></div>
+                        <div class="edit_profile_btns">
+                            <label for="disp_editprofile" class="edit_cancel">Cancel</label>
+                            <label for="disp_editprofile">
+                                {{ form.submit(class="button") }}
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="back_shadow"></div>
+            </div>
 
-            <form class="text" action="#" method="POST" novalidate> 
-                {{ form.hidden_tag() }}
-                {{ form.display_name.label }}
-                {{ form.display_name() }}
-                {% for error in form.display_name.errors %}
-                    {{ error }}
-                {% endfor %}
-                <br>
-                {{ form.bio.label }}
-                {{ form.bio() }}
-                {% for error in form.bio.errors %}
-                    {{ error }}
-                {% endfor %}
-                <br>
-                {{ form.submit(class="button") }}
-            </form>
-
-            <button id="edit-btn">Edit</button>
+            <label for="disp_editprofile" id="edit-btn">Edit Profile</label>
             
         </div>
         <div class="profile_container2" id="profile_elements">
             <div class="profile_artwork">
-                <div class="art_placeholder">
+                <img class="art_placeholder" src="image.png"/>
+                <!--<div class="art_placeholder">
                     <a class="text_artwork_profile">Artwork to be added</a>
-                </div>
+                </div>-->
             </div>
             <div class="profile_friends">
                 <a class="text">Friends List to be added</a>
