@@ -5,6 +5,7 @@ body {
     background-color: #121212;
     padding: 0;
     margin: 0;
+    margin-top: 50px;
 }
 
 h1 {
@@ -66,7 +67,10 @@ input[type="range"] {
 
 /* TOP NAVIGATION*/
 .topnav {
-    position: sticky;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    width: 100%;
     background-color: #282828;
     z-index: 100;
     box-shadow: 1px 1px 17px 0px black;
@@ -107,7 +111,7 @@ ul {
 
 .nav_text:hover {
     /*background-color: #383838;*/
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 .nav_text {
@@ -180,10 +184,13 @@ canvas {
 
 .toolbox2 {
     width: 100%;
-    background-color: #383838;
+    background-color: #2d2d2d;
     height: 30px;
     margin-bottom: 5px;
     border-radius: 3px;
+    border-color: #121212;
+    border-style: solid;
+    border-width: 1px;
 }
 
 .undo_btn {
@@ -194,35 +201,39 @@ canvas {
     padding-bottom: 3px;
     padding-left: 15px;
     padding-right: 15px;
-    background: linear-gradient(0deg, rgba(135,135,135,1) 0%, rgba(152,152,152,1) 100%);
+    background: linear-gradient(0deg, rgb(95, 95, 95) 0%, rgb(104, 104, 104) 100%);
     border-radius: 5px;
 
 }
 
 .undo_btn:hover {
-    background: linear-gradient(0deg, rgba(111,111,111,1) 0%, rgba(121,121,121,1) 100%);
+    background: linear-gradient(0deg, rgb(82, 82, 82) 0%, rgb(81, 81, 81) 100%);
     cursor: pointer;
 }
 
 .undo_btn:active {
-    background: linear-gradient(0deg, rgba(101,101,101,1) 0%, rgba(101,101,101,1) 100%);
+    background: linear-gradient(0deg, rgb(82, 82, 82) 0%, rgb(81, 81, 81) 100%);
 }
 
 .tool_btn {
-    background: linear-gradient(0deg, rgba(0,141,221,1) 0%, rgba(15,179,222,1) 100%);
+    background-color: #11b9f1;
     font-size: 15px;
     width: 160px;
-    transition: background-color 0.25s;
+    transition: background 0.25s;
     margin: 10px;
     font-family: "Lato", sans-serif;
 }
 
 .tool_btn:hover {
-    background: linear-gradient(0deg, rgba(0,117,182,1) 0%, rgba(2,147,185,1) 100%);
+    background-color: #1F90E3;
 }
 
 #clear {
-    background: linear-gradient(0deg, rgba(135,135,135,1) 0%, rgba(152,152,152,1) 100%);
+    background-color: #6d6d6d;
+}
+
+#clear:hover {
+    background-color: #555555;
 }
 
 /* LOGIN + REGISTER */
@@ -261,6 +272,10 @@ input[type=submit] {
     transition: background-color .25s;
 }
 
+input[type=submit]:hover {
+    background-color: #1F90E3;
+}
+
 
 /* PROFILE */
 .profile_container {
@@ -275,11 +290,51 @@ input[type=submit] {
 }
 
 .profile_info {
-    background-color: lightblue;
     width: 400px;
     padding: 25px;
     margin-right: 50px;
     background-color: #383838;
+}
+
+.profile_details {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.textsmall_profile {
+    color: #c7d4d3;
+    font-family: "Lato", sans-serif;
+    font-size: 13px;
+    margin: 0px;
+    text-align: center;
+}
+
+.text_profile {
+    color: #c7d4d3;
+    font-family: "Lato", sans-serif;
+    font-size: 16px;
+    margin: 0px;
+}
+
+.display_name {
+    color: #ffffff;
+    font-family: "Lato", sans-serif;
+    font-size: 30px;
+    margin: 0px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.profile_image {
+    height: 130px;
+    width: 130px;
+    object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 100px;
 }
 
 .profile_container2 {
@@ -305,6 +360,7 @@ input[type=submit] {
 .art_placeholder {
     height: 500px;
     width: 1000px;
+    display: block;
     margin-left: auto;
     margin-right: auto;
     background-color: #ffffff;
@@ -313,6 +369,118 @@ input[type=submit] {
 .profile_friends {
     height: 100px;
     background-color: #383838;
+}
+
+.edit_profile_display {
+    visibility: collapse;
+}
+
+.edit_profile {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #383838;
+    width: 300px;
+    padding:25px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+#disp_editprofile:checked + .edit_profile_display {
+    visibility: visible;
+}
+
+#disp_editprofile {
+    display: none;
+}
+
+#edit-btn {
+    background-color: #22C6FF;
+    font-size: 15px;
+    color: #ffffff;
+    margin: 10px;
+    font-family: "Lato", sans-serif;
+    padding: 10px 30px;
+    width: 160px;
+    transition: background-color .25s;
+    border-radius: 3px;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#edit-btn:hover {
+    background-color: #1F90E3;
+}
+
+.profile_btns:hover {
+    color: #1F90E3;
+}
+
+input[type=button] {
+    color: #22C6FF;
+    font-family: "Lato", sans-serif;
+    font-size: 15px;
+    margin: 0px;
+    border: none;
+    outline: inherit;
+    cursor: pointer;
+    background: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input[type=button]:hover {
+    color: #1692eb;
+}
+
+.back_shadow {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: #121212;
+    opacity: 45%;
+    z-index: 5;
+}
+
+.friends_art_likes {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0px;
+    list-style-type: none;
+    font-size: 16px;
+    color: #ffffff;
+    font-family: "Lato", sans-serif;
+}
+
+.edit_profile_btns {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.edit_cancel {
+    background-color: #6d6d6d;
+    padding: 10px 30px;
+    text-decoration: none;
+    font-family: "Lato", sans-serif;
+    font-size: 17px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    color: #ffffff;
+    transition: background-color .25s;
+}
+
+.edit_cancel:hover {
+    background-color: #555555;
 }
 
 /* FOOTER */
