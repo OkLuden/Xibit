@@ -159,14 +159,14 @@ def login():
                                 WHERE username = %s;''', (user_id))
 
         if cursor.fetchone() is None:
-            form.password.errors.append("Incorrect username or password")
+            form.password.errors.append("Incorrect username or password.")
         else:
             cursor.execute(''' SELECT password FROM users
                                 WHERE username = %s;''', (user_id))
             user = cursor.fetchone()[0]
             print(user)
             if not check_password_hash(user,password):
-                form.password.errors.append("Incorrect username or password")
+                form.password.errors.append("Incorrect username or password.")
             else:
                 session.clear()
                 session["user_id"] = user_id
