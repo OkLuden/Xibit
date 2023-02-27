@@ -135,8 +135,8 @@ def register():
                                     WHERE username = %s;''', (user_id))
             user = cursor.fetchone()
             if user is None:
-                cursor.execute('''INSERT INTO users (username, displayName, password, email)
-                            VALUES (%s, %s, %s, %s);''', (user_id, form_user_id, generate_password_hash(password), email))
+                cursor.execute('''INSERT INTO users (username, displayName, bio, password, email)
+                            VALUES (%s, %s, %s, %s, %s);''', (user_id, form_user_id, "", generate_password_hash(password), email))
                 db.commit()
                 return redirect(url_for("login"))
             elif user is not None:
