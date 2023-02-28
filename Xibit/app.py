@@ -65,6 +65,18 @@ def index():
 
     return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list)
 
+@app.route("/like/<likeID>", methods = ['POST'])
+@login_required
+def likePost(likeID):
+    print(likeID)
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute(''' UPDATE posts SET likes = likes + 1 WHERE postID = %s;''', (likeID))
+    db.commit()
+ 
+    return("/")
+
 @app.route("/paint", methods = ["GET","POST"])
 def paint():
     return render_template("paint.html", page = "Paint" )

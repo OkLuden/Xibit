@@ -90,6 +90,6 @@ function init() {
 function likePost(i) {
     likeID = id_list[i];
     const request = new XMLHttpRequest();
-    request.open('POST', 'like/' + likeID.toString);
+    request.open('POST', 'like/' + likeID.toString());
     request.send();
 }
