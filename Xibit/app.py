@@ -51,9 +51,11 @@ def index():
     translate = dict(cursor.fetchall())
     cursor.execute(''' SELECT userID, displayName FROM users;''')
     translate2 = dict(cursor.fetchall())
+    cursor.execute(''' SELECT userID, profilepic FROM users;''')
+    translate3 = dict(cursor.fetchall())
     users_list = []
     for user in users:
-        users_list.append([translate[user[0]], translate2[user[0]]])
+        users_list.append([translate[user[0]], translate2[user[0]], translate3[user[0]]])
     
     cursor.execute(''' SELECT likes FROM posts ORDER BY creatorID DESC;''')
     likes = cursor.fetchall()
