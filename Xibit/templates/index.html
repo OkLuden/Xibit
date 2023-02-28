@@ -15,8 +15,7 @@
         <option class="pfp">{{ ur[2] }}</option>
     {% endfor %}
     {% for l in likes %}
-        <option class="likes">{{ l }}</option>
+        <option class="likes">{{ l[0] }}</option>
+        <option class="id">{{ l[1] }}</option>
     {% endfor %}
-    <div id="top_post">   
-    </div>
 {% endblock %}

@@ -3,8 +3,10 @@ let users = document.getElementsByClassName("user");
 let likes = document.getElementsByClassName("likes");
 let displays = document.getElementsByClassName("display");
 let pfps = document.getElementsByClassName("pfp");
+let id = document.getElementsByClassName("id");
 let post;
 let likeButton; 
+let likeID;
 
 document.addEventListener("DOMContentLoaded", init, false);
 
@@ -20,6 +22,8 @@ function init() {
         newPfp.setAttribute("id", "post_pfp");
         const newDiv = document.createElement('div');
         newDiv.setAttribute("class", "post_div");
+        const topDiv = document.createElement('div');
+        topDiv.setAttribute("class", "top_div");
         const username = document.createElement('p');
         username.setAttribute("id", "username_post");
         const display = document.createElement('p');
@@ -28,13 +32,15 @@ function init() {
         like.setAttribute("id", "likes" + i.toString());
 
         newDiv.setAttribute("id", "post" + i.toString());
+        topDiv.setAttribute("id", "top" + i.toString());
         newImg.src = post;
         newPfp.src = "static/images/profilepics/" + pfps[i].innerHTML;
         username.innerHTML = users[i].innerHTML;
         display.innerHTML = displays[i].innerHTML;
         like.innerHTML = "Likes: " + likes[i].innerHTML;
 
-        document.getElementById('top_post').appendChild(newDiv);
+        document.getElementById("body").appendChild(topDiv);
+        document.getElementById("top" + i.toString()).appendChild(newDiv);
         document.getElementById('post' + i.toString()).appendChild(newPfp);
         document.getElementById('post' + i.toString()).appendChild(username);
         document.getElementById('post' + i.toString()).appendChild(display);
@@ -42,7 +48,7 @@ function init() {
         document.getElementById('post' + i.toString()).appendChild(like);
 
         likeButton = document.getElementById("likes" + i.toString());
-        likeButton.addEventListener("click", likePost, false);
+        likeButton.addEventListener("click", function(){ likePost(i); }, false);
         
     }
 
@@ -70,8 +76,18 @@ function init() {
     pfps.forEach(option => {
         option.remove();
     });
+    
+    ids = document.querySelectorAll('.id');
+    ids.forEach(option => {
+        option.remove();
+    });
 }
 
-function likePost() {
-    console.log("hello");
+function likePost(i) {
+    likeID = id[i];
+    console.log(likeID);
+    //const request = new XMLHttpRequest();
+    
+    //request.open('POST', 'like/' + likeID.toString);
+    //request.send();
 }
