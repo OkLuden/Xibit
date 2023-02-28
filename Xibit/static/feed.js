@@ -2,6 +2,7 @@ let posts = document.getElementsByClassName("post");
 let users = document.getElementsByClassName("user");
 let likes = document.getElementsByClassName("likes");
 let displays = document.getElementsByClassName("display");
+let pfps = document.getElementsByClassName("pfp");
 let post;
 let likeButton; 
 
@@ -15,6 +16,8 @@ function init() {
         
         const newImg = document.createElement('img');
         newImg.setAttribute("id", "post_image");
+        const newPfp = document.createElement('img');
+        newPfp.setAttribute("id", "post_pfp");
         const newDiv = document.createElement('div');
         newDiv.setAttribute("class", "post_div");
         const username = document.createElement('p');
@@ -26,11 +29,13 @@ function init() {
 
         newDiv.setAttribute("id", "post" + i.toString());
         newImg.src = post;
+        newPfp.src = "static/images/profilepics/" + pfps[i].innerHTML;
         username.innerHTML = users[i].innerHTML;
         display.innerHTML = displays[i].innerHTML;
         like.innerHTML = "Likes: " + likes[i].innerHTML;
 
         document.getElementById('top_post').appendChild(newDiv);
+        document.getElementById('post' + i.toString()).appendChild(newPfp);
         document.getElementById('post' + i.toString()).appendChild(username);
         document.getElementById('post' + i.toString()).appendChild(display);
         document.getElementById('post' + i.toString()).appendChild(newImg);
@@ -58,6 +63,11 @@ function init() {
 
     displays = document.querySelectorAll('.display');
     displays.forEach(option => {
+        option.remove();
+    });
+
+    pfps = document.querySelectorAll('.pfp');
+    pfps.forEach(option => {
         option.remove();
     });
 }
