@@ -7,13 +7,17 @@ let id = document.getElementsByClassName("id");
 let post;
 let likeButton; 
 let likeID;
+let ids;
+let id_list = [];
 
 document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
+    console.log(id);
     for (let i = 0; i < posts.length; i++) {
+        id_list[i] = id[i].innerHTML;
+
         post = posts[i].innerHTML;
-        console.log(post);
         post = post.replaceAll("@", "/");
         
         const newImg = document.createElement('img');
@@ -48,7 +52,7 @@ function init() {
         document.getElementById('post' + i.toString()).appendChild(like);
 
         likeButton = document.getElementById("likes" + i.toString());
-        likeButton.addEventListener("click", function(){ likePost(i); }, false);
+        likeButton.addEventListener("click", function(){ likePost(i.toString()); }, false);
         
     }
 
@@ -84,10 +88,8 @@ function init() {
 }
 
 function likePost(i) {
-    likeID = id[i];
-    console.log(likeID);
-    //const request = new XMLHttpRequest();
-    
-    //request.open('POST', 'like/' + likeID.toString);
-    //request.send();
+    likeID = id_list[i];
+    const request = new XMLHttpRequest();
+    request.open('POST', 'like/' + likeID.toString);
+    request.send();
 }
