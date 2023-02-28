@@ -5,9 +5,7 @@
         <div class="profile_info" id="profile_elements">
             
             <div>
-                {% if pfp == None %}
-                    <img class="profile_image" src="../static/images/default-profile.png">
-                {% endif %}
+                <img class="profile_image" src="{{ url_for('static', filename='images/profilepics/' + profilepic[0]) }}">
                 <p class="display_name">{{ display_name[0] }}</p>
                 <p class="textsmall_profile">@{{ g.user }}</p>
             </div>
@@ -20,21 +18,32 @@
                 </ul>
                 <div class="tool_divider"></div>
                 
-                <p class="text_profile">{{ bio }}</p>
+                <p class="text_profile">{{ bio[0] }}</p>
             </div>
 
             <input type="checkbox" id="disp_editprofile" name="disp_editprofile"/>
             <div class="edit_profile_display">
                 <div class="edit_profile">
-                    {% if pfp == None %}
-                        <img class="profile_image" src="../static/images/default-profile.png">
-                    {% endif %}
+                    <img class="profile_image" src="{{ url_for('static', filename='images/profilepics/' + profilepic[0]) }}">
                     <input type="file" id="pfp_file" style="display:none;" name="pfp_file">
-                    <input type="button" value="Change profile image" onclick="document.getElementById('pfp_file').click();" />
+                    <input type="button" value="Change Profile Picture" onclick="document.getElementById('pfp_file').click();" />
                     <div class="tool_divider"></div>
     
-                    <form class="text" action="#" method="POST" novalidate> 
+                    <form class="text" action="#" method="POST" enctype="multipart/form-data" novalidate> 
                         {{ form.hidden_tag() }}
+                        {{ form.profile_pic(class_="pfp_pic_edit") }}
+                        {% for error in form.profile_pic.errors %}
+                            {{ error }}
+                        {% endfor %}
+                        {% if profilepic[0] != "default-profile.png" %}
+                            <div class="tool_divider"></div>
+                            {{ form.rm_pfp(class_="pfp_pic_edit") }}
+                            {{ form.rm_pfp.label }}
+                            {% for error in form.rm_pfp.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                        <div class="tool_divider"></div>
                         {{ form.display_name.label }}
                         {{ form.display_name() }}
                         {% for error in form.display_name.errors %}

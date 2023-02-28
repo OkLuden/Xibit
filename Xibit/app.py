@@ -4,11 +4,14 @@ from db import get_db, close_db
 from flask_session import Session
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from json import loads
-
+import uuid as uuid
+import os
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "this-is-my-secret-key"
+app.config['UPLOAD_FOLDER'] = 'static/images/profilepics'
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -37,19 +40,32 @@ def page_not_found(error):
 def index():
     db = get_db()
     cursor = db.cursor()
-    cursor.execute(''' SELECT image FROM posts ORDER BY creatorID DESC;''')
-    post = cursor.fetchall()
+    cursor.execute(''' SELECT postID, image FROM posts ORDER BY creatorID DESC;''')
+    postID = dict(cursor.fetchall())
+    post = postID.values()
 
     # fetch userID for post and then translate into username
-    cursor.execute(''' SELECT creatorID FROM posts;''')
+    cursor.execute(''' SELECT creatorID FROM posts ORDER BY creatorID DESC;;''')
     users = cursor.fetchall()
     cursor.execute(''' SELECT userID, username FROM users;''')
     translate = dict(cursor.fetchall())
+    cursor.execute(''' SELECT userID, displayName FROM users;''')
+    translate2 = dict(cursor.fetchall())
+    cursor.execute(''' SELECT userID, profilepic FROM users;''')
+    translate3 = dict(cursor.fetchall())
     users_list = []
     for user in users:
-        users_list.append(translate[user[0]])
+        users_list.append([translate[user[0]], translate2[user[0]], translate3[user[0]]])
+    
+    cursor.execute(''' SELECT likes FROM posts ORDER BY creatorID DESC;''')
+    likes = cursor.fetchall()
+    likes_list = []
+    for like in likes:
+        likes_list.append(like[0])
+    print(likes_list)
+    
 
-    return render_template("index.html", page = "Home", post = post, user=users_list)
+    return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list)
 
 @app.route("/paint", methods = ["GET","POST"])
 def paint():
@@ -65,6 +81,29 @@ def profile():
     if form.validate_on_submit():
         new_display_name = form.display_name.data
         new_bio = form.bio.data
+        new_pfp = form.profile_pic.data
+        pfp_filename = secure_filename(new_pfp.filename)
+        new_pfp_name = str(uuid.uuid1()) + "_" + pfp_filename
+        pfp_filename = new_pfp_name
+
+        if form.rm_pfp.data is True:
+            form.rm_pfp.data = False
+            cursor.execute('''SELECT profilepic FROM users WHERE username = %s;''', (g.user,))
+            prev_pfp_filename = cursor.fetchone()[0]
+            if prev_pfp_filename and prev_pfp_filename != 'default-profile.png':
+                os.remove(os.path.join(app.config['UPLOAD_FOLDER'], prev_pfp_filename))
+            cursor.execute('''UPDATE users SET profilepic = %s WHERE username = %s;''', ('default-profile.png', g.user,))
+            db.commit()
+        elif new_pfp:
+            cursor.execute('''SELECT profilepic FROM users WHERE username = %s;''', (g.user,))
+            prev_pfp_filename = cursor.fetchone()[0]
+
+            new_pfp.save(os.path.join(app.config['UPLOAD_FOLDER'], pfp_filename))
+            cursor.execute('''UPDATE users SET profilepic = %s WHERE username = %s;''', (new_pfp_name, g.user,))
+            db.commit()
+
+            if prev_pfp_filename and prev_pfp_filename != 'default-profile.png':
+                os.remove(os.path.join(app.config['UPLOAD_FOLDER'], prev_pfp_filename))
 
         with open("profanity.txt", "r") as profanity_file:
             profanity = profanity_file.read().splitlines()
@@ -75,33 +114,41 @@ def profile():
             if not any(word in new_display_name for word in allowed):
                 form.display_name.errors.append("Display name invalid.")
         elif not new_display_name:
-            pass
+            cursor.execute(''' UPDATE users
+                            SET displayName = username
+                            WHERE username = %s;''', (g.user,))
+            db.commit()
         else:
             cursor.execute(''' UPDATE users
                             SET displayName = %s
                             WHERE username = %s;''', (new_display_name,g.user,))
             db.commit()
         
-        #if any(word in new_bio for word in profanity):
-        #    if not any(word in new_bio for word in allowed):
-        #        form.bio.errors.append("Bio invalid.")
-        #elif not new_bio:
-        #    pass
-        #else:
-        #    cursor.execute(''' UPDATE users
-        #                        SET bio = %s
-        #                        WHERE username = %s;''', (new_bio,g.user,))
-        #    db.commit()
+        if any(word in new_bio for word in profanity):
+            if not any(word in new_bio for word in allowed):
+                form.bio.errors.append("Bio invalid.")
+        elif not new_bio:
+            pass
+        else:
+            cursor.execute(''' UPDATE users
+                                SET bio = %s
+                                WHERE username = %s;''', (new_bio,g.user,))
+            db.commit()
 
 
     cursor.execute(''' SELECT displayName FROM users
                                     WHERE username = %s;''', (g.user))
     display_name = cursor.fetchone()
 
-    #cursor.execute(''' SELECT bio FROM users
-    #                                WHERE username = %s;''', (g.user))
-    #bio = cursor.fetchone()
-    return render_template("profile.html", pfp = None, display_name = display_name, bio = "Test", form = form, page = "Profile")
+    cursor.execute(''' SELECT bio FROM users
+                                    WHERE username = %s;''', (g.user))
+    bio = cursor.fetchone()
+
+    cursor.execute(''' SELECT profilepic FROM users
+                                    WHERE username = %s;''', (g.user))
+    profilepic = cursor.fetchone()
+
+    return render_template("profile.html", profilepic = profilepic, display_name = display_name, bio = bio, form = form, page = "Profile")
 
 
 @app.route("/register" , methods = ["GET","POST"])
@@ -132,8 +179,8 @@ def register():
                                     WHERE username = %s;''', (user_id))
             user = cursor.fetchone()
             if user is None:
-                cursor.execute('''INSERT INTO users (username, displayName, password, email)
-                            VALUES (%s, %s, %s, %s);''', (user_id, form_user_id, generate_password_hash(password), email))
+                cursor.execute('''INSERT INTO users (username, displayName, profilepic, bio, password, email)
+                            VALUES (%s, %s, %s, %s, %s, %s);''', (user_id, form_user_id, "default-profile.png", "", generate_password_hash(password), email))
                 db.commit()
                 return redirect(url_for("login"))
             elif user is not None:
@@ -157,19 +204,22 @@ def login():
         cursor = db.cursor()
         cursor.execute(''' SELECT password FROM users
                                 WHERE username = %s;''', (user_id))
-        user = cursor.fetchone()[0]
 
-        if user is None:
-            form.user_id.errors.append("Incorrect username or password")
-        elif not check_password_hash(user,password):
-            form.password.errors.append("Incorrect username or password")
+        if cursor.fetchone() is None:
+            form.password.errors.append("Incorrect username or password.")
         else:
-            session.clear()
-            session["user_id"] = user_id
-            next_page = request.args.get("next")
-            if not next_page:
-                next_page = url_for("index")
-            return redirect(next_page)
+            cursor.execute(''' SELECT password FROM users
+                                WHERE username = %s;''', (user_id))
+            user = cursor.fetchone()[0]
+            if not check_password_hash(user,password):
+                form.password.errors.append("Incorrect username or password.")
+            else:
+                session.clear()
+                session["user_id"] = user_id
+                next_page = request.args.get("next")
+                if not next_page:
+                    next_page = url_for("index")
+                return redirect(next_page)
     return render_template("login.html", form=form, page="Login")
 
 @app.route("/logout")

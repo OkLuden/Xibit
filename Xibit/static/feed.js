@@ -1,49 +1,77 @@
 let posts = document.getElementsByClassName("post");
 let users = document.getElementsByClassName("user");
+let likes = document.getElementsByClassName("likes");
+let displays = document.getElementsByClassName("display");
+let pfps = document.getElementsByClassName("pfp");
 let post;
-let user; 
+let likeButton; 
 
 document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
-    console.log(users);
     for (let i = 0; i < posts.length; i++) {
         post = posts[i].innerHTML;
-        post = post.replaceAll(/\'/g, "\"");
-        // post on main branch comes out different for unknown reason, have to slice
-        post = post.slice(2);
-        post = post.slice(0, -3)
+        console.log(post);
         post = post.replaceAll("@", "/");
-
+        
         const newImg = document.createElement('img');
         newImg.setAttribute("id", "post_image");
+        const newPfp = document.createElement('img');
+        newPfp.setAttribute("id", "post_pfp");
         const newDiv = document.createElement('div');
         newDiv.setAttribute("class", "post_div");
-        const topDiv = document.createElement('div');
-        topDiv.setAttribute("class", "top_post");
         const username = document.createElement('p');
         username.setAttribute("id", "username_post");
+        const display = document.createElement('p');
+        display.setAttribute("id", "display_post");
+        const like = document.createElement('button');
+        like.setAttribute("id", "likes" + i.toString());
+
         newDiv.setAttribute("id", "post" + i.toString());
-        topDiv.setAttribute("id", "top_post" + i.toString())
         newImg.src = post;
-        username.innerHTML = users[i].innerHTML
-        document.body.appendChild(topDiv);
-        document.getElementById('top_post' + i.toString()).appendChild(newDiv);
+        newPfp.src = "static/images/profilepics/" + pfps[i].innerHTML;
+        username.innerHTML = users[i].innerHTML;
+        display.innerHTML = displays[i].innerHTML;
+        like.innerHTML = "Likes: " + likes[i].innerHTML;
+
+        document.getElementById('top_post').appendChild(newDiv);
+        document.getElementById('post' + i.toString()).appendChild(newPfp);
         document.getElementById('post' + i.toString()).appendChild(username);
+        document.getElementById('post' + i.toString()).appendChild(display);
         document.getElementById('post' + i.toString()).appendChild(newImg);
+        document.getElementById('post' + i.toString()).appendChild(like);
+
+        likeButton = document.getElementById("likes" + i.toString());
+        likeButton.addEventListener("click", likePost, false);
         
     }
-    posts = document.querySelectorAll('.post');
 
+    posts = document.querySelectorAll('.post');
     posts.forEach(option => {
         option.remove();
     });
 
     users = document.querySelectorAll('.user');
-
     users.forEach(option => {
         option.remove();
     });
 
+    likes = document.querySelectorAll('.likes');
+    likes.forEach(option => {
+        option.remove();
+    });
 
+    displays = document.querySelectorAll('.display');
+    displays.forEach(option => {
+        option.remove();
+    });
+
+    pfps = document.querySelectorAll('.pfp');
+    pfps.forEach(option => {
+        option.remove();
+    });
+}
+
+function likePost() {
+    console.log("hello");
 }
