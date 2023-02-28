@@ -3,18 +3,14 @@ let users = document.getElementsByClassName("user");
 let likes = document.getElementsByClassName("likes");
 let displays = document.getElementsByClassName("display");
 let post;
-let user; 
+let likeButton; 
 
 document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
-    console.log(users);
     for (let i = 0; i < posts.length; i++) {
         post = posts[i].innerHTML;
-        post = post.replaceAll(/\'/g, "\"");
-        // post on main branch comes out different for unknown reason, have to slice
-        post = post.slice(2);
-        post = post.slice(0, -3)
+        console.log(post);
         post = post.replaceAll("@", "/");
         
         const newImg = document.createElement('img');
@@ -32,7 +28,6 @@ function init() {
         newImg.src = post;
         username.innerHTML = users[i].innerHTML;
         display.innerHTML = displays[i].innerHTML;
-        console.log(users[i])
         like.innerHTML = "Likes: " + likes[i].innerHTML;
 
         document.getElementById('top_post').appendChild(newDiv);
@@ -40,6 +35,9 @@ function init() {
         document.getElementById('post' + i.toString()).appendChild(display);
         document.getElementById('post' + i.toString()).appendChild(newImg);
         document.getElementById('post' + i.toString()).appendChild(like);
+
+        likeButton = document.getElementById("likes" + i.toString());
+        likeButton.addEventListener("click", likePost, false);
         
     }
 
@@ -62,4 +60,8 @@ function init() {
     displays.forEach(option => {
         option.remove();
     });
+}
+
+function likePost() {
+    console.log("hello");
 }
