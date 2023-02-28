@@ -486,25 +486,46 @@ input[type=button]:hover {
 
 /* FEED */
 #username_post {
-    color: #ffffff;
+    color: #c7d4d3;
     font-family: "Lato", sans-serif;
-    font-size: 35px;
+    font-size: 16px;
     margin: 0px;
-    padding-top: 25px;
-    padding-bottom: 15px;
-    font-weight: 700;
 }
 
 .post_div {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: start;
     padding: 20px;
+}
+
+.top_div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#post_pfp {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 100px;
+    margin: 0px;
+    padding: 0px;
 }
 
 #post_image {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+#display_post {
+    color: #ffffff;
+    font-family: "Lato", sans-serif;
+    font-size: 35px;
+    margin: 0px;
+    font-weight: 700;
 }
 
 /* FOOTER */
