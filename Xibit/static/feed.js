@@ -92,4 +92,9 @@ function likePost(i) {
     const request = new XMLHttpRequest();
     request.open('POST', 'like/' + likeID.toString());
     request.send();
+    setTimeout(reload, 500);
+}
+
+function reload() {
+    location.reload();
 }
