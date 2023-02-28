@@ -11,7 +11,7 @@ import os
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "this-is-my-secret-key"
-app.config['UPLOAD_FOLDER'] = 'static/images'
+app.config['UPLOAD_FOLDER'] = 'static/images/profilepics'
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -85,9 +85,15 @@ def profile():
         pfp_filename = new_pfp_name
         
         if new_pfp:
+            cursor.execute('''SELECT profilepic FROM users WHERE username = %s;''', (g.user,))
+            prev_pfp_filename = cursor.fetchone()[0]
+
             new_pfp.save(os.path.join(app.config['UPLOAD_FOLDER'], pfp_filename))
             cursor.execute('''UPDATE users SET profilepic = %s WHERE username = %s;''', (new_pfp_name, g.user,))
             db.commit()
+
+            if prev_pfp_filename and prev_pfp_filename != 'default-profile.png':
+                os.remove(os.path.join(app.config['UPLOAD_FOLDER'], prev_pfp_filename))
 
         with open("profanity.txt", "r") as profanity_file:
             profanity = profanity_file.read().splitlines()
