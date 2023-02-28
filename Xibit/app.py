@@ -57,7 +57,7 @@ def index():
     for user in users:
         users_list.append([translate[user[0]], translate2[user[0]], translate3[user[0]]])
     
-    cursor.execute(''' SELECT likes FROM posts ORDER BY creatorID DESC;''')
+    cursor.execute(''' SELECT postID, likes FROM posts ORDER BY creatorID DESC;''')
     likes = cursor.fetchall()
     likes_list = []
     for like in likes:

@@ -20,6 +20,8 @@ function init() {
         newPfp.setAttribute("id", "post_pfp");
         const newDiv = document.createElement('div');
         newDiv.setAttribute("class", "post_div");
+        const topDiv = document.createElement('div');
+        topDiv.setAttribute("class", "top_div");
         const username = document.createElement('p');
         username.setAttribute("id", "username_post");
         const display = document.createElement('p');
@@ -28,13 +30,15 @@ function init() {
         like.setAttribute("id", "likes" + i.toString());
 
         newDiv.setAttribute("id", "post" + i.toString());
+        topDiv.setAttribute("id", "top" + i.toString());
         newImg.src = post;
         newPfp.src = "static/images/profilepics/" + pfps[i].innerHTML;
         username.innerHTML = users[i].innerHTML;
         display.innerHTML = displays[i].innerHTML;
         like.innerHTML = "Likes: " + likes[i].innerHTML;
 
-        document.getElementById('top_post').appendChild(newDiv);
+        document.getElementById("body").appendChild(topDiv);
+        document.getElementById("top" + i.toString()).appendChild(newDiv);
         document.getElementById('post' + i.toString()).appendChild(newPfp);
         document.getElementById('post' + i.toString()).appendChild(username);
         document.getElementById('post' + i.toString()).appendChild(display);
