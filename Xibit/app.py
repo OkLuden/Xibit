@@ -65,7 +65,7 @@ def index():
 
     return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list)
 
-@app.route("/like/<likeID>", methods = ['POST'])
+@app.route("/like/<likeID>", methods = ["GET",'POST'])
 @login_required
 def likePost(likeID):
     print(likeID)
@@ -74,8 +74,6 @@ def likePost(likeID):
 
     cursor.execute(''' UPDATE posts SET likes = likes + 1 WHERE postID = %s;''', (likeID))
     db.commit()
- 
-    return("/")
 
 @app.route("/paint", methods = ["GET","POST"])
 def paint():
