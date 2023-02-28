@@ -17,8 +17,8 @@
                     <li style="float:left"><img src="../static/images/logo2.png" class="logo" alt="Xibit Logo"></li>
                     <li class="nav_text" style="float:left"><a href="{{ url_for('index') }}">Home</a></li>
                     <li class="nav_text" style="float:left"><a href="{{ url_for('paint') }}">Paint</a></li>
-                    <li class="nav_text" style="float:left"><a href="{{ url_for('profile') }}">Profile</a></li>
                     {% if g.user %}
+                    <li class="nav_text" style="float:left"><a href="{{ url_for('profile', user = g.user) }}">Profile</a></li>
                     <li class="nav_text" style="float:right"><a href="{{ url_for('logout') }}">Logout</a></li>
                     {% else %}
                     <li class="nav_text" style="float:right"><a href="{{ url_for('register') }}">Register</a></li>

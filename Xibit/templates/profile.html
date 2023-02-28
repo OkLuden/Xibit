@@ -5,7 +5,7 @@
         <div class="profile_info" id="profile_elements">
             
             <div>
-                <img class="profile_image" src="{{ url_for('static', filename='images/profilepics/' + profilepic[0]) }}">
+                <img class="profile_image" src="{{ url_for('static', filename='images/profilepics/' + profilepic[0]) }}" />
                 <p class="display_name">{{ display_name[0] }}</p>
                 <p class="textsmall_profile">@{{ g.user }}</p>
             </div>
