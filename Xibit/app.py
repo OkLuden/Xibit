@@ -38,19 +38,32 @@ def page_not_found(error):
 def index():
     db = get_db()
     cursor = db.cursor()
-    cursor.execute(''' SELECT image FROM posts;''')
-    post = cursor.fetchall()
+    cursor.execute(''' SELECT postID, image FROM posts ORDER BY creatorID DESC;''')
+    postID = dict(cursor.fetchall())
+    post = postID.values()
 
     # fetch userID for post and then translate into username
-    cursor.execute(''' SELECT creatorID FROM posts;''')
+    cursor.execute(''' SELECT creatorID FROM posts ORDER BY creatorID DESC;;''')
     users = cursor.fetchall()
     cursor.execute(''' SELECT userID, username FROM users;''')
     translate = dict(cursor.fetchall())
+    cursor.execute(''' SELECT userID, displayName FROM users;''')
+    translate2 = dict(cursor.fetchall())
+    cursor.execute(''' SELECT userID, profilepic FROM users;''')
+    translate3 = dict(cursor.fetchall())
     users_list = []
     for user in users:
-        users_list.append(translate[user[0]])
+        users_list.append([translate[user[0]], translate2[user[0]], translate3[user[0]]])
+    
+    cursor.execute(''' SELECT postID, likes FROM posts ORDER BY creatorID DESC;''')
+    likes = cursor.fetchall()
+    likes_list = []
+    for like in likes:
+        likes_list.append([like[1], like[0]])
+    print(likes_list)
+    
 
-    return render_template("index.html", page = "Home", post = post, user=users_list)
+    return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list)
 
 @app.route("/paint", methods = ["GET","POST"])
 def paint():
