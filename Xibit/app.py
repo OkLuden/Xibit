@@ -41,12 +41,12 @@ def page_not_found(error):
 def index():
     db = get_db()
     cursor = db.cursor()
-    cursor.execute(''' SELECT postID, image FROM posts ORDER BY creatorID DESC;''')
+    cursor.execute(''' SELECT postID, image FROM posts ORDER BY postID DESC;''')
     postID = dict(cursor.fetchall())
     post = postID.values()
 
     # fetch userID for post and then translate into username
-    cursor.execute(''' SELECT creatorID FROM posts ORDER BY creatorID DESC;;''')
+    cursor.execute(''' SELECT creatorID FROM posts ORDER BY postID DESC;;''')
     users = cursor.fetchall()
     cursor.execute(''' SELECT userID, username FROM users;''')
     translate = dict(cursor.fetchall())
@@ -156,7 +156,7 @@ def profile(user):
                                         WHERE username = %s;''', (g.user))
         profilepic = cursor.fetchone()
 
-    return render_template("profile.html", profilepic = profilepic, display_name = display_name, bio = bio, form = form, page = "Profile")
+    return render_template("profile.html", pfp = profilepic[0], profilepic = profilepic[0], display_name = display_name, bio = bio, form = form, page = "Profile")
 
 
 @app.route("/register" , methods = ["GET","POST"])
