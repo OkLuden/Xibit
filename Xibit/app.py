@@ -83,8 +83,16 @@ def profile():
         pfp_filename = secure_filename(new_pfp.filename)
         new_pfp_name = str(uuid.uuid1()) + "_" + pfp_filename
         pfp_filename = new_pfp_name
-        
-        if new_pfp:
+
+        if form.rm_pfp.data is True:
+            form.rm_pfp.data = False
+            cursor.execute('''SELECT profilepic FROM users WHERE username = %s;''', (g.user,))
+            prev_pfp_filename = cursor.fetchone()[0]
+            if prev_pfp_filename and prev_pfp_filename != 'default-profile.png':
+                os.remove(os.path.join(app.config['UPLOAD_FOLDER'], prev_pfp_filename))
+            cursor.execute('''UPDATE users SET profilepic = %s WHERE username = %s;''', ('default-profile.png', g.user,))
+            db.commit()
+        elif new_pfp:
             cursor.execute('''SELECT profilepic FROM users WHERE username = %s;''', (g.user,))
             prev_pfp_filename = cursor.fetchone()[0]
 
