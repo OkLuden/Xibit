@@ -4,12 +4,15 @@ from db import get_db, close_db
 from flask_session import Session
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from json import loads
+import uuid as uuid
 import os
 
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "this-is-my-secret-key"
+app.config['UPLOAD_FOLDER'] = 'static/images/profilepics'
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -92,6 +95,29 @@ def profile(user):
         if form.validate_on_submit():
             new_display_name = form.display_name.data
             new_bio = form.bio.data
+            new_pfp = form.profile_pic.data
+            pfp_filename = secure_filename(new_pfp.filename)
+            new_pfp_name = str(uuid.uuid1()) + "_" + pfp_filename
+            pfp_filename = new_pfp_name
+
+            if form.rm_pfp.data is True:
+                form.rm_pfp.data = False
+                cursor.execute('''SELECT profilepic FROM users WHERE username = %s;''', (g.user,))
+                prev_pfp_filename = cursor.fetchone()[0]
+                if prev_pfp_filename and prev_pfp_filename != 'default-profile.png':
+                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], prev_pfp_filename))
+                cursor.execute('''UPDATE users SET profilepic = %s WHERE username = %s;''', ('default-profile.png', g.user,))
+                db.commit()
+            elif new_pfp:
+                cursor.execute('''SELECT profilepic FROM users WHERE username = %s;''', (g.user,))
+                prev_pfp_filename = cursor.fetchone()[0]
+
+                new_pfp.save(os.path.join(app.config['UPLOAD_FOLDER'], pfp_filename))
+                cursor.execute('''UPDATE users SET profilepic = %s WHERE username = %s;''', (new_pfp_name, g.user,))
+                db.commit()
+
+                if prev_pfp_filename and prev_pfp_filename != 'default-profile.png':
+                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], prev_pfp_filename))
 
             with open("profanity.txt", "r") as profanity_file:
                 profanity = profanity_file.read().splitlines()
@@ -109,26 +135,30 @@ def profile(user):
                             WHERE username = %s;''', (new_display_name,g.user,))
                 db.commit()
         
-        #if any(word in new_bio for word in profanity):
-        #    if not any(word in new_bio for word in allowed):
-        #        form.bio.errors.append("Bio invalid. Profanity detected.")
-        #elif not new_bio:
-        #    pass
-        #else:
-        #    cursor.execute(''' UPDATE users
-        #                        SET bio = %s
-        #                        WHERE username = %s;''', (new_bio,g.user,))
-        #    db.commit()
-
-
-    cursor.execute(''' SELECT displayName FROM users
+            if any(word in new_bio for word in profanity):
+                if not any(word in new_bio for word in allowed):
+                    form.bio.errors.append("Bio invalid.")
+            elif not new_bio:
+                pass
+            else:
+                cursor.execute(''' UPDATE users
+                                    SET bio = %s
+                                    WHERE username = %s;''', (new_bio,g.user,))
+                db.commit()
+        
+        cursor.execute(''' SELECT displayName FROM users
                                     WHERE username = %s;''', (user))
-    display_name = cursor.fetchone()
+        display_name = cursor.fetchone()
 
-    #cursor.execute(''' SELECT bio FROM users
-    #                                WHERE username = %s;''', (g.user))
-    #bio = cursor.fetchone()
-    return render_template("profile.html", pfp = None, display_name = display_name, bio = "Test", form = form, page = "Profile")
+        cursor.execute(''' SELECT bio FROM users
+                                    WHERE username = %s;''', (g.user))
+        bio = cursor.fetchone()
+
+        cursor.execute(''' SELECT profilepic FROM users
+                                        WHERE username = %s;''', (g.user))
+        profilepic = cursor.fetchone()
+
+    return render_template("profile.html", profilepic = profilepic, display_name = display_name, bio = bio, form = form, page = "Profile")
 
 
 @app.route("/register" , methods = ["GET","POST"])
@@ -136,8 +166,8 @@ def register():
     form = RegistrationForm()
     
     if form.validate_on_submit():
-        user_id = form.user_id.data
-        user_id = user_id.lower()
+        form_user_id = form.user_id.data
+        user_id = form_user_id.lower()
         password = form.password.data
         email = form.email.data
 
@@ -159,8 +189,8 @@ def register():
                                     WHERE username = %s;''', (user_id))
             user = cursor.fetchone()
             if user is None:
-                cursor.execute('''INSERT INTO users (username, displayName, password, email)
-                            VALUES (%s, %s, %s, %s);''', (user_id, user_id, generate_password_hash(password), email))
+                cursor.execute('''INSERT INTO users (username, displayName, profilepic, bio, password, email)
+                            VALUES (%s, %s, %s, %s, %s, %s);''', (user_id, form_user_id, "default-profile.png", "", generate_password_hash(password), email))
                 db.commit()
                 return redirect(url_for("login"))
             elif user is not None:
