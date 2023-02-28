@@ -18,5 +18,5 @@ class LoginForm(FlaskForm):
 class ProfileEditForm(FlaskForm):
     profile_pic = FileField(validators=[Optional(), FileAllowed(['png', 'jpg', 'jpeg', 'gif'], "Incorrect format.")])
     display_name = StringField("Display Name:",validators=[Length(min=4,max=20), Optional()])
-    bio = StringField("Bio:",validators=[Length(min=1,max=150), Optional()])
+    bio = StringField("Bio:",validators=[Length(min=1,max=300), Optional()])
     submit = SubmitField("Submit")
