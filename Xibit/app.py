@@ -63,7 +63,6 @@ def index():
     likes_list = []
     for like in likes:
         likes_list.append([like[1], like[0]])
-    print(likes_list)
     
 
     return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list)
@@ -71,7 +70,6 @@ def index():
 @app.route("/like/<likeID>", methods = ["GET",'POST'])
 @login_required
 def likePost(likeID):
-    print(likeID)
     db = get_db()
     cursor = db.cursor()
 
