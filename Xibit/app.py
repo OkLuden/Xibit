@@ -6,6 +6,7 @@ from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from json import loads
+from datetime import datetime
 import uuid as uuid
 import os
 
@@ -269,9 +270,11 @@ def post(blob):
         postID += 1
 
     creatorID = getUserID(cursor=cursor)
+
+    current_time = datetime.now()
+    date_posted = current_time.strftime("%Y/%m/%d %H:%M:%S")
     
-    
-    cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, %s, %s);''', (postID, creatorID, post_data))
+    cursor.execute('''INSERT INTO posts (postID, creatorID, image, date) VALUES (%s, %s, %s, %s);''', (postID, creatorID, post_data, date_posted))
     db.commit()
  
     return("/")
