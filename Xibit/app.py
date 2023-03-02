@@ -46,6 +46,10 @@ def index():
     postID = dict(cursor.fetchall())
     post = postID.values()
 
+    cursor.execute(''' SELECT postID, date FROM posts ORDER BY postID DESC;''')
+    date_dict = dict(cursor.fetchall())
+    date_list = date_dict.values()
+
     # fetch userID for post and then translate into username
     cursor.execute(''' SELECT creatorID FROM posts ORDER BY postID DESC;;''')
     users = cursor.fetchall()
@@ -66,7 +70,7 @@ def index():
         likes_list.append([like[1], like[0]])
     
 
-    return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list)
+    return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list, date=date_list)
 
 @app.route("/like/<likeID>", methods = ["GET",'POST'])
 @login_required
@@ -258,8 +262,6 @@ def post(blob):
     post_data = loads(blob)
     db = get_db()
     cursor = db.cursor()
-
-    #cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, %s, %s);''', (createdEntityID, creatorID, post_data))
 
     cursor.execute(''' SELECT MAX(postID) FROM posts''')
     

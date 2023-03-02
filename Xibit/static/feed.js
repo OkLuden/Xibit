@@ -4,11 +4,13 @@ let likes = document.getElementsByClassName("likes");
 let displays = document.getElementsByClassName("display");
 let pfps = document.getElementsByClassName("pfp");
 let id = document.getElementsByClassName("id");
+let datetime = document.getElementsByClassName("date");
 
 let post;
 let likeButton; 
 let likeID;
 let like;
+let datetimes;
 let ids;
 let id_list = [];
 
@@ -35,6 +37,8 @@ function init() {
         username.setAttribute("id", "username_post");
         const display = document.createElement('p');
         display.setAttribute("id", "display_post");
+        const date = document.createElement('p');
+        date.setAttribute("id", "date_of_post");
         like = document.createElement('button');
         like.setAttribute("id", "likes" + i.toString());
 
@@ -46,6 +50,7 @@ function init() {
         newPfp.src = "static/images/profilepics/" + pfps[i].innerHTML;
         username.innerHTML = "@" + users[i].innerHTML;
         display.innerHTML = displays[i].innerHTML;
+        date.innerHTML = datetime[i].innerHTML;
         like.innerHTML = "Likes: " + likes[i].innerHTML;
 
         document.getElementById("main").appendChild(topDiv);
@@ -56,6 +61,7 @@ function init() {
         document.getElementById('pro' + i.toString()).appendChild(username);
         document.getElementById('post' + i.toString()).appendChild(newImg);
         document.getElementById('post' + i.toString()).appendChild(like);
+        document.getElementById('post' + i.toString()).appendChild(date);
 
         likeButton = document.getElementById("likes" + i.toString());
         likeButton.addEventListener("click", function(){ likePost(i.toString()); }, false);
@@ -89,6 +95,11 @@ function init() {
     
     ids = document.querySelectorAll('.id');
     ids.forEach(option => {
+        option.remove();
+    });
+
+    datetimes = document.querySelectorAll('.date');
+    datetimes.forEach(option => {
         option.remove();
     });
 }
