@@ -75,6 +75,18 @@ def likePost(likeID):
 
     cursor.execute(''' UPDATE posts SET likes = likes + 1 WHERE postID = %s;''', (likeID))
     db.commit()
+    return("/")
+
+@app.route("/delike/<likeID>", methods = ["GET",'POST'])
+@login_required
+def delikePost(likeID):
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute(''' UPDATE posts SET likes = likes - 1 WHERE postID = %s;''', (likeID))
+    db.commit()
+    return("/")
+
 
 @app.route("/paint", methods = ["GET","POST"])
 def paint():
@@ -234,19 +246,6 @@ def logout():
     session.clear()
     return redirect(url_for("index"))
 
-'''
-def createEntity(db, cursor):
-    createEntitySql = "INSERT INTO entity VALUES ();"
-    cursor.execute(createEntitySql)
-    db.commit()
-    return
-    
-def getCreatedEntityID(cursor):
-    getEntityIDSql = "SELECT LAST_INSERT_ID();"
-    cursor.execute(getEntityIDSql)
-    return cursor.fetchone()[0]
-'''
-
 def getUserID(cursor):
         getUserSql = """SELECT userID FROM users WHERE username = %s;"""
         cursor.execute(getUserSql, session["user_id"])
@@ -258,10 +257,7 @@ def post(blob):
     post_data = loads(blob)
     db = get_db()
     cursor = db.cursor()
-    '''
-    createEntity(db=db, cursor=cursor)
-    createdEntityID = getCreatedEntityID(cursor=cursor)
-    '''
+
     #cursor.execute('''INSERT INTO posts (postID, creatorID, image) VALUES (%s, %s, %s);''', (createdEntityID, creatorID, post_data))
 
     cursor.execute(''' SELECT MAX(postID) FROM posts''')
