@@ -173,14 +173,28 @@ def profile(user):
     display_name = cursor.fetchone()
 
     cursor.execute(''' SELECT bio FROM users
-                                    WHERE username = %s;''', (g.user))
+                                    WHERE username = %s;''', (user))
     bio = cursor.fetchone()
 
     cursor.execute(''' SELECT profilepic FROM users
-                                        WHERE username = %s;''', (g.user))
+                                        WHERE username = %s;''', (user))
     profilepic = cursor.fetchone()
 
     return render_template("profile.html", profilepic = profilepic, display_name = display_name, bio = bio, form = form, page = "Profile", user = user)
+
+@app.route("/sendFriendRequest", methods = ["GET"])
+@login_required
+def sendFriendRequest(user):
+    pass
+
+
+@app.route("/viewFriends", methods = ["GET"])
+@login_required
+def viewFriends(user):
+    pass
+
+def getFriendStatus(user):
+    pass
 
 
 @app.route("/register" , methods = ["GET","POST"])
