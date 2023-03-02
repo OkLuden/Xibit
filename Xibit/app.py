@@ -69,9 +69,12 @@ def index():
     for like in likes:
         likes_list.append([like[1], like[0]])
 
-    cursor.execute(''' SELECT postID FROM likes WHERE userID = %s;''', (getUserID(cursor)))
-    user_likes = cursor.fetchall()
-    user_likes = [i[0] for i in user_likes]
+    if g.user is None:
+        user_likes = [-1]
+    else:
+        cursor.execute(''' SELECT postID FROM likes WHERE userID = %s;''', (getUserID(cursor)))
+        user_likes = cursor.fetchall()
+        user_likes = [i[0] for i in user_likes]
 
     return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list, date=date_list, user_likes=user_likes)
 
