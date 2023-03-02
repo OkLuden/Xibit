@@ -29,6 +29,7 @@ let undo = document.getElementById("undo");
 let post = document.getElementById("post");
 let ptIcons = document.querySelectorAll('.pt_icon');
 let brushIcon = document.querySelector('#brush');
+const cancelBtn = document.getElementsByClassName("edit_cancel")[0];
 
 
 document.addEventListener("DOMContentLoaded", init, false);
@@ -44,6 +45,10 @@ function init() {
 
         icon.classList.add('selected');
         });
+    });
+
+    cancelBtn.addEventListener("click", () => {
+        click = false;
     });
 
     document.getElementById("form_image").addEventListener("submit", saveImage);
