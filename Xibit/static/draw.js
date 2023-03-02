@@ -28,11 +28,14 @@ let fill_shape = document.getElementById("fill_shape");
 let undo = document.getElementById("undo");
 let post = document.getElementById("post");
 let ptIcons = document.querySelectorAll('.pt_icon');
+let brushIcon = document.querySelector('#brush');
+
 
 document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
-
+    
+    brushIcon.classList.add('selected');
     ptIcons.forEach(icon => {
         icon.addEventListener('click', () => {
         ptIcons.forEach(icon => {
