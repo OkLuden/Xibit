@@ -7,7 +7,7 @@
             <div>
                 <img class="profile_image" src="{{ url_for('static', filename='images/profilepics/' + profilepic[0]) }}" />
                 <p class="display_name">{{ display_name[0] }}</p>
-                <p class="textsmall_profile">@{{ g.user }}</p>
+                <p class="textsmall_profile">@{{ user }}</p>
             </div>
 
             <div class="profile_details">
@@ -71,8 +71,11 @@
 
             {% if user == g.user %}
             <label for="disp_editprofile" class="edit-btn">Edit Profile</label>
+            {% else %}
+            <label for="send_Friend_Request" class="edit-btn"><a href="{{ url_for('sendFriendRequest', user = user) }}">Send Friend Request</a></label>
             {% endif %}
-            
+            <label for="view_Friends" class="edit-btn"><a href="{{ url_for('viewFriends', user = user) }}">View Friends</a></label>
+
         </div>
         <div class="profile_container2" id="profile_elements">
             <div class="profile_artwork">
