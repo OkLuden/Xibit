@@ -4,6 +4,7 @@ let likes = document.getElementsByClassName("likes");
 let displays = document.getElementsByClassName("display");
 let pfps = document.getElementsByClassName("pfp");
 let id = document.getElementsByClassName("id");
+
 let post;
 let likeButton; 
 let likeID;
@@ -48,8 +49,8 @@ function init() {
         like.innerHTML = "Likes: " + likes[i].innerHTML;
 
         document.getElementById("main").appendChild(topDiv);
-        document.getElementById("top" + i.toString()).appendChild(proDiv);
         document.getElementById("top" + i.toString()).appendChild(newDiv);
+        document.getElementById("post" + i.toString()).appendChild(proDiv);
         document.getElementById('pro' + i.toString()).appendChild(newPfp);
         document.getElementById('pro' + i.toString()).appendChild(display);
         document.getElementById('pro' + i.toString()).appendChild(username);
