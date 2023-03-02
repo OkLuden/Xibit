@@ -128,6 +128,11 @@ ul {
     margin-top: calc(((100vh)/2) - 350px);
 }
 
+.selected {
+    background-color: #22C6FF;
+}
+
+
 .toolbox {
     width: 350px;
     height: 635px;
@@ -175,6 +180,10 @@ canvas {
 
 .pt_icon:hover {
     background-color: #282828;
+}
+
+.pt_icon:valid {
+    background-color: #11b9f1;
 }
 
 .canvas_container {

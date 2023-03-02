@@ -27,10 +27,21 @@ let fill = document.getElementById("fill");
 let fill_shape = document.getElementById("fill_shape");
 let undo = document.getElementById("undo");
 let post = document.getElementById("post");
+let ptIcons = document.querySelectorAll('.pt_icon');
 
 document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
+
+    ptIcons.forEach(icon => {
+        icon.addEventListener('click', () => {
+        ptIcons.forEach(icon => {
+            icon.classList.remove('selected');
+        });
+
+        icon.classList.add('selected');
+        });
+    });
 
     document.getElementById("form_image").addEventListener("submit", saveImage);
 
