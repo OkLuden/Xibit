@@ -23,7 +23,6 @@ let regular = document.getElementById("brush");
 let square = document.getElementById("square");
 let circle = document.getElementById("circle");
 let clear = document.getElementById("clear");
-let save = document.getElementById("save");
 let fill = document.getElementById("fill");
 let fill_shape = document.getElementById("fill_shape");
 let undo = document.getElementById("undo");
@@ -32,6 +31,9 @@ let post = document.getElementById("post");
 document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
+
+    document.getElementById("form_image").addEventListener("submit", saveImage);
+
     canvas = document.querySelector("canvas");
     canvas.height = height;
     canvas.width = width;
@@ -67,7 +69,6 @@ function init() {
     circle.addEventListener("click", function(){ changeBrush("circle"); }, false);
 
     clear.addEventListener("click", clearCanvas, false);
-    save.addEventListener("click", saveImage, false);
     undo.addEventListener("click", erasePreviousStroke, false);
     post.addEventListener("click", postImage, false)
 
@@ -78,38 +79,43 @@ function init() {
 function draw() {
     request_id = window.requestAnimationFrame(draw);
     thick_label.innerHTML = "Current Size: " + (thick.value).toString();
-    if (click) {
-        context.fillStyle = colour.value;
-        context.strokeStyle = colour.value;
-        context.lineWidth = 3;
-        context.lineCap = "round";
-        context.lineJoin="round";
-        // creates single coloured square
-        if (brush == "square") {
-            context.rect(mouseX - thick.value , mouseY - thick.value, thick.value * 2, thick.value * 2);
-            if (fill_shape.checked) {
-                context.fill();
-            } 
-            context.stroke();
-            click = false;
-        // creates single coloured circle
-        } else if (brush == "circle") {
-            context.arc(mouseX, mouseY, thick.value, 0, 360);
-            if (fill_shape.checked) {
-                context.fill();
-            } 
-            context.stroke(); 
-            click = false;
-        // normal brush stroke    
-        } else if (brush == "fill"){
-            click = false;
-            imageData = context.getImageData(0, 0, width, height);
-            getPixel(imageData, mouseX, mouseY);
-        } else {
-            context.lineWidth = thick.value;
-            context.lineTo(mouseX, mouseY); 
-            current_stroke[1].push([mouseX, mouseY]);
-            context.stroke();
+
+    if (document.getElementById("disp_saveimage").checked == true) {
+        return
+    } else {
+        if (click) {
+            context.fillStyle = colour.value;
+            context.strokeStyle = colour.value;
+            context.lineWidth = 3;
+            context.lineCap = "round";
+            context.lineJoin="round";
+            // creates single coloured square
+            if (brush == "square") {
+                context.rect(mouseX - thick.value , mouseY - thick.value, thick.value * 2, thick.value * 2);
+                if (fill_shape.checked) {
+                    context.fill();
+                } 
+                context.stroke();
+                click = false;
+            // creates single coloured circle
+            } else if (brush == "circle") {
+                context.arc(mouseX, mouseY, thick.value, 0, 360);
+                if (fill_shape.checked) {
+                    context.fill();
+                } 
+                context.stroke(); 
+                click = false;
+            // normal brush stroke    
+            } else if (brush == "fill"){
+                click = false;
+                imageData = context.getImageData(0, 0, width, height);
+                getPixel(imageData, mouseX, mouseY);
+            } else {
+                context.lineWidth = thick.value;
+                context.lineTo(mouseX, mouseY); 
+                current_stroke[1].push([mouseX, mouseY]);
+                context.stroke();
+            }
         }
     }
 }
@@ -155,12 +161,17 @@ function clearCanvas() {
 }
 
 // saves canvas as image
-function saveImage() {
-    image = canvas.toDataURL("image/png");
+function saveImage(event) {
+    click = false;
+    event.preventDefault();
+    var filename = document.getElementById("file_name").value || "xibit_artwork";
+    var canvas = document.querySelector("canvas");
+    var image = canvas.toDataURL("image/png");
     var link = document.createElement('a');
-    link.download = 'MyDrawing.png';
+    link.download = filename + ".png";
     link.href = image
     link.click();
+    document.getElementById("disp_saveimage").checked = false;
 }
 
 // tracks colour pick changes and adds to swatches

@@ -22,8 +22,8 @@
             </div>
 
             <input type="checkbox" id="disp_editprofile" name="disp_editprofile"/>
-            <div class="edit_profile_display">
-                <div class="edit_profile">
+            <div class="edit_display">
+                <div class="edit_details">
                     <img class="profile_image" src="{{ url_for('static', filename='images/profilepics/' + profilepic[0]) }}">
                     <input type="file" id="pfp_file" style="display:none;" name="pfp_file">
                     <input type="button" value="Change Profile Picture" onclick="document.getElementById('pfp_file').click();" />
@@ -56,7 +56,7 @@
                             {{ error }}
                         {% endfor %}
                         <div class="tool_divider"></div>
-                        <div class="edit_profile_btns">
+                        <div class="edit_btns">
                             <label for="disp_editprofile" class="edit_cancel">Cancel</label>
                             <label for="disp_editprofile">
                                 {{ form.submit(class="button") }}
@@ -67,7 +67,7 @@
                 <div class="back_shadow"></div>
             </div>
 
-            <label for="disp_editprofile" id="edit-btn">Edit Profile</label>
+            <label for="disp_editprofile" class="edit-btn">Edit Profile</label>
             
         </div>
         <div class="profile_container2" id="profile_elements">

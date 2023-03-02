@@ -35,7 +35,24 @@
             <div class="tool_divider"></div>
 
             <a class="text">File</a> <br>
-            <button id="save" class="tool_btn">Save as Image</button> <br>
+            <input type="checkbox" id="disp_saveimage" name="disp_saveimage"/>
+            <div class="edit_display">
+                <div class="edit_details">
+                    <form class="text" action="#" id="form_image" method="POST" novalidate>
+                        <label for="file_name">Image Name:</label>
+                        <input type="text" id="file_name" name="file_name" placeholder="xibit_artwork">
+                        <div class="tool_divider"></div>
+                        <div class="edit_btns">
+                            <label for="disp_saveimage" class="edit_cancel">Cancel</label>
+                            <label for="disp_saveimage">
+                                <input type="submit" class="button">
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="back_shadow"></div>
+            </div>
+            <label for="disp_saveimage" class="edit-btn">Save as Image</label>
             <button id="post" class="tool_btn">Post</button>   
             <div class="tool_bottom"></div>
         </aside>
@@ -44,7 +61,7 @@
                 <img src="../static/images/undo.png" id="undo" class="undo_btn" alt="Undo">
                 <!--<button id="undo" class="tool_btn">Undo</button>-->
             </div>
-            <canvas>
+            <canvas id="canvas">
             </canvas>
         </div>
     </div>
