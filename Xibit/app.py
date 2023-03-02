@@ -79,7 +79,11 @@ def likePost(likeID):
     cursor = db.cursor()
 
     cursor.execute(''' UPDATE posts SET likes = likes + 1 WHERE postID = %s;''', (likeID))
+
+    userID = getUserID(cursor)
+    cursor.execute('''INSERT INTO likes (userID, postID) VALUES (%s, %s);''', (userID, likeID))
     db.commit()
+    
     return("/")
 
 @app.route("/delike/<likeID>", methods = ["GET",'POST'])
@@ -87,6 +91,9 @@ def likePost(likeID):
 def delikePost(likeID):
     db = get_db()
     cursor = db.cursor()
+
+    userID = getUserID(cursor)
+    cursor.execute('''DELETE FROM likes WHERE userID = %s AND postID = %s;''', (userID, likeID))
 
     cursor.execute(''' UPDATE posts SET likes = likes - 1 WHERE postID = %s;''', (likeID))
     db.commit()
