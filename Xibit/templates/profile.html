@@ -26,7 +26,8 @@
                 <div class="edit_details">
                     <img class="profile_image" src="{{ url_for('static', filename='images/profilepics/' + profilepic[0]) }}">
                     <div class="tool_divider"></div>
-    
+                    
+                    {% if user == g.user %}
                     <form class="text" action="#" method="POST" enctype="multipart/form-data" novalidate> 
                         {{ form.hidden_tag() }}
                         {{ form.profile_pic(id_="pfp_file") }}
@@ -63,11 +64,14 @@
                             </label>
                         </div>
                     </form>
+                    {% endif %}
                 </div>
                 <div class="back_shadow"></div>
             </div>
 
+            {% if user == g.user %}
             <label for="disp_editprofile" class="edit-btn">Edit Profile</label>
+            {% endif %}
             
         </div>
         <div class="profile_container2" id="profile_elements">

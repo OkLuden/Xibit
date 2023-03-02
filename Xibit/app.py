@@ -100,10 +100,10 @@ def paint():
 @app.route("/profile/<user>", methods = ["GET","POST"])
 @login_required
 def profile(user):
+    db = get_db()
+    cursor = db.cursor()
     if user == g.user:
         form = ProfileEditForm()
-        db = get_db()
-        cursor = db.cursor()
 
         if form.validate_on_submit():
             new_display_name = form.display_name.data
@@ -158,20 +158,22 @@ def profile(user):
                                     SET bio = %s
                                     WHERE username = %s;''', (new_bio,g.user,))
                 db.commit()
-        
-        cursor.execute(''' SELECT displayName FROM users
+    else:
+        form = None
+
+    cursor.execute(''' SELECT displayName FROM users
                                     WHERE username = %s;''', (user))
-        display_name = cursor.fetchone()
+    display_name = cursor.fetchone()
 
-        cursor.execute(''' SELECT bio FROM users
+    cursor.execute(''' SELECT bio FROM users
                                     WHERE username = %s;''', (g.user))
-        bio = cursor.fetchone()
+    bio = cursor.fetchone()
 
-        cursor.execute(''' SELECT profilepic FROM users
+    cursor.execute(''' SELECT profilepic FROM users
                                         WHERE username = %s;''', (g.user))
-        profilepic = cursor.fetchone()
+    profilepic = cursor.fetchone()
 
-    return render_template("profile.html", profilepic = profilepic, display_name = display_name, bio = bio, form = form, page = "Profile")
+    return render_template("profile.html", profilepic = profilepic, display_name = display_name, bio = bio, form = form, page = "Profile", user = user)
 
 
 @app.route("/register" , methods = ["GET","POST"])
