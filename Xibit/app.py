@@ -154,7 +154,7 @@ def profile(user):
                                         WHERE username = %s;''', (g.user))
         profilepic = cursor.fetchone()
 
-    return render_template("profile.html", pfp = profilepic[0], profilepic = profilepic[0], display_name = display_name, bio = bio, form = form, page = "Profile")
+    return render_template("profile.html", profilepic = profilepic[0], display_name = display_name, bio = bio, form = form, page = "Profile")
 
 
 @app.route("/register" , methods = ["GET","POST"])
