@@ -128,11 +128,6 @@ ul {
     margin-top: calc(((100vh)/2) - 350px);
 }
 
-.selected {
-    background-color: #22C6FF;
-}
-
-
 .toolbox {
     width: 350px;
     height: 635px;
@@ -180,10 +175,6 @@ canvas {
 
 .pt_icon:hover {
     background-color: #282828;
-}
-
-.pt_icon:valid {
-    background-color: #11b9f1;
 }
 
 .canvas_container {
@@ -291,11 +282,28 @@ input[type=submit]:hover {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: center;
+    justify-content: center; 
     margin-left: 10%;
     margin-right: 10%;
-    margin-top: 100px;
+    margin-top: calc(((100vh)/2) - 310px);
     height: 650px;
+}
+
+#pfp_file {
+    display: none;
+}
+
+.pfp_remove_container {
+    text-align: center;
+}
+
+.pfp_remove {
+    color: #22C6FF;
+    font-size: 15px;
+}
+
+.pfp_remove_box {
+    cursor: pointer;
 }
 
 .profile_info {
@@ -304,6 +312,10 @@ input[type=submit]:hover {
     margin-right: 50px;
     background-color: #383838;
     border-radius: 5px;
+}
+
+.selected {
+    background-color: #22C6FF;
 }
 
 .profile_details {

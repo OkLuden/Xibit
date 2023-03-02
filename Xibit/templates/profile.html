@@ -25,23 +25,23 @@
             <div class="edit_display">
                 <div class="edit_details">
                     <img class="profile_image" src="{{ url_for('static', filename='images/profilepics/' + profilepic[0]) }}">
-                    <input type="file" id="pfp_file" style="display:none;" name="pfp_file">
-                    <input type="button" value="Change Profile Picture" onclick="document.getElementById('pfp_file').click();" />
                     <div class="tool_divider"></div>
     
                     <form class="text" action="#" method="POST" enctype="multipart/form-data" novalidate> 
                         {{ form.hidden_tag() }}
-                        {{ form.profile_pic(class_="pfp_pic_edit") }}
+                        {{ form.profile_pic(id_="pfp_file") }}
                         {% for error in form.profile_pic.errors %}
                             {{ error }}
                         {% endfor %}
+                        <input type="button" value="Change Profile Picture" onclick="document.getElementById('pfp_file').click();" />
                         {% if profilepic[0] != "default-profile.png" %}
-                            <div class="tool_divider"></div>
-                            {{ form.rm_pfp(class_="pfp_pic_edit") }}
-                            {{ form.rm_pfp.label }}
-                            {% for error in form.rm_pfp.errors %}
-                                {{ error }}
-                            {% endfor %}
+                            <div class="pfp_remove_container">
+                                {{ form.rm_pfp(class_="pfp_remove_box") }}
+                                {{ form.rm_pfp.label(class_="pfp_remove") }}
+                                {% for error in form.rm_pfp.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
                         {% endif %}
                         <div class="tool_divider"></div>
                         {{ form.display_name.label }}
@@ -53,7 +53,7 @@
                         {{ form.bio.label }}
                         {{ form.bio() }}
                         {% for error in form.bio.errors %}
-                            {{ error }}
+                            {{ error }} 
                         {% endfor %}
                         <div class="tool_divider"></div>
                         <div class="edit_btns">
