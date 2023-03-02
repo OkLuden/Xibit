@@ -7,6 +7,7 @@ let id = document.getElementsByClassName("id");
 let post;
 let likeButton; 
 let likeID;
+let like;
 let ids;
 let id_list = [];
 
@@ -33,12 +34,13 @@ function init() {
         username.setAttribute("id", "username_post");
         const display = document.createElement('p');
         display.setAttribute("id", "display_post");
-        const like = document.createElement('button');
+        like = document.createElement('button');
         like.setAttribute("id", "likes" + i.toString());
 
         newDiv.setAttribute("id", "post" + i.toString());
         topDiv.setAttribute("id", "top" + i.toString());
         proDiv.setAttribute("id", "pro" + i.toString());
+        like.setAttribute("value", false);
         newImg.src = post;
         newPfp.src = "static/images/profilepics/" + pfps[i].innerHTML;
         username.innerHTML = "@" + users[i].innerHTML;
@@ -92,10 +94,19 @@ function init() {
 
 function likePost(i) {
     likeID = id_list[i];
+    like = document.getElementById('likes' + i.toString());
     const request = new XMLHttpRequest();
-    request.open('POST', 'like/' + likeID.toString());
-    request.send();
-    setTimeout(reload, 500);
+    if (like.value == "false") {
+        request.open('POST', 'like/' + likeID.toString());
+        request.send();
+        like.innerHTML = "Likes: " + ((Number(likes[i].innerHTML) + 1)).toString();
+        like.value = true;
+    } else {
+        request.open('POST', 'delike/' + likeID.toString());
+        request.send();
+        like.innerHTML = "Likes: " + (Number(likes[i].innerHTML)).toString();
+        like.value = false;
+    }
 }
 
 function reload() {
