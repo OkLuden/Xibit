@@ -294,6 +294,7 @@ input[type=submit]:hover {
     padding: 25px;
     margin-right: 50px;
     background-color: #383838;
+    border-radius: 5px;
 }
 
 .profile_details {
@@ -365,11 +366,13 @@ input[type=submit]:hover {
     margin-left: auto;
     margin-right: auto;
     background-color: #ffffff;
+    border-radius: 5px;
 }
 
 .profile_friends {
     height: 100px;
     background-color: #383838;
+    border-radius: 4px;
 }
 
 .edit_profile_display {
@@ -501,8 +504,13 @@ input[type=button]:hover {
 
 .top_div {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+#pro_div {
+    float: left;
 }
 
 #post_pfp {
