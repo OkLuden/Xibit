@@ -16,7 +16,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Log In")
 
 class ProfileEditForm(FlaskForm):
-    profile_pic = FileField(validators=[Optional(), FileAllowed(['png', 'jpg', 'jpeg', 'gif'], "Incorrect format")])
+    profile_pic = FileField(validators=[Optional(), FileAllowed(['png', 'jpg', 'jpeg', 'gif'], "Incorrect format (.png, .jpg, .gif only)")])
     rm_pfp = BooleanField("Remove Profile Picture",validators=[Optional()])
     display_name = StringField("Display Name:",validators=[Length(min=4,max=20), Optional()])
     bio = StringField("Bio:",validators=[Length(min=1,max=300), Optional()])
