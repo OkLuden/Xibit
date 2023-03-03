@@ -223,7 +223,7 @@ def acceptFriendRequest(user):
         db.commit()
         flash(f"Accepted friend request from {user}")
         return redirect(url_for('profile', user = user))
-
+    
 @app.route("/deleteFriendRequest/<user>", methods = ["GET"])
 @login_required
 def deleteFriendRequest(user):
@@ -231,10 +231,24 @@ def deleteFriendRequest(user):
     with db.cursor() as cursor:
         userID = getUserID(cursor, g.user)
         otherID = getUserID(cursor, user)
-        cursor.execute("""DELETE FROM friendRequests WHERE senderID = %s AND receiverID = %s;""", (userID, otherID))
+        cursor.execute("""DELETE FROM friendRequests WHERE (senderID = %s AND receiverID = %s) OR 
+        (senderID = %s AND receiverID = %s);""", (userID, otherID, otherID, userID))
         db.commit()
         flash(f"Rescinded friend request to {user}")
         return redirect(url_for('profile', user = user))
+
+@app.route("/deleteFriend/<user>", methods = ['GET'])
+@login_required
+def deleteFriend(user):
+    db = get_db()
+    with db.cursor() as cursor:
+        userID = getUserID(cursor, g.user)
+        otherID = getUserID(cursor, user)
+        cursor.execute("""DELETE FROM friends WHERE (user1ID = %s AND user2ID = %s) OR (user1ID = %s
+        AND user2ID = %s;""", (userID, otherID, otherID, userID))
+        db.commit()
+        flash(f"Removed {user} from friends list")
+        return redirect(url_for('viewFriends', user = g.user))
 
 @app.route("/viewFriends/<user>", methods = ["GET"])
 @login_required

@@ -6,6 +6,9 @@
 
 {% for friend in friends %}
     <a href="{{ url_for('profile', user = friend) }}">{{ friend }}</a>
+    {% if user == g.user %} 
+        <a href="{{ url_for('deleteFriend', user = friend)}}">Remove friend</a>
+    {% endif %}
 {% endfor %}
 
 {% endblock %}

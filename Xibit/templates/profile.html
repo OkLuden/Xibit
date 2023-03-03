@@ -86,6 +86,7 @@
                 <label for="Delete_Friend_Request" class="edit-btn"><a href="{{ url_for('deleteFriendRequest', user = user) }}" class="text_btn">Rescind Friend Request</a></label>
                 {% elif friendStatus == "RECEIVED" %}
                 <label for="Accept_Friend_Request" class="edit-btn"><a href="{{ url_for('acceptFriendRequest', user = user) }}" class="text_btn">Accept Friend Request</a></label>
+                <label for="Reject_Friend_Request" class="edit-btn"><a href="{{ url_for('deleteFriendRequest', user = user) }}" class="text_btn">Reject Friend Request</a></label>
                 {% else %}
                 <label class="friends_text">Friends</label>
                 {% endif %}
