@@ -54,7 +54,7 @@ function init() {
         newPfp.src = "static/images/profilepics/" + pfps[i].innerHTML;
         username.innerHTML = "@" + users[i].innerHTML;
         display.innerHTML = displays[i].innerHTML;
-        date.innerHTML = datetime[i].innerHTML;
+        date.innerHTML = "Posted: " + datetime[i].innerHTML;
         like.innerHTML = "Likes: " + likes[i].innerHTML;
 
         if (user_likes_list.includes(id_list[i])) {

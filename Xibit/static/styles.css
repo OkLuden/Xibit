@@ -532,6 +532,12 @@ input[type=button]:hover {
     margin: 0px;
 }
 
+#date_of_post {
+    font-size: 15px;
+    color: #c7d4d3;
+    font-family: "Lato", sans-serif;
+}
+
 .post_div {
     display: flex;
     flex-direction: column;
