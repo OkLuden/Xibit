@@ -236,10 +236,26 @@ def deleteFriendRequest(user):
         flash(f"Rescinded friend request to {user}")
         return redirect(url_for('profile', user = user))
 
-@app.route("/viewFriends", methods = ["GET"])
+@app.route("/viewFriends/<user>", methods = ["GET"])
 @login_required
 def viewFriends(user):
-    pass
+    db = get_db()
+    with db.cursor() as cursor:
+        friends = []
+        userID = getUserID(cursor, user)
+        cursor.execute("""SELECT user2ID FROM friends WHERE user1ID = %s;""", (userID))
+        friendsList = cursor.fetchall()
+        for friend in friendsList:
+            cursor.execute("""Select username FROM users WHERE userID = %s;""", (friend))
+            friends.append(cursor.fetchone()[0])
+        cursor.execute("""SELECT user1ID FROM friends WHERE user2ID = %s;""", (userID))
+        friendsList = cursor.fetchall()
+        for friend in friendsList:
+            cursor.execute("""SELECT username FROM users WHERE userID = %s;""", (friend))
+            friends.append(cursor.fetchone()[0])
+    return render_template("friends.html", user = user, friends = friends)
+        
+
 
 def getFriendStatus(user):
     db = get_db()
