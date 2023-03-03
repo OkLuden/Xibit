@@ -38,6 +38,8 @@ function init() {
         topDiv.setAttribute("class", "top_div");
         const proDiv = document.createElement('div');
         proDiv.setAttribute("class", "pro_div");
+        const sepDiv = document.createElement('div');
+        sepDiv.setAttribute("class", "sep_div");
         const username = document.createElement('p');
         username.setAttribute("id", "username_post");
         const display = document.createElement('p');
@@ -75,6 +77,7 @@ function init() {
         document.getElementById('post' + i.toString()).appendChild(newImg);
         document.getElementById('post' + i.toString()).appendChild(like);
         document.getElementById('post' + i.toString()).appendChild(date);
+        document.getElementById('top' + i.toString()).appendChild(sepDiv);
 
         likeButton = document.getElementById("likes" + i.toString());
         likeButton.addEventListener("click", function(){ likePost(i.toString()); }, false);
