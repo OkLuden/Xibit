@@ -245,7 +245,7 @@ def deleteFriend(user):
         userID = getUserID(cursor, g.user)
         otherID = getUserID(cursor, user)
         cursor.execute("""DELETE FROM friends WHERE (user1ID = %s AND user2ID = %s) OR (user1ID = %s
-        AND user2ID = %s;""", (userID, otherID, otherID, userID))
+        AND user2ID = %s);""", (userID, otherID, otherID, userID))
         db.commit()
         flash(f"Removed {user} from friends list")
         return redirect(url_for('viewFriends', user = g.user))
