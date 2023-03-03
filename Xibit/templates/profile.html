@@ -31,31 +31,39 @@
                     <form class="text" action="#" method="POST" enctype="multipart/form-data" novalidate> 
                         {{ form.hidden_tag() }}
                         {{ form.profile_pic(id_="pfp_file") }}
+                        <p class="error_text_pfp">
                         {% for error in form.profile_pic.errors %}
                             {{ error }}
                         {% endfor %}
+                        </p>
                         <input type="button" value="Change Profile Picture" onclick="document.getElementById('pfp_file').click();" />
                         {% if profilepic[0] != "default-profile.png" %}
                             <div class="pfp_remove_container">
                                 {{ form.rm_pfp(class_="pfp_remove_box") }}
                                 {{ form.rm_pfp.label(class_="pfp_remove") }}
+                                <p class="error_text">
                                 {% for error in form.rm_pfp.errors %}
                                     {{ error }}
                                 {% endfor %}
+                                </p>
                             </div>
                         {% endif %}
                         <div class="tool_divider"></div>
                         {{ form.display_name.label }}
                         {{ form.display_name() }}
+                        <p class="error_text">
                         {% for error in form.display_name.errors %}
                             {{ error }}
                         {% endfor %}
+                        </p>
                         <div class="tool_divider"></div>
                         {{ form.bio.label }}
                         {{ form.bio() }}
+                        <p class="error_text">
                         {% for error in form.bio.errors %}
                             {{ error }} 
                         {% endfor %}
+                        </p>
                         <div class="tool_divider"></div>
                         <div class="edit_btns">
                             <label for="disp_editprofile" class="edit_cancel">Cancel</label>
