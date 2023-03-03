@@ -26,6 +26,13 @@ h1 {
     font-size: 12px;
 }
 
+.text_btn {
+    color: #ffffff;
+    font-family: "Lato", sans-serif;
+    font-size: 15px;
+    text-decoration: none;
+}
+
 .textsmall2 {
     color: #ffffff;
     font-family: "Lato", sans-serif;
@@ -426,7 +433,8 @@ input[type=submit]:hover {
     color: #ffffff;
     margin: 10px;
     font-family: "Lato", sans-serif;
-    padding: 10px 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     width: 160px;
     transition: background-color .25s;
     border-radius: 3px;
@@ -555,6 +563,20 @@ input[type=button]:hover {
     font-size: 35px;
     margin: 0px;
     font-weight: 700;
+}
+
+.username_link {
+    color: #c7d4d3;
+    text-decoration: none;
+}
+
+.post_divider {
+    width: 80%;
+    height: 1px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    background-color: #c7d4d3;
 }
 
 /* FOOTER */

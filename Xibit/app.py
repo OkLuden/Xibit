@@ -68,9 +68,15 @@ def index():
     likes_list = []
     for like in likes:
         likes_list.append([like[1], like[0]])
-    
 
-    return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list, date=date_list)
+    if g.user is None:
+        user_likes = [-1]
+    else:
+        cursor.execute(''' SELECT postID FROM likes WHERE userID = %s;''', (getUserID(cursor)))
+        user_likes = cursor.fetchall()
+        user_likes = [i[0] for i in user_likes]
+
+    return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list, date=date_list, user_likes=user_likes)
 
 @app.route("/like/<likeID>", methods = ["GET",'POST'])
 @login_required
@@ -78,8 +84,16 @@ def likePost(likeID):
     db = get_db()
     cursor = db.cursor()
 
-    cursor.execute(''' UPDATE posts SET likes = likes + 1 WHERE postID = %s;''', (likeID))
+    userID = getUserID(cursor)
+    cursor.execute('''REPLACE INTO likes (userID, postID) VALUES (%s, %s);''', (userID, likeID))
+
+    cursor.execute('''SELECT COUNT(postID) FROM likes WHERE postID = %s;''', (likeID))
+    likes = cursor.fetchone()[0]
+    print(likes)
+    cursor.execute(''' UPDATE posts SET likes = %s WHERE postID = %s;''', (likes, likeID))
+
     db.commit()
+    
     return("/")
 
 @app.route("/delike/<likeID>", methods = ["GET",'POST'])
@@ -88,7 +102,14 @@ def delikePost(likeID):
     db = get_db()
     cursor = db.cursor()
 
-    cursor.execute(''' UPDATE posts SET likes = likes - 1 WHERE postID = %s;''', (likeID))
+    userID = getUserID(cursor)
+    cursor.execute('''DELETE FROM likes WHERE userID = %s AND postID = %s;''', (userID, likeID))
+
+    cursor.execute('''SELECT COUNT(postID) FROM likes WHERE postID = %s;''', (likeID))
+    likes = cursor.fetchone()[0]
+    print(likes)
+    cursor.execute(''' UPDATE posts SET likes = %s WHERE postID = %s;''', (likes, likeID))
+
     db.commit()
     return("/")
 

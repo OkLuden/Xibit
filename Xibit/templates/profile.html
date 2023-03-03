@@ -68,7 +68,7 @@
                 </div>
                 <div class="back_shadow"></div>
             </div>
-
+            
             {% if user == g.user %}
                 <label for="disp_editprofile" class="edit-btn">Edit Profile</label>
                 {% else %}
@@ -82,8 +82,7 @@
                 <label>Friends</label>
                 {% endif %}
             {% endif %}
-
-            <label for="view_Friends" class="edit-btn"><a href="{{ url_for('viewFriends', user = user) }}">View Friends</a></label>
+            <label for="view_Friends" class="edit-btn"><a href="{{ url_for('viewFriends', user = user) }}" class="text_btn">View Friends</a></label>
 
         </div>
         <div class="profile_container2" id="profile_elements">

@@ -5,6 +5,7 @@ let displays = document.getElementsByClassName("display");
 let pfps = document.getElementsByClassName("pfp");
 let id = document.getElementsByClassName("id");
 let datetime = document.getElementsByClassName("date");
+let user_likes = document.getElementsByClassName("user_likes");
 
 let post;
 let likeButton; 
@@ -13,10 +14,14 @@ let like;
 let datetimes;
 let ids;
 let id_list = [];
+let user_likes_list = [];
 
 document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
+    for (let i = 0; i < user_likes.length; i++) {
+        user_likes_list[i] = user_likes[i].innerHTML;
+    }
     for (let i = 0; i < posts.length; i++) {
         id_list[i] = id[i].innerHTML;
 
@@ -45,13 +50,21 @@ function init() {
         newDiv.setAttribute("id", "post" + i.toString());
         topDiv.setAttribute("id", "top" + i.toString());
         proDiv.setAttribute("id", "pro" + i.toString());
-        like.setAttribute("value", false);
         newImg.src = post;
         newPfp.src = "static/images/profilepics/" + pfps[i].innerHTML;
         username.innerHTML = "@" + users[i].innerHTML;
         display.innerHTML = displays[i].innerHTML;
         date.innerHTML = datetime[i].innerHTML;
         like.innerHTML = "Likes: " + likes[i].innerHTML;
+
+        if (user_likes_list.includes(id_list[i])) {
+            like.setAttribute("value", true);
+            like.setAttribute("name", true);
+        } else {
+            like.setAttribute("value", false);
+            like.setAttribute("name", false);
+        }
+
 
         document.getElementById("main").appendChild(topDiv);
         document.getElementById("top" + i.toString()).appendChild(newDiv);
@@ -102,6 +115,11 @@ function init() {
     datetimes.forEach(option => {
         option.remove();
     });
+
+    user_likes = document.querySelectorAll('.user_likes');
+    user_likes.forEach(option => {
+        option.remove();
+    });
 }
 
 function likePost(i) {
@@ -111,12 +129,20 @@ function likePost(i) {
     if (like.value == "false") {
         request.open('POST', 'like/' + likeID.toString());
         request.send();
-        like.innerHTML = "Likes: " + ((Number(likes[i].innerHTML) + 1)).toString();
+        if (like.name == "true") {
+            like.innerHTML = "Likes: " + (Number(likes[i].innerHTML)).toString();
+        } else {
+            like.innerHTML = "Likes: " + (Number(likes[i].innerHTML) + 1).toString();
+        }
         like.value = true;
     } else {
         request.open('POST', 'delike/' + likeID.toString());
         request.send();
-        like.innerHTML = "Likes: " + (Number(likes[i].innerHTML)).toString();
+        if (like.name == "false") {
+            like.innerHTML = "Likes: " + (Number(likes[i].innerHTML)).toString();
+        } else {
+            like.innerHTML = "Likes: " + (Number(likes[i].innerHTML) - 1).toString();
+        }
         like.value = false;
     }
 }
