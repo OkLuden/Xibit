@@ -68,13 +68,13 @@
                 </div>
                 <div class="back_shadow"></div>
             </div>
-
+            
             {% if user == g.user %}
             <label for="disp_editprofile" class="edit-btn">Edit Profile</label>
             {% else %}
-            <label for="send_Friend_Request" class="edit-btn"><a href="{{ url_for('sendFriendRequest', user = user) }}">Send Friend Request</a></label>
+            <label for="send_Friend_Request" class="edit-btn"><a href="{{ url_for('sendFriendRequest', user = user) }} " class="text_btn">Send Friend Request</a></label>
             {% endif %}
-            <label for="view_Friends" class="edit-btn"><a href="{{ url_for('viewFriends', user = user) }}">View Friends</a></label>
+            <label for="view_Friends" class="edit-btn"><a href="{{ url_for('viewFriends', user = user) }}" class="text_btn">View Friends</a></label>
 
         </div>
         <div class="profile_container2" id="profile_elements">

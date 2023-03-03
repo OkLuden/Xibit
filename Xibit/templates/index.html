@@ -10,7 +10,7 @@
         <option class="post">{{ pt }}</option>
     {% endfor %}
     {% for ur in user %}
-        <option class="user"><a href = "{{url_for('profile', user = ur[0])}}">{{ ur[0] }}</a></option>
+        <option class="user"><a href = "{{url_for('profile', user = ur[0])}}" class="username_link">{{ ur[0] }}</a></option>
         <option class="display">{{ ur[1] }}</option>
         <option class="pfp">{{ ur[2] }}</option>
     {% endfor %}
