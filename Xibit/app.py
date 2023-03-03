@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, request, jsonify, g, session, make_response, logging
+from flask import Flask, render_template, url_for, redirect, request, jsonify, g, session, make_response, logging, flash
 from forms import RegistrationForm, LoginForm, ProfileEditForm
 from db import get_db, close_db
 from flask_session import Session
@@ -104,7 +104,7 @@ def profile(user):
     cursor = db.cursor()
     if user == g.user:
         form = ProfileEditForm()
-
+        friendStatus = None
         if form.validate_on_submit():
             new_display_name = form.display_name.data
             new_bio = form.bio.data
@@ -160,6 +160,7 @@ def profile(user):
                 db.commit()
     else:
         form = None
+        friendStatus = getFriendStatus(user)
 
     cursor.execute(''' SELECT displayName FROM users
                                     WHERE username = %s;''', (user))
@@ -173,13 +174,47 @@ def profile(user):
                                         WHERE username = %s;''', (user))
     profilepic = cursor.fetchone()
 
-    return render_template("profile.html", profilepic = profilepic, display_name = display_name, bio = bio, form = form, page = "Profile", user = user)
 
-@app.route("/sendFriendRequest", methods = ["GET"])
+    return render_template("profile.html", profilepic = profilepic, display_name = display_name, bio = bio, form = form, page = "Profile", user = user, friendStatus = friendStatus)
+
+
+@app.route("/sendFriendRequest/<user>", methods = ["GET"])
 @login_required
 def sendFriendRequest(user):
-    pass
+    db = get_db()
+    with db.cursor() as cursor:
+        userID = getUserID(cursor, g.user)
+        otherID = getUserID(cursor, user)
+        time = getDateTime()
+        cursor.execute("""INSERT INTO friendRequests VALUES (%s, %s, %s)""", (userID, otherID, time))
+        db.commit()
+        flash(f"Sent friend Request to {user}")
+        return redirect(url_for('profile', user = user))
 
+@app.route("/acceptFriendRequest/<user>", methods = ["GET"])
+@login_required
+def acceptFriendRequest(user):
+    db = get_db()
+    with db.cursor() as cursor:
+        userID = getUserID(cursor, g.user)
+        otherID = getUserID(cursor, user)
+        time = getDateTime()
+        cursor.execute("""INSERT INTO friends VALUES(%s, %s, %s);""", (userID, otherID, time))
+        db.commit()
+        flash(f"Accepted friend request from {user}")
+        return redirect(url_for('profile', user = user))
+
+@app.route("/deleteFriendRequest/<user>", methods = ["GET"])
+@login_required
+def deleteFriendRequest(user):
+    db = get_db()
+    with db.cursor() as cursor:
+        userID = getUserID(cursor, g.user)
+        otherID = getUserID(cursor, user)
+        cursor.execute("""DELETE FROM friendRequests WHERE senderID = %s AND receiverID = %s;""", (userID, otherID))
+        db.commit()
+        flash(f"Rescinded friend request to {user}")
+        return redirect(url_for('profile', user = user))
 
 @app.route("/viewFriends", methods = ["GET"])
 @login_required
@@ -187,8 +222,26 @@ def viewFriends(user):
     pass
 
 def getFriendStatus(user):
-    pass
+    db = get_db()
+    with db.cursor() as cursor:
+        userID = getUserID(cursor, g.user)
+        otherID = getUserID(cursor, user)
+        cursor.execute("""SELECT * FROM friends WHERE (user1ID = %s AND user2ID = %s) OR (user1ID = %s AND user2ID = %s);""",
+                       (userID, otherID, otherID, userID))
+        if cursor.fetchone() != None:
+            return "FRIENDS"
+        cursor.execute("""SELECT * FROM friendRequests WHERE senderID = %s AND receiverID = %s;""", (userID, otherID))
+        if cursor.fetchone() != None:
+            return "SENT"
+        cursor.execute("""SELECT * FROM friendRequests WHERE senderID = %s AND receiverID = %s;""", (otherID, userID))
+        if cursor.fetchone() != None:
+            return "RECEIVED"
+        return None
 
+
+def getDateTime():
+    now = datetime.utcnow()
+    return now.strftime('%Y-%m-%d %H:%M:%S')
 
 @app.route("/register" , methods = ["GET","POST"])
 def register():
@@ -267,9 +320,9 @@ def logout():
     session.clear()
     return redirect(url_for("index"))
 
-def getUserID(cursor):
+def getUserID(cursor, username):
         getUserSql = """SELECT userID FROM users WHERE username = %s;"""
-        cursor.execute(getUserSql, session["user_id"])
+        cursor.execute(getUserSql, username)
         return cursor.fetchone()[0]
 
 @app.route("/post/<string:blob>", methods = ["GET", "POST"])
@@ -287,7 +340,7 @@ def post(blob):
     else:
         postID += 1
 
-    creatorID = getUserID(cursor=cursor)
+    creatorID = getUserID(cursor=cursor, username=g.user)
 
     current_time = datetime.now()
     date_posted = current_time.strftime("%Y/%m/%d %H:%M:%S")

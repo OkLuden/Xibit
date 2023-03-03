@@ -70,10 +70,19 @@
             </div>
 
             {% if user == g.user %}
-            <label for="disp_editprofile" class="edit-btn">Edit Profile</label>
-            {% else %}
-            <label for="send_Friend_Request" class="edit-btn"><a href="{{ url_for('sendFriendRequest', user = user) }}">Send Friend Request</a></label>
+                <label for="disp_editprofile" class="edit-btn">Edit Profile</label>
+                {% else %}
+                {% if friendStatus == None %}
+                <label for="send_Friend_Request" class="edit-btn"><a href="{{ url_for('sendFriendRequest', user = user) }}">Send Friend Request</a></label>
+                {% elif friendStatus == "SENT" %}
+                <label for="Delete_Friend_Request" class="edit-btn"><a href="{{ url_for('deleteFriendRequest', user = user) }}">Rescind Friend Request</a></label>
+                {% elif friendStatus == "RECEIVED" %}
+                <label for="Accept_Friend_Request" class="edit-btn"><a href="{{ url_for('acceptFriendRequest', user = user) }}">Accept Friend Request</a></label>
+                {% else %}
+                <label>Friends</label>
+                {% endif %}
             {% endif %}
+
             <label for="view_Friends" class="edit-btn"><a href="{{ url_for('viewFriends', user = user) }}">View Friends</a></label>
 
         </div>
