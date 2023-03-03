@@ -47,6 +47,14 @@ h1 {
     margin: 0px;
 }
 
+.error_text_pfp {
+    color: #d11a33;
+    font-family: "Lato", sans-serif;
+    font-size: 16px;
+    margin: 0px;
+    text-align: center;
+}
+
 .link_text {
     color: #1F90E3;
 }
@@ -159,11 +167,13 @@ canvas {
     cursor: crosshair;
 }
 
-#colour {
+#colour {                                                                                                                /**/
     width: 150px;
     font-family: "Lato", sans-serif;
     height: 20px;
     font-size: 20px;
+    background-color: #ffffff;
+    color: black;
 }
 
 #thick {
@@ -297,11 +307,18 @@ input[type=submit]:hover {
 }
 
 .friends_text {
+    background-color: #6d6d6d;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 160px;
     color: #ffffff;
+    margin-left: auto;
+    margin-right: auto;
     display: block;
     text-align: center;
     font-family: "Lato", sans-serif;
-    font-size: 20px;
+    font-size: 15px;
+    border-radius: 3px;
 }
 
 #pfp_file {
@@ -578,6 +595,18 @@ input[type=button]:hover {
     margin: 0px;
     font-weight: 700;
 }
+
+/*
+input[type=text] {
+    background-color: #1f1f1f;
+    border: none;
+    color: #ffffff;
+    font-family: "Lato", sans-serif;
+    font-size: 18px;
+    border-radius: 3px;
+    margin-top: 5px;
+}
+*/
 
 .username_link {
     color: #c7d4d3;
