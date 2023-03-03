@@ -72,7 +72,7 @@ def index():
     if g.user is None:
         user_likes = [-1]
     else:
-        cursor.execute(''' SELECT postID FROM likes WHERE userID = %s;''', (getUserID(cursor)))
+        cursor.execute(''' SELECT postID FROM likes WHERE userID = %s;''', (getUserID(cursor, g.user)))
         user_likes = cursor.fetchall()
         user_likes = [i[0] for i in user_likes]
 
@@ -194,7 +194,6 @@ def profile(user):
     cursor.execute(''' SELECT profilepic FROM users
                                         WHERE username = %s;''', (user))
     profilepic = cursor.fetchone()
-
 
     return render_template("profile.html", profilepic = profilepic, display_name = display_name, bio = bio, form = form, page = "Profile", user = user, friendStatus = friendStatus)
 
