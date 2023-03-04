@@ -49,6 +49,10 @@ def index():
     cursor.execute(''' SELECT postID, date FROM posts ORDER BY postID DESC;''')
     date_dict = dict(cursor.fetchall())
     date_list = date_dict.values()
+    true_date_list = []
+    for datetimes in date_list:
+        datetimes = datetime.strptime(str(datetimes),'%Y-%m-%d %H:%M:%S').strftime('%d %B %Y %H:%M:%S')
+        true_date_list.append(datetimes)
 
     # fetch userID for post and then translate into username
     cursor.execute(''' SELECT creatorID FROM posts ORDER BY postID DESC;;''')
@@ -76,7 +80,7 @@ def index():
         user_likes = cursor.fetchall()
         user_likes = [i[0] for i in user_likes]
 
-    return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list, date=date_list, user_likes=user_likes)
+    return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list, date=true_date_list, user_likes=user_likes)
 
 @app.route("/like/<likeID>", methods = ["GET",'POST'])
 @login_required
