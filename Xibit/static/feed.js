@@ -10,8 +10,10 @@ let user_likes = document.getElementsByClassName("user_likes");
 let post;
 let likeButton; 
 let likeID;
+let postID;
 let like;
 let datetimes;
+let image;
 let ids;
 let id_list = [];
 let user_likes_list = [];
@@ -29,7 +31,7 @@ function init() {
         post = post.replaceAll("@", "/");
         
         const newImg = document.createElement('img');
-        newImg.setAttribute("id", "post_image");
+        newImg.setAttribute("id", "post_image" + i.toString());
         const newPfp = document.createElement('img');
         newPfp.setAttribute("id", "post_pfp");
         const newDiv = document.createElement('div');
@@ -80,7 +82,9 @@ function init() {
         document.getElementById('top' + i.toString()).appendChild(sepDiv);
 
         likeButton = document.getElementById("likes" + i.toString());
+        image = document.getElementById("post_image" + i.toString());
         likeButton.addEventListener("click", function(){ likePost(i.toString()); }, false);
+        image.addEventListener("click", function(){ viewPost(i.toString()); }, false);
         
     }
 
@@ -148,6 +152,12 @@ function likePost(i) {
         }
         like.value = false;
     }
+}
+
+function viewPost(i) {
+    postID = id_list[i];
+    console.log(postID);
+    fetch('viewPost/' + postID.toString())
 }
 
 function reload() {

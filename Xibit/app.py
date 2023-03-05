@@ -404,11 +404,11 @@ def post(blob):
  
     return("/")
 
-@app.route("/viewPost/<postID>", methods = ['GET'])
+@app.route("/viewPost/<postID>", methods = ['GET', 'POST'])
 def viewPost(postID):
     db = get_db()
     cursor = db.cursor()
     with cursor as cursor:
-        cursor.execute("""SELECT * FROM posts WHERE postID = %s);""", (postID))
+        cursor.execute("""SELECT * FROM posts WHERE postID = %s;""", (postID))
         post = cursor.fetchone()
         return render_template("viewPost.html", post=post)
