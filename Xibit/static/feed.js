@@ -157,7 +157,11 @@ function likePost(i) {
 function viewPost(i) {
     postID = id_list[i];
     console.log(postID);
-    fetch('viewPost/' + postID.toString())
+    fetch('viewPost/' + postID.toString()).then(
+        response => {
+            window.location = response.url
+        }
+    )
 }
 
 function reload() {
