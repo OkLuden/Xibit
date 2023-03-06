@@ -38,15 +38,28 @@ def login_required(view):
 def page_not_found(error):
     return render_template("error404.html", page="Error!"), 404
 
-@app.route("/")
+@app.route("/", methods=["GET","POST"])
 def index():
+    if request.method == "POST":
+        order_by = request.form.get("order_by")
+        if order_by == "date_desc":
+            order_clause = "ORDER BY date DESC"
+        elif order_by == "date_asc":
+            order_clause = "ORDER BY date ASC"
+        elif order_by == "likes_desc":
+            order_clause = "ORDER BY likes DESC"
+        elif order_by == "likes_asc":
+            order_clause = "ORDER BY likes ASC"
+    else:
+        order_by = "date_desc"
+        order_clause = "ORDER BY date DESC"
     db = get_db()
     cursor = db.cursor()
-    cursor.execute(''' SELECT postID, image FROM posts ORDER BY postID DESC;''')
+    cursor.execute(''' SELECT postID, image FROM posts {};'''.format(order_clause))
     postID = dict(cursor.fetchall())
     post = postID.values()
 
-    cursor.execute(''' SELECT postID, date FROM posts ORDER BY postID DESC;''')
+    cursor.execute(''' SELECT postID, date FROM posts {};'''.format(order_clause))
     date_dict = dict(cursor.fetchall())
     date_list = date_dict.values()
     true_date_list = []
@@ -55,7 +68,7 @@ def index():
         true_date_list.append(datetimes)
 
     # fetch userID for post and then translate into username
-    cursor.execute(''' SELECT creatorID FROM posts ORDER BY postID DESC;;''')
+    cursor.execute(''' SELECT creatorID FROM posts {}'''.format(order_clause))
     users = cursor.fetchall()
     cursor.execute(''' SELECT userID, username FROM users;''')
     translate = dict(cursor.fetchall())
@@ -67,7 +80,7 @@ def index():
     for user in users:
         users_list.append([translate[user[0]], translate2[user[0]], translate3[user[0]]])
     
-    cursor.execute(''' SELECT postID, likes FROM posts ORDER BY postID DESC;''')
+    cursor.execute(''' SELECT postID, likes FROM posts {};'''.format(order_clause))
     likes = cursor.fetchall()
     likes_list = []
     for like in likes:
@@ -80,7 +93,7 @@ def index():
         user_likes = cursor.fetchall()
         user_likes = [i[0] for i in user_likes]
 
-    return render_template("index.html", page = "Home", post = post, user=users_list, likes=likes_list, date=true_date_list, user_likes=user_likes)
+    return render_template("index.html", page = "Home", order_by = order_by, post = post, user=users_list, likes=likes_list, date=true_date_list, user_likes=user_likes)
 
 @app.route("/like/<likeID>", methods = ["GET",'POST'])
 @login_required
