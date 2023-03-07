@@ -23,7 +23,7 @@ let regular = document.getElementById("brush");
 let square = document.getElementById("square");
 let circle = document.getElementById("circle");
 let clear = document.getElementById("clear");
-let fill = document.getElementById("fill");
+let eraser = document.getElementById("eraser");
 let fill_shape = document.getElementById("fill_shape");
 let undo = document.getElementById("undo");
 let post = document.getElementById("post");
@@ -83,7 +83,7 @@ function init() {
     colour.addEventListener("change", colourChange, false);
 
     regular.addEventListener("click", function(){ changeBrush("regular"); }, false);
-    fill.addEventListener("click", function(){ changeBrush("fill"); }, false);
+    eraser.addEventListener("click", function(){ changeBrush("eraser"); }, false);
     square.addEventListener("click", function(){ changeBrush("square"); }, false);
     circle.addEventListener("click", function(){ changeBrush("circle"); }, false);
 
@@ -112,7 +112,7 @@ function draw() {
             if (brush == "square") {
                 context.rect(mouseX - thick.value , mouseY - thick.value, thick.value * 2, thick.value * 2);
                 if (fill_shape.checked) {
-                    context.fill();
+                    context.eraser();
                 } 
                 context.stroke();
                 click = false;
@@ -120,15 +120,17 @@ function draw() {
             } else if (brush == "circle") {
                 context.arc(mouseX, mouseY, thick.value, 0, 360);
                 if (fill_shape.checked) {
-                    context.fill();
+                    context.eraser();
                 } 
                 context.stroke(); 
                 click = false;
             // normal brush stroke    
-            } else if (brush == "fill"){
-                click = false;
-                imageData = context.getImageData(0, 0, width, height);
-                getPixel(imageData, mouseX, mouseY);
+            } else if (brush == "eraser"){
+                context.fillStyle = "#FFFFFF";
+                context.strokeStyle = "#FFFFFF";
+                context.lineWidth = thick.value;
+                context.lineTo(mouseX, mouseY); 
+                context.stroke();
             } else {
                 context.lineWidth = thick.value;
                 context.lineTo(mouseX, mouseY); 
@@ -238,13 +240,4 @@ function postImage() {
         request.open('POST', 'post/' + image);
         request.send();
     });
-}
-
-function getPixel(imageData, x, y) {
-    if (x < 0 || y < 0 || x >= imageData.width || y >= imageData.height) {
-      return [-1, -1, -1, -1];  // impossible color
-    } else {
-      const offset = (y * imageData.width + x) * 4;
-      console.log(imageData.data.slice(offset, offset + 4));
-    }
 }
