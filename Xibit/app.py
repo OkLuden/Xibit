@@ -392,10 +392,11 @@ def getUserID(cursor, username):
         cursor.execute(getUserSql, username)
         return cursor.fetchone()[0]
 
-@app.route("/post/<string:blob>", methods = ["GET", "POST"])
+@app.route("/post/<string:blob>/<string:tags>", methods = ["GET", "POST"])
 @login_required
-def post(blob):
+def post(blob, tags):
     post_data = loads(blob)
+    post_tags = loads(tags)
     db = get_db()
     cursor = db.cursor()
 
@@ -412,7 +413,7 @@ def post(blob):
     current_time = datetime.now()
     date_posted = current_time.strftime("%Y/%m/%d %H:%M:%S")
     
-    cursor.execute('''INSERT INTO posts (postID, creatorID, image, date) VALUES (%s, %s, %s, %s);''', (postID, creatorID, post_data, date_posted))
+    cursor.execute('''INSERT INTO posts (postID, creatorID, image, date, tags) VALUES (%s, %s, %s, %s, %s);''', (postID, creatorID, post_data, date_posted, post_tags))
     db.commit()
  
     return("/")

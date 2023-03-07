@@ -30,6 +30,7 @@ let post = document.getElementById("post");
 let ptIcons = document.querySelectorAll('.pt_icon');
 let brushIcon = document.querySelector('#brush');
 const cancelBtn = document.getElementsByClassName("edit_cancel")[0];
+const cancelBtn_post = document.getElementsByClassName("edit_cancel")[1];
 
 
 document.addEventListener("DOMContentLoaded", init, false);
@@ -51,7 +52,12 @@ function init() {
         click = false;
     });
 
+    cancelBtn_post.addEventListener("click", () => {
+        click = false;
+    });
+
     document.getElementById("form_image").addEventListener("submit", saveImage);
+    document.getElementById("form_post").addEventListener("submit", postImage);
 
     canvas = document.querySelector("canvas");
     canvas.height = height;
@@ -89,7 +95,7 @@ function init() {
 
     clear.addEventListener("click", clearCanvas, false);
     undo.addEventListener("click", erasePreviousStroke, false);
-    post.addEventListener("click", postImage, false)
+    //post.addEventListener("click", postImage, false)
 
     draw();
 }
@@ -99,7 +105,7 @@ function draw() {
     request_id = window.requestAnimationFrame(draw);
     thick_label.innerHTML = "Current Size: " + (thick.value).toString();
 
-    if (document.getElementById("disp_saveimage").checked == true) {
+    if (document.getElementById("disp_saveimage").checked == true || document.getElementById("post").checked == true) {
         return
     } else {
         if (click) {
@@ -230,14 +236,19 @@ function erasePreviousStroke() {
     }
 }
 
-function postImage() {
+function postImage(event) {
+    click = false;
+    event.preventDefault();
+    document.getElementById("post").checked = false;
+    var tags = document.getElementById("tags").value || null;
     canvas.toBlob((blob) => {
         const request = new XMLHttpRequest();
         image = canvas.toDataURL("image/png");
         // replaces '/' with '@' to allow use in url
         image = image.replaceAll("/", "@")
         image = JSON.stringify(image);
-        request.open('POST', 'post/' + image);
+        tags = JSON.stringify(tags);
+        request.open('POST', 'post/' + image + "/" + tags);
         request.send();
     });
 }

@@ -53,7 +53,24 @@
                 <div class="back_shadow"></div>
             </div>
             <label for="disp_saveimage" class="edit-btn">Save as Image</label>
-            <button id="post" class="tool_btn">Post</button>   
+            <input type="checkbox" id="post" name="post"/>
+            <div class="edit_display">
+                <div class="edit_details">
+                    <form class="text" action="#" id="form_post" method="POST" novalidate>
+                        <label for="tags">Tags:</label>
+                        <input type="text" id="tags" name="tags" placeholder="Art">
+                        <div class="tool_divider"></div>
+                        <div class="edit_btns">
+                            <label for="post" class="edit_cancel">Cancel</label>
+                            <label for="post">
+                                <input type="submit" class="button" value="Post">
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="back_shadow"></div>
+            </div>
+            <label for="post" class="edit-btn">Post</label>
             <div class="tool_bottom"></div>
         </aside>
         <div class="canvas_container" oncontextmenu="return false;">

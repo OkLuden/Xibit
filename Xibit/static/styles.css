@@ -444,11 +444,11 @@ input[type=submit]:hover {
     z-index: 10;
 }
 
-#disp_editprofile:checked + .edit_display, #disp_saveimage:checked + .edit_display {
+#disp_editprofile:checked + .edit_display, #disp_saveimage:checked + .edit_display, #post:checked + .edit_display {
     visibility: visible;
 }
 
-#disp_editprofile, #disp_saveimage {
+#disp_editprofile, #disp_saveimage, #post {
     display: none;
 }
 
