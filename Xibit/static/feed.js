@@ -6,6 +6,7 @@ let pfps = document.getElementsByClassName("pfp");
 let id = document.getElementsByClassName("id");
 let datetime = document.getElementsByClassName("date");
 let user_likes = document.getElementsByClassName("user_likes");
+let tags = document.getElementsByClassName("tags");
 
 let post;
 let likeButton; 
@@ -48,6 +49,8 @@ function init() {
         display.setAttribute("id", "display_post");
         const date = document.createElement('p');
         date.setAttribute("id", "date_of_post");
+        const tag = document.createElement('p')
+        tag.setAttribute("id", "tags")
         like = document.createElement('button');
         like.setAttribute("id", "likes" + i.toString());
 
@@ -60,6 +63,7 @@ function init() {
         display.innerHTML = displays[i].innerHTML;
         date.innerHTML = "Posted: " + datetime[i].innerHTML;
         like.innerHTML = "Likes: " + likes[i].innerHTML;
+        tag.innerHTML = "Tags: " + tags[i].innerHTML;
 
         if (user_likes_list.includes(id_list[i])) {
             like.setAttribute("value", true);
@@ -78,6 +82,7 @@ function init() {
         document.getElementById('pro' + i.toString()).appendChild(username);
         document.getElementById('post' + i.toString()).appendChild(newImg);
         document.getElementById('post' + i.toString()).appendChild(like);
+        document.getElementById('post' + i.toString()).appendChild(tag);
         document.getElementById('post' + i.toString()).appendChild(date);
         document.getElementById('top' + i.toString()).appendChild(sepDiv);
 
@@ -127,6 +132,12 @@ function init() {
     user_likes.forEach(option => {
         option.remove();
     });
+
+    tags = document.querySelectorAll('.tags');
+    tags.forEach(option => {
+        option.remove();
+    });
+
 }
 
 function likePost(i) {

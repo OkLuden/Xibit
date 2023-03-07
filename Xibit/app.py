@@ -59,6 +59,10 @@ def index():
     postID = dict(cursor.fetchall())
     post = postID.values()
 
+    cursor.execute(''' SELECT postID, tags FROM posts {};'''.format(order_clause))
+    tagID = dict(cursor.fetchall())
+    tags = tagID.values()
+
     cursor.execute(''' SELECT postID, date FROM posts {};'''.format(order_clause))
     date_dict = dict(cursor.fetchall())
     date_list = date_dict.values()
@@ -93,7 +97,7 @@ def index():
         user_likes = cursor.fetchall()
         user_likes = [i[0] for i in user_likes]
 
-    return render_template("index.html", page = "Home", order_by = order_by, post = post, user=users_list, likes=likes_list, date=true_date_list, user_likes=user_likes)
+    return render_template("index.html", page = "Home", order_by = order_by, post = post, user=users_list, likes=likes_list, date=true_date_list, user_likes=user_likes, tags=tags)
 
 @app.route("/like/<likeID>", methods = ["GET",'POST'])
 @login_required
