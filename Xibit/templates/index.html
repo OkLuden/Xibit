@@ -13,6 +13,9 @@
             <option value="date_asc" {% if order_by == 'date_asc' %}selected="selected"{% endif %}>Oldest first</option>
             <option value="likes_desc" {% if order_by == 'likes_desc' %}selected="selected"{% endif %}>Most likes first</option>
             <option value="likes_asc" {% if order_by == 'likes_asc' %}selected="selected"{% endif %}>Least likes first</option>
+            {% if friends == True %}
+                <option value="friends_only" {% if order_by == "friends_only" %}selected="selected"{% endif %}>Friends only</option>
+            {% endif %}
         </select>
         <input type="submit" value="Save">
     </form>

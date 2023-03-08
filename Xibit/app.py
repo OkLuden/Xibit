@@ -40,30 +40,45 @@ def page_not_found(error):
 
 @app.route("/", methods=["GET","POST"])
 def index():
+    friends = False
+
     if request.method == "POST":
         order_by = request.form.get("order_by")
         if order_by == "date_desc":
-            order_clause = "ORDER BY date DESC"
+            order_clause = "ORDER BY date DESC;"
         elif order_by == "date_asc":
-            order_clause = "ORDER BY date ASC"
+            order_clause = "ORDER BY date ASC;"
         elif order_by == "likes_desc":
-            order_clause = "ORDER BY likes DESC"
+            order_clause = "ORDER BY likes DESC;"
         elif order_by == "likes_asc":
-            order_clause = "ORDER BY likes ASC"
+            order_clause = "ORDER BY likes ASC;"
+        elif order_by == "friends_only":
+            order_clause = "WHERE creatorID IN (SELECT user2ID FROM friends WHERE user1ID = %s) ORDER BY date DESC;"
     else:
         order_by = "date_desc"
         order_clause = "ORDER BY date DESC"
+    
     db = get_db()
     cursor = db.cursor()
-    cursor.execute(''' SELECT postID, image FROM posts {};'''.format(order_clause))
+    
+    if order_by == "friends_only" and g.user:
+        cursor.execute('''SELECT postID, image FROM posts {}'''.format(order_clause), (getUserID(cursor, g.user),))
+    else:
+        cursor.execute(''' SELECT postID, image FROM posts {}'''.format(order_clause))
     postID = dict(cursor.fetchall())
     post = postID.values()
 
-    cursor.execute(''' SELECT postID, tags FROM posts {};'''.format(order_clause))
+    if order_by == "friends_only" and g.user:
+        cursor.execute('''SELECT postID, tags FROM posts {}'''.format(order_clause), (getUserID(cursor, g.user),))
+    else:
+        cursor.execute(''' SELECT postID, tags FROM posts {}'''.format(order_clause))
     tagID = dict(cursor.fetchall())
     tags = tagID.values()
 
-    cursor.execute(''' SELECT postID, date FROM posts {};'''.format(order_clause))
+    if order_by == "friends_only" and g.user:
+        cursor.execute('''SELECT postID, date FROM posts {}'''.format(order_clause), (getUserID(cursor, g.user),))
+    else:
+        cursor.execute(''' SELECT postID, date FROM posts {}'''.format(order_clause))
     date_dict = dict(cursor.fetchall())
     date_list = date_dict.values()
     true_date_list = []
@@ -72,7 +87,10 @@ def index():
         true_date_list.append(datetimes)
 
     # fetch userID for post and then translate into username
-    cursor.execute(''' SELECT creatorID FROM posts {}'''.format(order_clause))
+    if order_by == "friends_only" and g.user:
+        cursor.execute('''SELECT creatorID FROM posts {}'''.format(order_clause), (getUserID(cursor, g.user),))
+    else:
+        cursor.execute(''' SELECT creatorID FROM posts {}'''.format(order_clause))
     users = cursor.fetchall()
     cursor.execute(''' SELECT userID, username FROM users;''')
     translate = dict(cursor.fetchall())
@@ -84,7 +102,10 @@ def index():
     for user in users:
         users_list.append([translate[user[0]], translate2[user[0]], translate3[user[0]]])
     
-    cursor.execute(''' SELECT postID, likes FROM posts {};'''.format(order_clause))
+    if order_by == "friends_only" and g.user:
+        cursor.execute('''SELECT postID, likes FROM posts {}'''.format(order_clause), (getUserID(cursor, g.user),))
+    else:
+        cursor.execute(''' SELECT postID, likes FROM posts {};'''.format(order_clause))
     likes = cursor.fetchall()
     likes_list = []
     for like in likes:
@@ -93,11 +114,15 @@ def index():
     if g.user is None:
         user_likes = [-1]
     else:
+        userID = getUserID(cursor=cursor, username=g.user)
+        friendCheck = cursor.execute(''' SELECT user2ID FROM friends WHERE user1ID = %s;''', (userID))
+        if friendCheck > 0:
+            friends = True
         cursor.execute(''' SELECT postID FROM likes WHERE userID = %s;''', (getUserID(cursor, g.user)))
         user_likes = cursor.fetchall()
         user_likes = [i[0] for i in user_likes]
 
-    return render_template("index.html", page = "Home", order_by = order_by, post = post, user=users_list, likes=likes_list, date=true_date_list, user_likes=user_likes, tags=tags)
+    return render_template("index.html", page = "Home", friends = friends, order_by = order_by, post = post, user=users_list, likes=likes_list, date=true_date_list, user_likes=user_likes, tags=tags)
 
 @app.route("/like/<likeID>", methods = ["GET",'POST'])
 @login_required
