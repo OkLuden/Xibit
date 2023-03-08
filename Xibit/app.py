@@ -147,6 +147,10 @@ def profile(user):
     if user == g.user:
         form = ProfileEditForm()
         friendStatus = None
+        userID = getUserID(cursor=cursor, username=g.user)
+        likes = cursor.execute(''' SELECT likes FROM posts WHERE creatorID = %s;''', (userID))
+        friends = cursor.execute(''' SELECT user2ID FROM friends WHERE user1ID = %s;''', (userID))
+        artworks = cursor.execute(''' SELECT postID FROM posts WHERE creatorID = %s;''', (userID))
         if form.validate_on_submit():
             new_display_name = form.display_name.data
             new_bio = form.bio.data
@@ -202,6 +206,10 @@ def profile(user):
                 db.commit()
     else:
         form = None
+        userID = getUserID(cursor=cursor, username=user)
+        likes = cursor.execute(''' SELECT likes FROM posts WHERE creatorID = %s;''', (userID))
+        friends = cursor.execute(''' SELECT user2ID FROM friends WHERE user1ID = %s;''', (userID))
+        artworks = cursor.execute(''' SELECT postID FROM posts WHERE creatorID = %s;''', (userID))
         friendStatus = getFriendStatus(user)
 
     cursor.execute(''' SELECT displayName FROM users
@@ -216,7 +224,7 @@ def profile(user):
                                         WHERE username = %s;''', (user))
     profilepic = cursor.fetchone()
 
-    return render_template("profile.html", profilepic = profilepic, display_name = display_name, bio = bio, form = form, page = "Profile", user = user, friendStatus = friendStatus)
+    return render_template("profile.html", profilepic = profilepic, likes = likes, artworks = artworks, friends = friends, display_name = display_name, bio = bio, form = form, page = "Profile", user = user, friendStatus = friendStatus)
 
 
 @app.route("/sendFriendRequest/<user>", methods = ["GET"])

@@ -12,9 +12,9 @@
 
             <div class="profile_details">
                 <ul class="friends_art_likes">
-                    <li>x Friends</li>
-                    <li>x Artworks</li>
-                    <li>x Likes</li>
+                    <li>{{ friends }} Friends</li>
+                    <li>{{ artworks }} Artworks</li>
+                    <li>{{ likes }} Likes</li>
                 </ul>
                 <div class="tool_divider"></div>
                 
@@ -83,7 +83,7 @@
                 {% if friendStatus == None %}
                 <label for="send_Friend_Request" class="edit-btn"><a href="{{ url_for('sendFriendRequest', user = user) }}" class="text_btn">Send Friend Request</a></label>
                 {% elif friendStatus == "SENT" %}
-                <label for="Delete_Friend_Request" class="edit-btn"><a href="{{ url_for('deleteFriendRequest', user = user) }}" class="text_btn">Rescind Friend Request</a></label>
+                <label for="Delete_Friend_Request" class="edit-btn"><a href="{{ url_for('deleteFriendRequest', user = user) }}" class="text_btn">Delete Friend Request</a></label>
                 {% elif friendStatus == "RECEIVED" %}
                 <label for="Accept_Friend_Request" class="edit-btn"><a href="{{ url_for('acceptFriendRequest', user = user) }}" class="text_btn">Accept Friend Request</a></label>
                 <label for="Reject_Friend_Request" class="edit-btn"><a href="{{ url_for('deleteFriendRequest', user = user) }}" class="text_btn">Reject Friend Request</a></label>
@@ -91,7 +91,9 @@
                 <label class="friends_text">Friends</label>
                 {% endif %}
             {% endif %}
-            <label for="view_Friends" class="edit-btn"><a href="{{ url_for('viewFriends', user = user) }}" class="text_btn">View Friends</a></label>
+            {% if friends !=0 %}
+                <label for="view_Friends" class="edit-btn"><a href="{{ url_for('viewFriends', user = user) }}" class="text_btn">View Friends</a></label>
+            {% endif %}
 
         </div>
         <div class="profile_container2" id="profile_elements">
