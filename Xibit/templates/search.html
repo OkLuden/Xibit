@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    <p>Results found: {{ results }}</p>
+    <p><a href="{{ url_for('index') }}">Use this link</a> to get back to the home page</p>
+{% endblock %}
