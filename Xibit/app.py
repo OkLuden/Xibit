@@ -105,7 +105,7 @@ def likePost(likeID):
     db = get_db()
     cursor = db.cursor()
 
-    userID = getUserID(cursor)
+    userID = getUserID(cursor, g.user)
     cursor.execute('''REPLACE INTO likes (userID, postID) VALUES (%s, %s);''', (userID, likeID))
 
     cursor.execute('''SELECT COUNT(postID) FROM likes WHERE postID = %s;''', (likeID))
