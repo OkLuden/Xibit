@@ -78,7 +78,7 @@ button:hover {
 
 input[type="range"] {
     width: 150px;
-  }
+}
 
 /* TOP NAVIGATION*/
 .topnav {
@@ -596,6 +596,12 @@ input[type=button]:hover {
     font-weight: 700;
 }
 
+.sep_div {
+    height: 1px;
+    width: 1200px;
+    background-color: #555555;
+}
+
 /*
 input[type=text] {
     background-color: #1f1f1f;
@@ -623,6 +629,94 @@ input[type=text] {
 }
 
 /* FOOTER */
+footer {
+    background-color: #282828;
+    bottom: 0px;
+    list-style-type: none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 50px;
+}
+
+.footer_mainblock {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.footer_block1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer_block2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer_block3 {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer_heading {
+    color: #ffffff;
+    font-family: "Lato", sans-serif;
+    font-size: 20px;
+    padding: 5px;
+}
+
+.text_footer {
+    color: #b6b6b6;
+    font-family: "Lato", sans-serif;
+    font-size: 18px;
+    padding: 3px;
+}
+
+.footer_divider {
+    background-color: #555555;
+    height: 1px;
+    width: 90%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.footer_btext {
+    color: #ffffff;
+    font-family: "Lato", sans-serif;
+    font-size: 20px;
+    text-align: center;
+    display: block;
+}
+
+.footer_logo {
+    height: 70px;
+    width: auto;
+    align-self: center;
+}
+
+/* SCROLL BAR */
+::-webkit-scrollbar {
+    width: 18px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #555555;
+    background-color: #282828;
+}
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #555555; 
+    border-radius: 10px;
+}
+  
 
 /* MOBILE */
 
