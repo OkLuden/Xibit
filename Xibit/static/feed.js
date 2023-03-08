@@ -24,17 +24,13 @@ document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
 
-    let search_button =  document.getElementById("post_search_button");
-    if (search_button == null) {
-        // pass
-    } else {
-        document.getElementById("post_search_button").addEventListener("click", search, false);
-        document.getElementById("post_search").addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-              search();
-            }
-        });
-    }
+
+    document.getElementById("post_search").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            search();
+        }
+    });
+    
 
     for (let i = 0; i < user_likes.length; i++) {
         user_likes_list[i] = user_likes[i].innerHTML;
