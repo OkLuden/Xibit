@@ -240,7 +240,7 @@ function postImage(event) {
     click = false;
     event.preventDefault();
     document.getElementById("post").checked = false;
-    var tags = document.getElementById("tags").value || null;
+    var tags = document.getElementById("tags").value || "Art";
     image = canvas.toDataURL("image/png");
     image = image.replaceAll("/", "@") // replaces '/' with '@' to allow use in url
     image = JSON.stringify(image);
