@@ -140,9 +140,38 @@ def searchPost(search_tags):
         else:
             if search_tags in tag_list:
                 results.append(postID[index])
+    if results == []:
+        return render_template("empty_search.html", page = "Search")
+    for i in results:
+        cursor.execute(''' SELECT * FROM posts WHERE postID = %s;''' % (str(i)))
+        post = cursor.fetchone()
+        print(post)
+
+        cursor.execute(''' SELECT creatorID FROM posts WHERE postID = %s;''' % (str(i)))
+        users = cursor.fetchone()[0]
+        print(users)
+        cursor.execute(''' SELECT username FROM users WHERE userID = %s;''' % (str(users)))
+        username = cursor.fetchone()[0]
+        cursor.execute(''' SELECT displayName FROM users WHERE userID = %s;''' % (str(users)))
+        display = cursor.fetchone()[0]
+        cursor.execute(''' SELECT profilepic FROM users WHERE userID = %s;''' % (str(users)))
+        pfp = cursor.fetchone()[0]
+        users_list = [username, display, pfp]
+
+        if g.user is None:
+            user_likes = [-1]
+        else:
+            userID = getUserID(cursor=cursor, username=g.user)
+            friendCheck = cursor.execute(''' SELECT user2ID FROM friends WHERE user1ID = %s;''', (userID))
+            if friendCheck > 0:
+                friends = True
+            cursor.execute(''' SELECT postID FROM likes WHERE userID = %s;''', (getUserID(cursor, g.user)))
+            user_likes = cursor.fetchall()
+            user_likes = [i[0] for i in user_likes]
+
 
     results = len(results)
-    return render_template("search.html", page = "Search", results = results)
+    return render_template("search.html", page = "Search", results = results, post = post, user_list = users_list, user_like=user_likes)
 
 @app.route("/like/<likeID>", methods = ["GET",'POST'])
 @login_required
