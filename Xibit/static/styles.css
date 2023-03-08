@@ -139,6 +139,10 @@ ul {
     padding: 5px;
 }
 
+#order_by:focus #sort_by {
+    display: none;
+}
+
 .nav_text:hover {
     /*background-color: #383838;*/
     transform: scale(1.1);

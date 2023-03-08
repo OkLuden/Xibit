@@ -55,7 +55,7 @@ def index():
         elif order_by == "friends_only":
             order_clause = "WHERE creatorID IN (SELECT user2ID FROM friends WHERE user1ID = %s) ORDER BY date DESC;"
     else:
-        order_by = "date_desc"
+        order_by = "sort_by"
         order_clause = "ORDER BY date DESC"
     
     db = get_db()
