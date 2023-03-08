@@ -241,14 +241,13 @@ function postImage(event) {
     event.preventDefault();
     document.getElementById("post").checked = false;
     var tags = document.getElementById("tags").value || null;
-    canvas.toBlob((blob) => {
-        const request = new XMLHttpRequest();
-        image = canvas.toDataURL("image/png");
-        // replaces '/' with '@' to allow use in url
-        image = image.replaceAll("/", "@")
-        image = JSON.stringify(image);
-        tags = JSON.stringify(tags);
-        request.open('POST', 'post/' + image + "/" + tags);
-        request.send();
-    });
+    image = canvas.toDataURL("image/png");
+    image = image.replaceAll("/", "@") // replaces '/' with '@' to allow use in url
+    image = JSON.stringify(image);
+    tags = JSON.stringify(tags);
+    fetch('post/' + image + "/" + tags).then(
+        response => {
+            window.location = response.url
+        }
+    )
 }

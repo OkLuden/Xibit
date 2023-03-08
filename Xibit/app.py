@@ -427,6 +427,8 @@ def getUserID(cursor, username):
 @app.route("/post/<string:blob>/<string:tags>", methods = ["GET", "POST"])
 @login_required
 def post(blob, tags):
+    if g.user == None:
+        return redirect(url_for("login"))
     post_data = loads(blob)
     post_tags = loads(tags)
     db = get_db()
@@ -448,7 +450,7 @@ def post(blob, tags):
     cursor.execute('''INSERT INTO posts (postID, creatorID, image, date, tags) VALUES (%s, %s, %s, %s, %s);''', (postID, creatorID, post_data, date_posted, post_tags))
     db.commit()
  
-    return("/")
+    return redirect(url_for("index"))
 
 @app.route("/viewPost/<postID>", methods = ['GET', 'POST'])
 def viewPost(postID):
