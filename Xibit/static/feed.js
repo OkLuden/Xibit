@@ -16,12 +16,16 @@ let like;
 let datetimes;
 let image;
 let ids;
+let value;
 let id_list = [];
 let user_likes_list = [];
 
 document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
+
+    document.getElementById("post_search_button").addEventListener("click", search, false);
+
     for (let i = 0; i < user_likes.length; i++) {
         user_likes_list[i] = user_likes[i].innerHTML;
     }
@@ -175,6 +179,12 @@ function viewPost(i) {
     )
 }
 
-function reload() {
-    location.reload();
+function search() {
+    value = document.getElementById("post_search").value;
+    console.log(value);
+    fetch('searchPost/' + value).then(
+        response => {
+            window.location = response.url
+        }
+    )
 }

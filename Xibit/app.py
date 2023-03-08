@@ -124,6 +124,26 @@ def index():
 
     return render_template("index.html", page = "Home", friends = friends, order_by = order_by, post = post, user=users_list, likes=likes_list, date=true_date_list, user_likes=user_likes, tags=tags)
 
+@app.route("/searchPost/<search_tags>", methods=["GET","POST"])
+def searchPost(search_tags):
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute(''' SELECT postID, tags FROM posts;''')
+    tagID = dict(cursor.fetchall())
+    postID = list(tagID.keys())
+    tags = tagID.values()
+    results = []
+    for index, tag_list in enumerate(tags):
+        if tag_list == None:
+            pass
+        else:
+            if search_tags in tag_list:
+                results.append(postID[index])
+
+    results = len(results)
+    return render_template("search.html", page = "Search", results = results)
+
 @app.route("/like/<likeID>", methods = ["GET",'POST'])
 @login_required
 def likePost(likeID):
@@ -432,6 +452,8 @@ def getUserID(cursor, username):
 @app.route("/post/<string:blob>/<string:tags>", methods = ["GET", "POST"])
 @login_required
 def post(blob, tags):
+    if g.user == None:
+        return redirect(url_for("login"))
     post_data = loads(blob)
     post_tags = loads(tags)
     db = get_db()
@@ -453,7 +475,7 @@ def post(blob, tags):
     cursor.execute('''INSERT INTO posts (postID, creatorID, image, date, tags) VALUES (%s, %s, %s, %s, %s);''', (postID, creatorID, post_data, date_posted, post_tags))
     db.commit()
  
-    return("/")
+    return redirect(url_for("index"))
 
 @app.route("/viewPost/<postID>", methods = ['GET', 'POST'])
 def viewPost(postID):
