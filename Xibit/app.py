@@ -184,7 +184,6 @@ def likePost(likeID):
 
     cursor.execute('''SELECT COUNT(postID) FROM likes WHERE postID = %s;''', (likeID))
     likes = cursor.fetchone()[0]
-    print(likes)
     cursor.execute(''' UPDATE posts SET likes = %s WHERE postID = %s;''', (likes, likeID))
 
     db.commit()
@@ -202,7 +201,6 @@ def delikePost(likeID):
 
     cursor.execute('''SELECT COUNT(postID) FROM likes WHERE postID = %s;''', (likeID))
     likes = cursor.fetchone()[0]
-    print(likes)
     cursor.execute(''' UPDATE posts SET likes = %s WHERE postID = %s;''', (likes, likeID))
 
     db.commit()
