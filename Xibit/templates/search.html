@@ -5,21 +5,6 @@
 {% endblock %}
 
 {% block main_content %}
-    <input type="text" id="post_search" placeholder="Search through posts">    
-    <button id="post_search_button">Submit</button>
-    <form class="text" action="#" method="POST" novalidate>
-        <label for="order_by">Sort by:</label>
-        <select name="order_by" id="order_by">
-            <option value="date_desc" {% if order_by == 'date_desc' %}selected="selected"{% endif %}>Newest first</option>
-            <option value="date_asc" {% if order_by == 'date_asc' %}selected="selected"{% endif %}>Oldest first</option>
-            <option value="likes_desc" {% if order_by == 'likes_desc' %}selected="selected"{% endif %}>Most likes first</option>
-            <option value="likes_asc" {% if order_by == 'likes_asc' %}selected="selected"{% endif %}>Least likes first</option>
-            {% if friends == True %}
-                <option value="friends_only" {% if order_by == "friends_only" %}selected="selected"{% endif %}>Friends only</option>
-            {% endif %}
-        </select>
-        <input type="submit" value="Save">
-    </form>
     <p>Results found: {{ results }}</p>
     <option class="id">{{ post[0] }}</option>
     <option class="userID">{{ post[1] }}</option>

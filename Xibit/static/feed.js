@@ -24,7 +24,12 @@ document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
 
-    document.getElementById("post_search_button").addEventListener("click", search, false);
+    let search_button =  document.getElementById("post_search_button");
+    if (search_button == null) {
+        // pass
+    } else {
+        document.getElementById("post_search_button").addEventListener("click", search, false);
+    }
 
     for (let i = 0; i < user_likes.length; i++) {
         user_likes_list[i] = user_likes[i].innerHTML;
