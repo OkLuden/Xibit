@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block head_content %}
+<script src="../static/feed.js" type="module"></script>
+{% endblock %}
+
 {% block main_content %}
     <div class="profile_container">
         <div class="profile_info" id="profile_elements">
@@ -98,13 +102,9 @@
         </div>
         <div class="profile_container2" id="profile_elements">
             <div class="profile_artwork">
-                <img class="art_placeholder" src="image.png"/>
-                <!--<div class="art_placeholder">
-                    <a class="text_artwork_profile">Artwork to be added</a>
-                </div>-->
-            </div>
-            <div class="profile_friends">
-                <a class="text">Friends List to be added</a>
+                {% for pt in posts %}
+                <option class="post">{{ pt }}</option>
+                {% endfor %}
             </div>
         </div>
     </div>

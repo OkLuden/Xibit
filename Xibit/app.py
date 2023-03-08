@@ -192,6 +192,9 @@ def profile(user):
     if user == g.user:
         form = ProfileEditForm()
         friendStatus = None
+        cursor.execute('''SELECT postID, image FROM posts WHERE creatorID = %s ORDER BY date DESC;''', (getUserID(cursor, g.user),))
+        postID = dict(cursor.fetchall())
+        posts = [post.replace('@', '/') for post in postID.values()]
         userID = getUserID(cursor=cursor, username=g.user)
         likes = cursor.execute(''' SELECT likes FROM posts WHERE creatorID = %s;''', (userID))
         friends = cursor.execute(''' SELECT user2ID FROM friends WHERE user1ID = %s;''', (userID))
@@ -252,6 +255,9 @@ def profile(user):
     else:
         form = None
         userID = getUserID(cursor=cursor, username=user)
+        cursor.execute('''SELECT postID, image FROM posts WHERE creatorID = %s ORDER BY date DESC;''', (userID))
+        postID = dict(cursor.fetchall())
+        posts = [post.replace('@', '/') for post in postID.values()]
         likes = cursor.execute(''' SELECT likes FROM posts WHERE creatorID = %s;''', (userID))
         friends = cursor.execute(''' SELECT user2ID FROM friends WHERE user1ID = %s;''', (userID))
         artworks = cursor.execute(''' SELECT postID FROM posts WHERE creatorID = %s;''', (userID))
@@ -269,7 +275,7 @@ def profile(user):
                                         WHERE username = %s;''', (user))
     profilepic = cursor.fetchone()
 
-    return render_template("profile.html", profilepic = profilepic, likes = likes, artworks = artworks, friends = friends, display_name = display_name, bio = bio, form = form, page = "Profile", user = user, friendStatus = friendStatus)
+    return render_template("profile.html", profilepic = profilepic, likes = likes, posts = posts, artworks = artworks, friends = friends, display_name = display_name, bio = bio, form = form, page = "Profile", user = user, friendStatus = friendStatus)
 
 
 @app.route("/sendFriendRequest/<user>", methods = ["GET"])
