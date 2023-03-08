@@ -124,6 +124,21 @@ ul {
     padding-top: 11px;
 }
 
+.nav_search {
+    padding-top: 8px;
+    margin-left: 20px;
+}
+
+#post_search {
+    font-family: "Lato", sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    font-size: 20px;
+    border: none;
+    border-radius: 3px;
+    padding: 5px;
+}
+
 .nav_text:hover {
     /*background-color: #383838;*/
     transform: scale(1.1);
@@ -508,7 +523,8 @@ input[type=button]:hover {
 }
 
 .friends_art_likes {
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     justify-content: space-between;
     padding: 0px;
