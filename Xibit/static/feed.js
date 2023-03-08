@@ -29,6 +29,11 @@ function init() {
         // pass
     } else {
         document.getElementById("post_search_button").addEventListener("click", search, false);
+        document.getElementById("post_search").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+              search();
+            }
+        });
     }
 
     for (let i = 0; i < user_likes.length; i++) {
