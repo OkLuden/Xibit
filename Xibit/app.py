@@ -222,6 +222,7 @@ def profile(user):
         cursor.execute('''SELECT postID, image FROM posts WHERE creatorID = %s ORDER BY date DESC;''', (getUserID(cursor, g.user),))
         postID = dict(cursor.fetchall())
         posts = [post.replace('@', '/') for post in postID.values()]
+        posts = enumerate(posts)
         userID = getUserID(cursor=cursor, username=g.user)
         likes = cursor.execute(''' SELECT likes FROM posts WHERE creatorID = %s;''', (userID))
         total_likes = 0
@@ -289,6 +290,7 @@ def profile(user):
         cursor.execute('''SELECT postID, image FROM posts WHERE creatorID = %s ORDER BY date DESC;''', (userID))
         postID = dict(cursor.fetchall())
         posts = [post.replace('@', '/') for post in postID.values()]
+        posts = enumerate(posts)
         likes = cursor.execute(''' SELECT likes FROM posts WHERE creatorID = %s;''', (userID))
         total_likes = 0
         likes = cursor.fetchall()

@@ -98,9 +98,13 @@
         </div>
         <div class="profile_container2" id="profile_elements">
             <div class="profile_artwork">
-                {% for pt in posts %}
-                    <image src="{{ pt }}"></image>
+                <div class="profile_posts">
+                {% for i, pt in posts %}
+                    <div class="profile_post_individual" id = "profile_post+{{ i }}">
+                        <image src="{{ pt }}"></image>
+                    </div>
                 {% endfor %}
+                </div>
             </div>
         </div>
     </div>
