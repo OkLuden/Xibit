@@ -504,12 +504,12 @@ def getUserID(cursor, username):
         cursor.execute(getUserSql, username)
         return cursor.fetchone()[0]
 
-@app.route("/post/<string:blob>/<string:tags>", methods = ["GET", "POST"])
+@app.route("/post/<string:tags>", methods = ["GET", "POST"])
 @login_required
-def post(blob, tags):
+def post(tags):
     if g.user == None:
         return redirect(url_for("login"))
-    post_data = loads(blob)
+    post_data = request.json
     post_tags = loads(tags)
     db = get_db()
     cursor = db.cursor()

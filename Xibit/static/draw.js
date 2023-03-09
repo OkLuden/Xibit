@@ -158,6 +158,7 @@ function draw() {
                 click = false;
                 image = context.getImageData(0, 0, width, height);
                 offset = (mouseY * width + mouseX) * 4;
+                console.log(offset);
                 let rgb_colour = image.data.slice(offset, offset + 4);
                 colour.value = "#" + rgb_colour[1].toString(16) + rgb_colour[2].toString(16) + rgb_colour[3].toString(16);
                 colourChange();
@@ -192,6 +193,7 @@ function deactivate() {
 // tracks mouse position
 function track(event) {
     bounds = canvas.getBoundingClientRect();
+    console.log(bounds.left + " + " + bounds.top)
     mouseX = event.clientX - bounds.left;
     mouseY = event.clientY - bounds.top;
     if ((mouseX <= -30 || mouseY <= -30 || mouseX >= width+30 || mouseY >= height+30) && click == true) {
@@ -270,9 +272,18 @@ function postImage(event) {
     image = image.replaceAll("/", "@") // replaces '/' with '@' to allow use in url
     image = JSON.stringify(image);
     tags = JSON.stringify(tags);
-    fetch('post/' + image + "/" + tags).then(
+    //fetch('post/' + image + "/" + tags).then(
+    //    response => {
+    //        window.location = response.url
+    //    }
+    //)
+    fetch("/post/" + tags, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'}, 
+        body: image
+    }).then(
         response => {
             window.location = response.url
         }
-    )
+    );
 }
