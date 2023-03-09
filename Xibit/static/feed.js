@@ -60,7 +60,7 @@ function init() {
         topDiv.setAttribute("id", "top" + i.toString());
         proDiv.setAttribute("id", "pro" + i.toString());
         newImg.src = post;
-        newPfp.src = "static/images/profilepics/" + pfps[i].innerHTML;
+        newPfp.src = "../static/images/profilepics/" + pfps[i].innerHTML;
         username.innerHTML = "@" + users[i].innerHTML;
         display.innerHTML = displays[i].innerHTML;
         date.innerHTML = "Posted: " + datetime[i].innerHTML;

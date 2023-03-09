@@ -272,11 +272,6 @@ function postImage(event) {
     image = image.replaceAll("/", "@") // replaces '/' with '@' to allow use in url
     image = JSON.stringify(image);
     tags = JSON.stringify(tags);
-    //fetch('post/' + image + "/" + tags).then(
-    //    response => {
-    //        window.location = response.url
-    //    }
-    //)
     fetch("/post/" + tags, {
         method: "POST",
         headers: {'Content-Type': 'application/json'}, 
