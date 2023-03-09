@@ -7,7 +7,7 @@
 
 {% block main_content %} 
     <form class="text" action="#" method="POST" novalidate>
-        <select name="order_by" id="order_by">
+        <select name="order_by" id="order_by" onchange="this.form.submit()">
             <option id="sort_by" value="sort_by" selected="selected">Sort by</option>
             <option class="selection" value="date_desc" {% if order_by == 'date_desc' %}selected="selected"{% endif %}>Newest first</option>
             <option class="selection" value="date_asc" {% if order_by == 'date_asc' %}selected="selected"{% endif %}>Oldest first</option>
@@ -17,7 +17,7 @@
                 <option value="friends_only" {% if order_by == "friends_only" %}selected="selected"{% endif %}>Friends only</option>
             {% endif %}
         </select>
-        <input type="submit" value="Save" id="selection_save">
+        <input type="submit" value="Save" id="selection_save" style="display: none;">
     </form>
     {% for pt in post %}
         <option class="post">{{ pt }}</option>
