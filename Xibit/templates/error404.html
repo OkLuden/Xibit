@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block head_content %}
+<script src="../static/search.js"></script>
+{% endblock %}
+
 {% block main_content %}
     <p>This page does not exist.</p>
     <p><a href="{{ url_for('index') }}">Use this link</a> to get back to the home page</p>
