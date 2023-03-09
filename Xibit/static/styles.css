@@ -335,7 +335,6 @@ input[type=submit]:hover {
     margin-left: 10%;
     margin-right: 10%;
     margin-top: calc(((100vh)/2) - 350px);
-    height: 650px;
 }
 
 .friends_text {
@@ -376,6 +375,11 @@ input[type=submit]:hover {
     margin-right: 50px;
     background-color: #383838;
     border-radius: 5px;
+    height: 600px;
+}
+
+.profile_post_individual {
+    margin-bottom: 20px;
 }
 
 .selected {
@@ -429,9 +433,10 @@ input[type=submit]:hover {
 }
 
 .profile_artwork {
-    height: 500px;
     padding-top: 5px;
     padding-bottom: 25px;
+    display: flex;
+    flex-direction: column;
 }
 
 .text_artwork_profile {
@@ -789,7 +794,6 @@ footer {
     font-family: "Lato", sans-serif;
     color: #ffffff;
     text-align: center;
-    margin-top: 100px;
 }
 
 .about_div {
@@ -811,6 +815,24 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+}
+
+.about_divider {
+    background-color: #555555;
+    height: 1px;
+    width: 90%;
+    margin-top: 70px;
+    margin-bottom: 70px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.text_heading {
+    font-size: 25px;
+    font-family: "Lato", sans-serif;
+    color: #ffffff;
+    text-decoration: underline;
 }
 
 .teammate {
