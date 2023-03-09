@@ -32,14 +32,33 @@
             <a class="textsmall"><input type="checkbox" id="fill_shape">Fill</a> <br>
             <div class="tool_divider"></div>
             <button id="clear" class="tool_btn">Clear Screen</button> <br>
+
+            <div class="edit_display">
+                <div class="edit_details">
+                    <a class="text">Are you sure you would like to clear the screen?</a>
+                    <br>
+                    <a class="textsmall">You cannot undo this!</a>
+                    <div class="tool_divider"></div>
+                    <div class="edit_btns">
+                        <label for="clearimage" class="edit_cancel">Cancel</label>
+                        <label for="clearimage" id="clear" class="edit_cancel">Clear</label>
+                    </div>
+                </div>
+                <div class="back_shadow"></div>
+            </div>
+
+            <input type="checkbox" id="clearimage" name="clearimage"/>
             <div class="tool_divider"></div>
 
             <a class="text">File</a> <br>
             <input type="checkbox" id="disp_saveimage" name="disp_saveimage"/>
+
             <div class="edit_display">
                 <div class="edit_details">
                     <form class="text" action="#" id="form_image" method="POST" novalidate>
-                        <label for="file_name">Image Name:</label>
+                        <label for="file_name">Save as Image</label>
+                        <br>
+                        <a class="textsmall">Name your artwork</a>
                         <input type="text" id="file_name" name="file_name" placeholder="xibit_artwork">
                         <div class="tool_divider"></div>
                         <div class="edit_btns">
@@ -52,12 +71,16 @@
                 </div>
                 <div class="back_shadow"></div>
             </div>
+
             <label for="disp_saveimage" class="edit-btn">Save as Image</label>
             <input type="checkbox" id="post" name="post"/>
+
             <div class="edit_display">
                 <div class="edit_details">
                     <form class="text" action="#" id="form_post" method="POST" novalidate>
-                        <label for="tags">Tags:</label>
+                        <label for="tags">Post Artwork</label>
+                        <br>
+                        <a class="textsmall">Add tags that describe your artwork</a>
                         <input type="text" id="tags" name="tags" placeholder="Art">
                         <div class="tool_divider"></div>
                         <div class="edit_btns">
@@ -70,6 +93,7 @@
                 </div>
                 <div class="back_shadow"></div>
             </div>
+
             <label for="post" class="edit-btn">Post</label>
             <div class="tool_bottom"></div>
         </aside>
