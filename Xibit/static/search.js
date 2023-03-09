@@ -15,7 +15,12 @@ function search() {
     console.log(value);
     fetch('searchPost/' + value).then(
         response => {
-            window.location = response.url
+            let url = response.url;
+            if (response.url.includes("/searchPost/searchPost")) {            
+                url = (response.url).replace('/searchPost', '');
+            }
+            console.log(url);
+            window.location = url;
         }
     )
 }
