@@ -11,7 +11,7 @@
     <option class="post">{{ post[2] }}</option>
     <option class="likes">{{ post[3] }}</option>
     <option class="tags">{{ post[4] }}</option>
-    <option class="date">{{ post[5] }}</option>
+    <option class="date">{{ post[5].strftime('%d %B %Y %H:%M') }}</option>
     <option class="user"><a href = "{{url_for('profile', user = user_list[0])}}" class="username_link">{{ user_list[0] }}</a></option>
     <option class="display">{{ user_list[1] }}</optin>
     <option class="pfp">{{ user_list[2] }}</option>
