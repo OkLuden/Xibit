@@ -8,8 +8,8 @@
 {% block main_content %}
     <p>Results found: {{ results }}</p>
     {% for post in posts %}
-        <option class="id">{{ post[0] }}</option>
-        <option class="userID">{{ post[1] }}</option>
+        <option class="id" style="display: none;">{{ post[0] }}</option>
+        <option class="userID" style="display: none;">{{ post[1] }}</option>
         <option class="post">{{ post[2] }}</option>
         <option class="likes">{{ post[3] }}</option>
         <option class="tags">{{ post[4] }}</option>
