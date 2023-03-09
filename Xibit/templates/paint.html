@@ -31,23 +31,29 @@
             <!--<button id="circle">Circle</button> <br>-->
             <a class="textsmall"><input type="checkbox" id="fill_shape">Fill</a> <br>
             <div class="tool_divider"></div>
-            <button id="clear" class="tool_btn">Clear Screen</button> <br>
+
+            <input type="checkbox" id="clearimage" name="clearimage"/>
 
             <div class="edit_display">
                 <div class="edit_details">
-                    <a class="text">Are you sure you would like to clear the screen?</a>
-                    <br>
-                    <a class="textsmall">You cannot undo this!</a>
-                    <div class="tool_divider"></div>
-                    <div class="edit_btns">
-                        <label for="clearimage" class="edit_cancel">Cancel</label>
-                        <label for="clearimage" id="clear" class="edit_cancel">Clear</label>
-                    </div>
+                    <form class="text" action="#" id="form_clear" method="POST" novalidate>
+                        <a class="text">Are you sure you would like to clear the screen?</a>
+                        <br>
+                        <a class="textsmall">You cannot undo this!</a>
+                        <div class="tool_divider"></div>
+                        <div class="edit_btns">
+                            <label for="clearimage" class="edit_cancel">Cancel</label>
+                            <label for="clearimage">
+                                <input type="submit" class="button" value="Clear Screen" onclick="document.getElementById('clearimage').checked = false;">
+                            </label>
+                        </div>
+                    </form>
                 </div>
                 <div class="back_shadow"></div>
             </div>
-
-            <input type="checkbox" id="clearimage" name="clearimage"/>
+            
+            <button id="clear" class="tool_btn" onclick="document.getElementById('clearimage').checked = true;">Clear Screen</button> <br>
+            
             <div class="tool_divider"></div>
 
             <a class="text">File</a> <br>

@@ -29,13 +29,24 @@ let undo = document.getElementById("undo");
 let post = document.getElementById("post");
 let ptIcons = document.querySelectorAll('.pt_icon');
 let brushIcon = document.querySelector('#brush');
-const cancelBtn = document.getElementsByClassName("edit_cancel")[0];
-const cancelBtn_post = document.getElementsByClassName("edit_cancel")[1];
+let cancel = document.getElementsByClassName("edit_cancel");
+const cancelBtn1 = document.getElementsByClassName("edit_cancel")[0];
+const cancelBtn2 = document.getElementsByClassName("edit_cancel")[1];
+const cancelBtn3 = document.getElementsByClassName("edit_cancel")[2];
+let submitBtn = document.querySelector('#form_clear input[type="submit"]');
 
 
 document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
+
+    submitBtn.addEventListener('click', function(event) {
+
+        event.preventDefault();
+
+        clearCanvas();
+    });
+
     
     brushIcon.classList.add('selected');
     ptIcons.forEach(icon => {
@@ -48,11 +59,15 @@ function init() {
         });
     });
 
-    cancelBtn.addEventListener("click", () => {
+    cancelBtn1.addEventListener("click", () => {
         click = false;
     });
 
-    cancelBtn_post.addEventListener("click", () => {
+    cancelBtn2.addEventListener("click", () => {
+        click = false;
+    });
+
+    cancelBtn3.addEventListener("click", () => {
         click = false;
     });
 
@@ -93,7 +108,6 @@ function init() {
     square.addEventListener("click", function(){ changeBrush("square"); }, false);
     circle.addEventListener("click", function(){ changeBrush("circle"); }, false);
 
-    clear.addEventListener("click", clearCanvas, false);
     undo.addEventListener("click", erasePreviousStroke, false);
     //post.addEventListener("click", postImage, false)
 
@@ -182,6 +196,7 @@ function changeBrush(brush_type) {
 
 // clears canvas
 function clearCanvas() {
+    click = false;
     context.fillStyle = "white";
     stroke_list = []; // reset all stored strokes
     context.fillRect(0, 0, width, height);
