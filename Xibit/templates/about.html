@@ -7,7 +7,47 @@
         <div class="left_text">
             <p class="text">Xibit is an ambitious project born from the dream to unite artists and allow them to show off their true and unfiltered talent.</p>
             <p class="text">We are a team of four ambitious developers with very different skills and interests.</p>
-            <h2>Meet Our Team</h2>
+            <h2 class="about_heading2">Meet Our Team</h2>
+            <div class="team_container">
+                <div class="teammate">
+                    <img src="../static/images/klaudia.jfif" class="team_pfp" alt="Klaudia">
+                    <h3 class="text">Klaudia Kulas</h3>
+                    <p class="textsmall">FrontEnd</p>
+                </div>
+                <div class="teammate">
+                    <img src="../static/images/robert.png" class="team_pfp" alt="Robert">
+                    <h3 class="text">Robert Coughlan</h3>
+                    <p class="textsmall">JavaScript Backend</p>
+                </div>
+                <div class="teammate">
+                    <img src="../static/images/dylan.png" class="team_pfp" alt="Dylan">
+                    <h3 class="text">Dylan Mulcahy</h3>
+                    <p class="textsmall">Python Backend</p>
+                </div>
+                <div class="teammate">
+                    <img src="../static/images/darragh.jpg" class="team_pfp" alt="Darragh">
+                    <h3 class="text">Darragh Hession</h3>
+                    <p class="textsmall">Did nothing</p>
+                </div>
+            </div>
+            <h2 class="about_heading2">How to use Xibit</h2>
+            <p class="text">Xibit is a social media designed for artists. It is simple to very simple to use and can be used by anyone! Below is a guide and terms of conditions.</p>
+            <br>
+            <p class="text">Painting</p>
+            <p class="textsmall">Would you like to create your very first artwork on Xibit? Click <a class="textsmall" href="{{ url_for('paint') }}">here</a> to begin painting! On the right is your canvas, and on the left are your tools! Click the icons to use any tool, paint brush, eraser, square or circle. The brush size slider will change the size of any of these tools. To fill in the shapes (circle or square) make sure to click the fill checkbox!</p>
+            <p class="textsmall">If you'd like to start over, click the clear screen button, or if you're finished you can save or post your artwork!</p>
+            <br>
+            <p class="text">Posting</p>
+            <p class="textsmall">To post a drawing, click the "Post" button while using the paint tool. This will make your artwork public for everyone to see! Make sure that you are logged in before you post any drawings.</p>
+            <br>
+            <p class="text">Making Friends</p>
+            <p class="textsmall">To add a friend, Click on their user tag (beginning with an @) and then click "Send Friend Request". To accept a friend request you go to the friends profile and click the "Accept Friend Request" button.</p>
+            <h2 class="about_heading2">Terms and Conditions</h2>
+            <p class="text">-Xibit strictly forbids copying, tracing and the use of AI on our website. If your artwork is a copy or an AI drawing, it will be removed by moderators.</p>
+            <p class="text">-NSFW artwork will not be tolerated, please make sure to keep your artwork appropriate for all ages.</p>
+            <p class="text">-Impersonating other users is not allowed.</p>
+            <p class="text">-Bullying, harrassment or hate speech of any kind is not allowed on Xibit.</p>
+
         </div>
     </div>    
 {% endblock %}
