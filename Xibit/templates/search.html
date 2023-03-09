@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block main_content %}
-    <p>Results found: {{ results }}</p>
+    <p class="text">Results found: {{ results }}</p>
     {% for post in posts %}
         <option class="id" style="display: none;">{{ post[0] }}</option>
         <option class="userID" style="display: none;">{{ post[1] }}</option>

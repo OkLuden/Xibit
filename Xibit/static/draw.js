@@ -7,10 +7,7 @@ let brush = "regular";
 let mouseX;
 let mouseY;
 let bounds;
-let scaleX;
-let scaleY;
 let image;
-let offset;
 let height = 600;
 let width = 1200;
 let current_stroke = [];
@@ -25,7 +22,6 @@ let square = document.getElementById("square");
 let circle = document.getElementById("circle");
 let clear = document.getElementById("clear");
 let eraser = document.getElementById("eraser");
-let drop = document.getElementById("dropper");
 let fill_shape = document.getElementById("fill_shape");
 let undo = document.getElementById("undo");
 let post = document.getElementById("post");
@@ -109,10 +105,8 @@ function init() {
     eraser.addEventListener("click", function(){ changeBrush("eraser"); }, false);
     square.addEventListener("click", function(){ changeBrush("square"); }, false);
     circle.addEventListener("click", function(){ changeBrush("circle"); }, false);
-    drop.addEventListener("click", function(){ changeBrush("drop"); }, false);
 
     undo.addEventListener("click", erasePreviousStroke, false);
-    //post.addEventListener("click", postImage, false)
 
     draw();
 }
@@ -147,21 +141,13 @@ function draw() {
                 } 
                 context.stroke(); 
                 click = false;
-            // normal brush stroke    
+            // eraser  
             } else if (brush == "eraser") {
                 context.fillStyle = "#FFFFFF";
                 context.strokeStyle = "#FFFFFF";
                 context.lineWidth = thick.value;
                 context.lineTo(mouseX, mouseY); 
                 context.stroke();
-            } else if (brush == "drop") {
-                click = false;
-                image = context.getImageData(0, 0, width, height);
-                offset = (mouseY * width + mouseX) * 4;
-                console.log(offset);
-                let rgb_colour = image.data.slice(offset, offset + 4);
-                colour.value = "#" + rgb_colour[1].toString(16) + rgb_colour[2].toString(16) + rgb_colour[3].toString(16);
-                colourChange();
             } else {
                 context.lineWidth = thick.value;
                 context.lineTo(mouseX, mouseY); 
