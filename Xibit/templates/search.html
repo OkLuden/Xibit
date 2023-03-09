@@ -2,16 +2,17 @@
 
 {% block head_content %}
 <script src="../static/feed.js" type="module"></script>
+<script src="../static/search.js"></script>
 {% endblock %}
 
 {% block main_content %}
     <p>Results found: {{ results }}</p>
-    <option class="id">{{ post[0] }}</option>
-    <option class="userID">{{ post[1] }}</option>
+    <option class="id" style="display: none;">{{ post[0] }}</option>
+    <option class="userID" style="display: none;">{{ post[1] }}</option>
     <option class="post">{{ post[2] }}</option>
     <option class="likes">{{ post[3] }}</option>
     <option class="tags">{{ post[4] }}</option>
-    <option class="date">{{ post[5] }}</option>
+    <option class="date">{{ post[5].strftime('%d %B %Y %H:%M') }}</option>
     <option class="user"><a href = "{{url_for('profile', user = user_list[0])}}" class="username_link">{{ user_list[0] }}</a></option>
     <option class="display">{{ user_list[1] }}</optin>
     <option class="pfp">{{ user_list[2] }}</option>

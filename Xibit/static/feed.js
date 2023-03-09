@@ -24,14 +24,6 @@ document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
 
-
-    document.getElementById("post_search").addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            search();
-        }
-    });
-    
-
     for (let i = 0; i < user_likes.length; i++) {
         user_likes_list[i] = user_likes[i].innerHTML;
     }
@@ -179,16 +171,6 @@ function viewPost(i) {
     postID = id_list[i];
     console.log(postID);
     fetch('viewPost/' + postID.toString()).then(
-        response => {
-            window.location = response.url
-        }
-    )
-}
-
-function search() {
-    value = document.getElementById("post_search").value;
-    console.log(value);
-    fetch('searchPost/' + value).then(
         response => {
             window.location = response.url
         }

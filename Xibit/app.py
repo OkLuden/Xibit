@@ -83,7 +83,7 @@ def index():
     date_list = date_dict.values()
     true_date_list = []
     for datetimes in date_list:
-        datetimes = datetime.strptime(str(datetimes),'%Y-%m-%d %H:%M:%S').strftime('%d %B %Y %H:%M:%S')
+        datetimes = datetime.strptime(str(datetimes),'%Y-%m-%d %H:%M:%S').strftime('%d %B %Y %H:%M')
         true_date_list.append(datetimes)
 
     # fetch userID for post and then translate into username
