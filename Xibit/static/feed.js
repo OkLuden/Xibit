@@ -91,7 +91,6 @@ function init() {
         likeButton = document.getElementById("likes" + i.toString());
         image = document.getElementById("post_image" + i.toString());
         likeButton.addEventListener("click", function(){ likePost(i.toString()); }, false);
-        image.addEventListener("click", function(){ viewPost(i.toString()); }, false);
         
     }
 
@@ -165,14 +164,4 @@ function likePost(i) {
         }
         like.value = false;
     }
-}
-
-function viewPost(i) {
-    postID = id_list[i];
-    console.log(postID);
-    fetch('viewPost/' + postID.toString()).then(
-        response => {
-            window.location = response.url
-        }
-    )
 }
