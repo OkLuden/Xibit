@@ -487,6 +487,10 @@ def logout():
     session.clear()
     return redirect(url_for("index"))
 
+@app.route("/about", methods = ["GET","POST"])
+def about():
+    return render_template("about.html", page = "About" )
+
 def getUserID(cursor, username):
         getUserSql = """SELECT userID FROM users WHERE username = %s;"""
         cursor.execute(getUserSql, username)
