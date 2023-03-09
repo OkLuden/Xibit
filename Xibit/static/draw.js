@@ -29,7 +29,6 @@ let undo = document.getElementById("undo");
 let post = document.getElementById("post");
 let ptIcons = document.querySelectorAll('.pt_icon');
 let brushIcon = document.querySelector('#brush');
-let cancel = document.getElementsByClassName("edit_cancel");
 const cancelBtn1 = document.getElementsByClassName("edit_cancel")[0];
 const cancelBtn2 = document.getElementsByClassName("edit_cancel")[1];
 const cancelBtn3 = document.getElementsByClassName("edit_cancel")[2];
@@ -119,7 +118,7 @@ function draw() {
     request_id = window.requestAnimationFrame(draw);
     thick_label.innerHTML = "Current Size: " + (thick.value).toString();
 
-    if (document.getElementById("disp_saveimage").checked == true || document.getElementById("post").checked == true) {
+    if (document.getElementById("disp_saveimage").checked == true || document.getElementById("post").checked == true || document.getElementById("clearimage").checked == true) {
         return
     } else {
         if (click) {
