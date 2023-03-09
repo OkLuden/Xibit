@@ -9,6 +9,7 @@ from json import loads
 from datetime import datetime
 import uuid as uuid
 import os
+from pymysql.cursors import DictCursor
 
 
 app = Flask(__name__)
@@ -535,8 +536,12 @@ def post(tags):
 @app.route("/viewPost/<postID>", methods = ['GET', 'POST'])
 def viewPost(postID):
     db = get_db()
-    cursor = db.cursor()
-    with cursor as cursor:
+    with db.cursor(cursor=DictCursor) as cursor:
         cursor.execute("""SELECT * FROM posts WHERE postID = %s;""", (postID))
         post = cursor.fetchone()
-        return render_template("viewPost.html", post=post)
+        
+        cursor.execute("""SELECT * FROM users WHERE userID = %s;""", (post['creatorID']))
+        creator = cursor.fetchone()
+
+        
+        return render_template("viewPost.html", post=post, creator=creator)

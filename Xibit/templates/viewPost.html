@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 
 {% block head_content %}
-<script src="../static/feed.js" type="module"></script>
+<script src="../static/viewPost.js" type="module"></script>
 <script src="../static/search.js"></script>
 {% endblock %}
 
 {% block main_content %}
-    <option class="post">{{ post }}</option>
+    <option class="post">{{ post['image'] }}</option>
     <button id="likebtn">Like</button>
+
+    <option class="user"><a href = "{{url_for('profile', user = creator['username'])}}" class="username_link">{{ creator['username'] }}</a></option>
+    <option class="display">{{ creator['displayName'] }}</option>
+    <option class="pfp">{{ creator['profilepic'] }}</option>
 {% endblock %}
