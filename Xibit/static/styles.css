@@ -790,6 +790,10 @@ footer {
     align-self: center;
 }
 
+#tags {
+    color: black;
+}
+
 /* SCROLL BAR */
 ::-webkit-scrollbar {
     width: 18px;
