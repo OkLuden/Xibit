@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 
 {% block head_content %}
-<script src="../static/viewPost.js" type="module"></script>
+<script src="../static/feed.js" type="module"></script>
 <script src="../static/search.js"></script>
 {% endblock %}
 
 {% block main_content %}
+
+    {% if creator['username'] == g.user %}
+        <a href="{{ url_for('deletePost', postID = post['postID']) }} " class="username_link">Delete Post</a>
+    {% endif %}
     <div class="post_div">
         <option class="post">{{ post['image'] }}</option>
         <button id="likebtn">Like</button>
@@ -13,6 +17,14 @@
         <option class="user"><a href = "{{url_for('profile', user = creator['username'])}}" class="username_link">{{ creator['username'] }}</a></option>
         <option class="display">{{ creator['displayName'] }}</option>
         <option class="pfp">{{ creator['profilepic'] }}</option>
+
+        <option class="likes">{{ likes['likes'] }}</option>
+        <option class="id"></option>
+        
+        <option class="date">{{ post['date'] }}</option>
+
+        <option class="tags">{{ post['tags'] }}</option>
+ 
     </div>
 
     <div class="center">
@@ -38,7 +50,7 @@
         <div class="pro_div"></div>
         <p id="comment">{{ comment['comment'] }}</p>
 
-        {% if comment['username'] == g.user %}
+        {% if comment['username'] == g.user or creator['username'] == g.user %}
             <div class="delete_div"></div>
             <a href="{{ url_for('deleteComment', commentID = comment['commentID']) }}" class="username_link">Delete Comment</a>
         {% endif %}

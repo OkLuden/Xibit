@@ -555,14 +555,21 @@ def viewPost(postID):
         postSQL = """SELECT * FROM posts WHERE postID = %s;"""
         cursor.execute(postSQL, (postID))
         post = cursor.fetchone()
-        
+
+
         creatorSQL = """SELECT * FROM users WHERE userID = %s;"""
         cursor.execute(creatorSQL, (post['creatorID']))
         creator = cursor.fetchone()
 
+
+
         commentSQL = """SELECT * FROM comments WHERE postID = %s;"""
         cursor.execute(commentSQL, (postID))
         comments = cursor.fetchall()
+
+        likesSQL = """SELECT likes FROM posts WHERE postID = %s;"""
+        cursor.execute(likesSQL, (postID))
+        likes = cursor.fetchone()
 
         app.logger.info(comments)
 
@@ -576,7 +583,7 @@ def viewPost(postID):
 
             app.logger.info(comment)
         
-        return render_template("viewPost.html", post=post, creator=creator, comments=comments, form=form)
+        return render_template("viewPost.html", post=post, creator=creator, comments=comments, form=form, likes=likes)
     
 @app.route('/deleteComment/<commentID>', methods=['GET'])
 @login_required
@@ -591,3 +598,13 @@ def deleteComment(commentID):
         cursor.execute(deleteCommentSQL, (commentID))
         db.commit()
     return redirect(url_for('viewPost', postID = postID[0]))
+
+@app.route("/deletePost/<postID>", methods=['GET'])
+@login_required
+def deletePost(postID):
+    db = get_db()
+    with db.cursor() as cursor:
+        deleteSQL = """DELETE FROM posts WHERE postID = %s;"""
+        cursor.execute(deleteSQL, (postID))
+        db.commit()
+    return redirect(url_for('profile', user = g.user))
