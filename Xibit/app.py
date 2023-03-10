@@ -346,6 +346,7 @@ def acceptFriendRequest(user):
         otherID = getUserID(cursor, user)
         time = getDateTime()
         cursor.execute("""INSERT INTO friends VALUES(%s, %s, %s);""", (userID, otherID, time))
+        cursor.execute("""DELETE FROM friendRequests WHERE (senderID = %s AND receiverID = %s);""", (otherID, userID))
         db.commit()
         flash(f"Accepted friend request from {user}")
         return redirect(url_for('profile', user = user))
@@ -608,3 +609,23 @@ def deletePost(postID):
         cursor.execute(deleteSQL, (postID))
         db.commit()
     return redirect(url_for('profile', user = g.user))
+
+@app.route("/viewFriendRequests/<user>", methods=['GET'])
+@login_required
+def viewFriendRequests(user):
+    if user != g.user:
+        return redirect(url_for('/'))
+    db = get_db()
+    with db.cursor() as cursor:
+        friendRequesters = []
+        noFriendRequests = False
+        userID = getUserID(cursor, g.user)
+        friendRequestsSQL = """SELECT senderID FROM friendRequests WHERE receiverID = %s;"""
+        cursor.execute(friendRequestsSQL, (userID))
+        friendRequests = cursor.fetchall()
+        for requester in friendRequests:
+            cursor.execute("""SELECT username FROM users WHERE userID = %s;""", (requester[0]))
+            friendRequesters.append(cursor.fetchone()[0])
+        if len(friendRequesters) == 0:
+            noFriendRequests = True
+    return render_template('viewFriendRequests.html', friendRequesters=friendRequesters, noFriendRequests=noFriendRequests)
