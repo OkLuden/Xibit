@@ -381,6 +381,7 @@ def deleteFriend(user):
 def viewFriends(user):
     db = get_db()
     with db.cursor() as cursor:
+        noFriends = False
         friends = []
         userID = getUserID(cursor, user)
         cursor.execute("""SELECT user2ID FROM friends WHERE user1ID = %s;""", (userID))
@@ -393,7 +394,9 @@ def viewFriends(user):
         for friend in friendsList:
             cursor.execute("""SELECT username FROM users WHERE userID = %s;""", (friend))
             friends.append(cursor.fetchone()[0])
-    return render_template("friends.html", user = user, friends = friends)
+        if len(friends) == 0:
+            noFriends = True
+    return render_template("friends.html", user = user, friends = friends, noFriends=noFriends)
         
 
 

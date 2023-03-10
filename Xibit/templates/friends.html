@@ -6,9 +6,14 @@
 
 {% block main_content %} 
 
-<h1>Friends for {{ user }}</h1>
+<h1 class="friend_H1">Friends for {{ user }}</h1>
+
+{% if noFriends == True %} 
+<p class="friend_text">No friends found LOL</p>
+{% endif %}
 
 {% for friend in friends %}
+
     <a href="{{ url_for('profile', user = friend) }}">{{ friend }}</a>
     {% if user == g.user %} 
         <a href="{{ url_for('deleteFriend', user = friend)}}">Remove friend</a>

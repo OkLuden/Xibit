@@ -662,6 +662,10 @@ input[type=button]:hover {
     height: 12px;
 }
 
+#friendH1 {
+
+}
+
 /*
 input[type=text] {
     background-color: #1f1f1f;
@@ -869,6 +873,21 @@ footer {
     margin: 0px;
     padding: 0px;
 }
+
+.friend_H1{
+    text-align: center;
+    color: #ffffff;
+    font-family: "Lato", sans-serif;
+    font-size: 40px;
+}
+
+.friend_text {
+    color: #ffffff;
+    font-family: "Lato", sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
+
 
 /* MOBILE */
 
