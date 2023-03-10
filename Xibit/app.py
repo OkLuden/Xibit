@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, request, jsonify, g, session, make_response, logging, flash
-from forms import RegistrationForm, LoginForm, ProfileEditForm
+from forms import RegistrationForm, LoginForm, ProfileEditForm, CommentForm
 from db import get_db, close_db
 from flask_session import Session
 from functools import wraps
@@ -533,15 +533,58 @@ def post(tags):
  
     return redirect(url_for("index"))
 
+
 @app.route("/viewPost/<postID>", methods = ['GET', 'POST'])
+@login_required
 def viewPost(postID):
+    form = CommentForm()
     db = get_db()
+
+    if form.validate_on_submit():
+        with db.cursor() as cursor:
+            comment = form.comment.data
+            userID = getUserID(cursor, g.user)
+            createCommentSQL = """INSERT INTO comments (postID, userID, comment) VALUES (%s, %s, %s);"""
+            cursor.execute(createCommentSQL, (postID, userID, comment))
+            db.commit()
+
     with db.cursor(cursor=DictCursor) as cursor:
-        cursor.execute("""SELECT * FROM posts WHERE postID = %s;""", (postID))
+        postSQL = """SELECT * FROM posts WHERE postID = %s;"""
+        cursor.execute(postSQL, (postID))
         post = cursor.fetchone()
         
-        cursor.execute("""SELECT * FROM users WHERE userID = %s;""", (post['creatorID']))
+        creatorSQL = """SELECT * FROM users WHERE userID = %s;"""
+        cursor.execute(creatorSQL, (post['creatorID']))
         creator = cursor.fetchone()
 
+        commentSQL = """SELECT * FROM comments WHERE postID = %s;"""
+        cursor.execute(commentSQL, (postID))
+        comments = cursor.fetchall()
+
+        app.logger.info(comments)
+
+        for comment in comments:
+            commenterSQL = """SELECT username, profilepic, displayName FROM users WHERE userID = %s;"""
+            cursor.execute(commenterSQL, (comment['userID']))
+            commenter = cursor.fetchone()
+            comment['username'] = commenter['username']
+            comment['profilepic'] = commenter['profilepic']
+            comment['displayName'] = commenter['displayName']
+
+            app.logger.info(comment)
         
-        return render_template("viewPost.html", post=post, creator=creator)
+        return render_template("viewPost.html", post=post, creator=creator, comments=comments, form=form)
+    
+@app.route('/deleteComment/<commentID>', methods=['GET'])
+@login_required
+def deleteComment(commentID):
+    db = get_db()
+    with db.cursor() as cursor:
+        postIDSQL = """SELECT postID FROM comments WHERE commentID = %s;"""
+        cursor.execute(postIDSQL, (commentID))
+        postID = cursor.fetchone()
+
+        deleteCommentSQL = """DELETE FROM comments WHERE commentID = %s;"""
+        cursor.execute(deleteCommentSQL, (commentID))
+        db.commit()
+    return redirect(url_for('viewPost', postID = postID[0]))

@@ -645,6 +645,23 @@ input[type=button]:hover {
     background-color: #555555;
 }
 
+#comment {
+    color: #c7d4d3;
+    font-family: "Lato", sans-serif;
+    font-size: 24px;
+    margin: 0px;
+}
+
+.comment_div {
+    height: 48px;
+    width: 1200px;
+
+}
+
+.delete_div {
+    height: 12px;
+}
+
 /*
 input[type=text] {
     background-color: #1f1f1f;

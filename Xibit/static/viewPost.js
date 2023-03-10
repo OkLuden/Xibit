@@ -69,6 +69,36 @@ function init() {
         document.getElementById('top' + i.toString()).appendChild(sepDiv);
 
         likeButton = document.getElementById("likes" + i.toString());
-        image = document.getElementById("post_image" + i.toString());  
+        image = document.getElementById("post_image" + i.toString()); 
+        
+        posts = document.querySelectorAll('.post');
+        posts.forEach(option => {
+            option.remove();
+        });
+    
+        users = document.querySelectorAll('.user');
+        users.forEach(option => {
+            option.remove();
+        });
+    
+        likes = document.querySelectorAll('.likes');
+        likes.forEach(option => {
+            option.remove();
+        });
+    
+        displays = document.querySelectorAll('.display');
+        displays.forEach(option => {
+            option.remove();
+        });
+    
+        pfps = document.querySelectorAll('.pfp');
+        pfps.forEach(option => {
+            option.remove();
+        });
+        
+        tags = document.querySelectorAll('.tags');
+        tags.forEach(option => {
+            option.remove();
+        });
     }
 }
