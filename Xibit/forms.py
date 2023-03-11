@@ -21,3 +21,7 @@ class ProfileEditForm(FlaskForm):
     display_name = StringField("Display Name:",validators=[Length(min=4,max=20), Optional()])
     bio = StringField("Bio:",validators=[Length(min=1,max=300), Optional()])
     submit = SubmitField("Submit")
+
+class CommentForm(FlaskForm):
+    comment = StringField("Leave a comment!", validators=[Length(min=1, max=150), InputRequired()])
+    submit = SubmitField("Submit")

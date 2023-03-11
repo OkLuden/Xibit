@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, request, jsonify, g, session, make_response, logging, flash
-from forms import RegistrationForm, LoginForm, ProfileEditForm
+from forms import RegistrationForm, LoginForm, ProfileEditForm, CommentForm
 from db import get_db, close_db
 from flask_session import Session
 from functools import wraps
@@ -9,6 +9,7 @@ from json import loads
 from datetime import datetime
 import uuid as uuid
 import os
+from pymysql.cursors import DictCursor
 
 
 app = Flask(__name__)
@@ -345,6 +346,7 @@ def acceptFriendRequest(user):
         otherID = getUserID(cursor, user)
         time = getDateTime()
         cursor.execute("""INSERT INTO friends VALUES(%s, %s, %s);""", (userID, otherID, time))
+        cursor.execute("""DELETE FROM friendRequests WHERE (senderID = %s AND receiverID = %s);""", (otherID, userID))
         db.commit()
         flash(f"Accepted friend request from {user}")
         return redirect(url_for('profile', user = user))
@@ -380,6 +382,7 @@ def deleteFriend(user):
 def viewFriends(user):
     db = get_db()
     with db.cursor() as cursor:
+        noFriends = False
         friends = []
         userID = getUserID(cursor, user)
         cursor.execute("""SELECT user2ID FROM friends WHERE user1ID = %s;""", (userID))
@@ -392,7 +395,9 @@ def viewFriends(user):
         for friend in friendsList:
             cursor.execute("""SELECT username FROM users WHERE userID = %s;""", (friend))
             friends.append(cursor.fetchone()[0])
-    return render_template("friends.html", user = user, friends = friends)
+        if len(friends) == 0:
+            noFriends = True
+    return render_template("friends.html", user = user, friends = friends, noFriends=noFriends)
         
 
 
@@ -532,11 +537,95 @@ def post(tags):
  
     return redirect(url_for("index"))
 
+
 @app.route("/viewPost/<postID>", methods = ['GET', 'POST'])
+@login_required
 def viewPost(postID):
+    form = CommentForm()
     db = get_db()
-    cursor = db.cursor()
-    with cursor as cursor:
-        cursor.execute("""SELECT * FROM posts WHERE postID = %s;""", (postID))
+
+    if form.validate_on_submit():
+        with db.cursor() as cursor:
+            comment = form.comment.data
+            userID = getUserID(cursor, g.user)
+            createCommentSQL = """INSERT INTO comments (postID, userID, comment) VALUES (%s, %s, %s);"""
+            cursor.execute(createCommentSQL, (postID, userID, comment))
+            db.commit()
+
+    with db.cursor(cursor=DictCursor) as cursor:
+        postSQL = """SELECT * FROM posts WHERE postID = %s;"""
+        cursor.execute(postSQL, (postID))
         post = cursor.fetchone()
-        return render_template("viewPost.html", post=post)
+
+
+        creatorSQL = """SELECT * FROM users WHERE userID = %s;"""
+        cursor.execute(creatorSQL, (post['creatorID']))
+        creator = cursor.fetchone()
+
+
+
+        commentSQL = """SELECT * FROM comments WHERE postID = %s;"""
+        cursor.execute(commentSQL, (postID))
+        comments = cursor.fetchall()
+
+        likesSQL = """SELECT likes FROM posts WHERE postID = %s;"""
+        cursor.execute(likesSQL, (postID))
+        likes = cursor.fetchone()
+
+        app.logger.info(comments)
+
+        for comment in comments:
+            commenterSQL = """SELECT username, profilepic, displayName FROM users WHERE userID = %s;"""
+            cursor.execute(commenterSQL, (comment['userID']))
+            commenter = cursor.fetchone()
+            comment['username'] = commenter['username']
+            comment['profilepic'] = commenter['profilepic']
+            comment['displayName'] = commenter['displayName']
+
+            app.logger.info(comment)
+        
+        return render_template("viewPost.html", post=post, creator=creator, comments=comments, form=form, likes=likes)
+    
+@app.route('/deleteComment/<commentID>', methods=['GET'])
+@login_required
+def deleteComment(commentID):
+    db = get_db()
+    with db.cursor() as cursor:
+        postIDSQL = """SELECT postID FROM comments WHERE commentID = %s;"""
+        cursor.execute(postIDSQL, (commentID))
+        postID = cursor.fetchone()
+
+        deleteCommentSQL = """DELETE FROM comments WHERE commentID = %s;"""
+        cursor.execute(deleteCommentSQL, (commentID))
+        db.commit()
+    return redirect(url_for('viewPost', postID = postID[0]))
+
+@app.route("/deletePost/<postID>", methods=['GET'])
+@login_required
+def deletePost(postID):
+    db = get_db()
+    with db.cursor() as cursor:
+        deleteSQL = """DELETE FROM posts WHERE postID = %s;"""
+        cursor.execute(deleteSQL, (postID))
+        db.commit()
+    return redirect(url_for('profile', user = g.user))
+
+@app.route("/viewFriendRequests/<user>", methods=['GET'])
+@login_required
+def viewFriendRequests(user):
+    if user != g.user:
+        return redirect(url_for('/'))
+    db = get_db()
+    with db.cursor() as cursor:
+        friendRequesters = []
+        noFriendRequests = False
+        userID = getUserID(cursor, g.user)
+        friendRequestsSQL = """SELECT senderID FROM friendRequests WHERE receiverID = %s;"""
+        cursor.execute(friendRequestsSQL, (userID))
+        friendRequests = cursor.fetchall()
+        for requester in friendRequests:
+            cursor.execute("""SELECT username FROM users WHERE userID = %s;""", (requester[0]))
+            friendRequesters.append(cursor.fetchone()[0])
+        if len(friendRequesters) == 0:
+            noFriendRequests = True
+    return render_template('viewFriendRequests.html', friendRequesters=friendRequesters, noFriendRequests=noFriendRequests)

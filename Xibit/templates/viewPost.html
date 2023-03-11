@@ -6,6 +6,56 @@
 {% endblock %}
 
 {% block main_content %}
-    <option class="post">{{ post }}</option>
-    <button id="likebtn">Like</button>
+
+    {% if creator['username'] == g.user %}
+        <a href="{{ url_for('deletePost', postID = post['postID']) }} " class="username_link">Delete Post</a>
+    {% endif %}
+    <div class="post_div">
+        <option class="post">{{ post['image'] }}</option>
+        <button id="likebtn">Like</button>
+
+        <option class="user"><a href = "{{url_for('profile', user = creator['username'])}}" class="username_link">{{ creator['username'] }}</a></option>
+        <option class="display">{{ creator['displayName'] }}</option>
+        <option class="pfp">{{ creator['profilepic'] }}</option>
+
+        <option class="likes">{{ likes['likes'] }}</option>
+        <option class="id"></option>
+        
+        <option class="date">{{ post['date'] }}</option>
+
+        <option class="tags">{{ post['tags'] }}</option>
+ 
+    </div>
+
+    <div class="center">
+    <form class="text" action="#" method="POST" novalidate>
+        <br>
+        {{ form.hidden_tag() }}
+        {{ form.comment.label }}
+        {{ form.comment() }}
+        <p class="error_text">
+            {% for error in form.comment.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <div class="tool_divider"></div>
+        {{ form.submit(class="button") }}
+    </form>
+    </div>
+
+    {% for comment in comments %} 
+        <p id="username_post"><a href = "{{url_for('profile', user = comment['username'])}}" class="username_link">@{{ comment['username'] }}</a></option>
+        <p id="display_post">{{ comment['displayName'] }}</p>
+        <img id="post_pfp" href="{{ comment['profilepic'] }}"/>
+        <div class="pro_div"></div>
+        <p id="comment">{{ comment['comment'] }}</p>
+
+        {% if comment['username'] == g.user or creator['username'] == g.user %}
+            <div class="delete_div"></div>
+            <a href="{{ url_for('deleteComment', commentID = comment['commentID']) }}" class="username_link">Delete Comment</a>
+        {% endif %}
+
+        <div class="comment_div"></div>
+
+    {% endfor %}
 {% endblock %}

@@ -95,8 +95,11 @@
                 <label class="friends_text">Friends</label>
                 {% endif %}
             {% endif %}
-            {% if friends !=0 %}
+ 
                 <label for="view_Friends" class="edit-btn"><a href="{{ url_for('viewFriends', user = user) }}" class="text_btn">View Friends</a></label>
+
+            {% if user == g.user %}
+                <label for="view_friend_requests" class="edit-btn"><a href="{{ url_for('viewFriendRequests', user = g.user) }}" class="text_btn">View Friend Requests</a></label>
             {% endif %}
 
         </div>
