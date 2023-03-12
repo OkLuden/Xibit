@@ -158,7 +158,7 @@ ul {
 
 .nav_text:hover {
     /*background-color: #383838;*/
-    transform: scale(1.1);
+    transform: scale(1.12);
 }
 
 .nav_text {
@@ -626,6 +626,18 @@ input[type=button]:hover {
     margin-right: auto;
 }
 
+.post_image {
+    border-radius: 2px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition: transform .25s;
+}
+
+.post_image:hover {
+    transform: scale(1.01);
+}
+
 #display_post {
     color: #ffffff;
     font-family: "Lato", sans-serif;
@@ -699,6 +711,14 @@ input[type=text] {
 .friendslist_container {
     margin-left: 10%;
     margin-right: 10%;
+}
+
+.rm_friend_text {
+    color: #d11a33;
+    font-family: "Lato", sans-serif;
+    font-size: 20px;
+    text-decoration: none;
+    float: right;
 }
 
 /* FOOTER */
@@ -776,6 +796,8 @@ footer {
 
 #tags {
     color: black;
+    font-family: "Lato", sans-serif;
+    font-size: 20px;
 }
 
 #p_tags {
@@ -863,6 +885,13 @@ footer {
     border-radius: 100px;
     margin: 0px;
     padding: 0px;
+    cursor: pointer;
+    transition: transform .25s;
+    
+}
+
+.team_pfp:hover {
+    transform: scale(1.1);
 }
 
 .friend_H1{
@@ -912,7 +941,7 @@ footer {
 .comment_divider {
     height: 1px;
     background-color: #555555;
-    width: 90%;
+    width: 100%;
     margin-top: 20px;
     margin-bottom: 20px;
 }
