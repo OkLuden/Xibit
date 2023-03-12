@@ -397,7 +397,7 @@ def viewFriends(user):
             friends.append(cursor.fetchone()[0])
         if len(friends) == 0:
             noFriends = True
-    return render_template("friends.html", user = user, friends = friends, noFriends=noFriends)
+    return render_template("friends.html", user = user, friends = friends, noFriends=noFriends, page = "Friends")
         
 
 
