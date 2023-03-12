@@ -56,7 +56,7 @@ function init() {
         username.innerHTML = "@" + users[i].innerHTML;
         display.innerHTML = displays[i].innerHTML;
 
-        document.getElementById("main").appendChild(topDiv);
+        document.getElementById("main_viewpost").appendChild(topDiv);
         document.getElementById("top" + i.toString()).appendChild(newDiv);
         document.getElementById("post" + i.toString()).appendChild(proDiv);
         document.getElementById('pro' + i.toString()).appendChild(newPfp);

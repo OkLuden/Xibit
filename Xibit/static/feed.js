@@ -76,8 +76,11 @@ function init() {
             like.setAttribute("name", false);
         }
 
-
-        document.getElementById("main").appendChild(topDiv);
+        if (document.getElementById("main_viewpost") != null) {
+            document.getElementById("main_viewpost").appendChild(topDiv);
+        } else { 
+            document.getElementById("main").appendChild(topDiv);
+        }
         document.getElementById("top" + i.toString()).appendChild(newDiv);
         document.getElementById("post" + i.toString()).appendChild(proDiv);
         document.getElementById('pro' + i.toString()).appendChild(newPfp);
