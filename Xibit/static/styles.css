@@ -309,7 +309,6 @@ input[type=password] {
 
 input[type=submit] {
     background-color: #22C6FF;
-    width: 100%;
     padding: 10px 30px;
     text-decoration: none;
     font-family: "Lato", sans-serif;
@@ -612,10 +611,6 @@ input[type=button]:hover {
     justify-content: center;
 }
 
-#pro_div {
-    float: left;
-}
-
 #post_pfp {
     height: 50px;
     width: 50px;
@@ -644,24 +639,6 @@ input[type=button]:hover {
     width: 1200px;
     background-color: #555555;
 }
-
-#comment {
-    color: #c7d4d3;
-    font-family: "Lato", sans-serif;
-    font-size: 24px;
-    margin: 0px;
-}
-
-.comment_div {
-    height: 48px;
-    width: 1200px;
-
-}
-
-.delete_div {
-    height: 12px;
-}
-
 
 /*
 input[type=text] {
@@ -699,6 +676,7 @@ input[type=text] {
     border-radius: 5px;
     position: fixed;
     top: 74px;
+    left: 20px;
 }
 
 #selection_save {
@@ -792,6 +770,12 @@ footer {
 
 #tags {
     color: black;
+}
+
+#p_tags {
+    color: #ffffff;
+    font-family: "Lato", sans-serif;
+    font-size: 20px;
 }
 
 /* SCROLL BAR */
@@ -889,6 +873,48 @@ footer {
     text-align: center;
 }
 
+/* VIEW POST */
+
+.viewPost {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#comment {
+    font-family: "Lato", sans-serif;
+    font-size: 24px;
+    margin: 0px;
+    width: 90%;
+}
+
+#post0 {
+    flex: 1;
+}
+
+.comment_section {
+    width: 1200px;
+    flex: 2;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.top_div {
+    flex: 1;
+}
+
+.comment_divider {
+    height: 1px;
+    background-color: #555555;
+    width: 90%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.comment_btn {
+    width: 160px;
+    margin-bottom: 20px;
+}
 
 /* MOBILE */
 
