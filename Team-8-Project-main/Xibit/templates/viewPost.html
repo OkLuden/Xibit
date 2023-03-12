@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+<div class="viewPost">
+    {% block head_content %}
+    <script src="../static/feed.js" type="module"></script>
+    <script src="../static/search.js"></script>
+    {% endblock %}
+
+    {% block main_content %}
+
+        {% if creator['username'] == g.user %}
+            <a href="{{ url_for('deletePost', postID = post['postID']) }} " class="username_link">Delete Post</a>
+        {% endif %}
+
+        <option class="post">{{ post['image'] }}</option>
+
+        <option class="user"><a href = "{{url_for('profile', user = creator['username'])}}" class="username_link">{{ creator['username'] }}</a></option>
+        <option class="display">{{ creator['displayName'] }}</option>
+        <option class="pfp">{{ creator['profilepic'] }}</option>
+
+        <option class="likes">{{ likes['likes'] }}</option>
+        <option class="id"></option>
+        
+        <option class="date">{{ post['date'] }}</option>
+
+        <option class="tags">{{ post['tags'] }}</option>
+    
+        <div id="main_viewpost">
+                
+        </div>
+
+        <div class="comment_section">
+            <form class="text" action="#" method="POST" novalidate>
+                <br>
+                {{ form.hidden_tag() }}
+                {{ form.comment.label }}
+                {{ form.comment() }}
+                <p class="error_text">
+                    {% for error in form.comment.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
+                <div class="tool_divider"></div>
+                {{ form.submit(class="comment_btn") }}
+            </form>
+            <div class="comment_divider"></div>
+        
+            <div class="comment_div">
+                {% for comment in comments %} 
+                    <p id="display_post"><img id="post_pfp" src="../static/images/profilepics/{{ comment['profilepic'] }}"/>{{ comment['displayName'] }}</p>
+                    <p id="username_post"><a href = "{{url_for('profile', user = comment['username'])}}" class="username_link">@{{ comment['username'] }}</a></option>
+                    <div class="pro_div"></div>
+                    <p class="text">{{ comment['comment'] }}</p>
+                    <div class="comment_divider"></div>
+
+                    {% if comment['username'] == g.user or creator['username'] == g.user %}
+                        <div class="delete_div"></div>
+                        <a href="{{ url_for('deleteComment', commentID = comment['commentID']) }}" class="username_link">Delete Comment</a>
+                    {% endif %}
+
+                
+                {% endfor %}
+        </div>
+</div>
+{% endblock %}
