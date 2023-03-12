@@ -43,8 +43,8 @@ function init() {
         display.setAttribute("id", "display_post");
         const date = document.createElement('p');
         date.setAttribute("id", "date_of_post");
-        const tag = document.createElement('p')
-        tag.setAttribute("id", "tags")
+        const tag = document.createElement('p');
+        tag.setAttribute("class", "tags");
         like = document.createElement('button');
         like.setAttribute("id", "likes" + i.toString());
 
@@ -56,7 +56,7 @@ function init() {
         username.innerHTML = "@" + users[i].innerHTML;
         display.innerHTML = displays[i].innerHTML;
 
-        document.getElementById("main").appendChild(topDiv);
+        document.getElementById("main_viewpost").appendChild(topDiv);
         document.getElementById("top" + i.toString()).appendChild(newDiv);
         document.getElementById("post" + i.toString()).appendChild(proDiv);
         document.getElementById('pro' + i.toString()).appendChild(newPfp);

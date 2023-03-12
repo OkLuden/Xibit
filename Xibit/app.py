@@ -239,6 +239,8 @@ def profile(user):
         for like in likes:
             total_likes += like[0]
         friends = cursor.execute(''' SELECT user2ID FROM friends WHERE user1ID = %s;''', (userID))
+        num_friends = cursor.fetchall()
+        num_friends = 0 if not num_friends else num_friends[0]
         artworks = cursor.execute(''' SELECT postID FROM posts WHERE creatorID = %s;''', (userID))
         if form.validate_on_submit():
             new_display_name = form.display_name.data
@@ -305,7 +307,7 @@ def profile(user):
         likes = cursor.fetchall()
         for like in likes:
             total_likes += like[0]
-        friends = cursor.execute(''' SELECT user2ID FROM friends WHERE user1ID = %s;''', (userID))
+        num_friends = cursor.execute(''' SELECT user2ID FROM friends WHERE user1ID = %s;''', (userID))
         artworks = cursor.execute(''' SELECT postID FROM posts WHERE creatorID = %s;''', (userID))
         friendStatus = getFriendStatus(user)
 
@@ -321,7 +323,7 @@ def profile(user):
                                         WHERE username = %s;''', (user))
     profilepic = cursor.fetchone()
 
-    return render_template("profile.html", profilepic = profilepic, likes = total_likes, posts = posts, artworks = artworks, friends = friends, display_name = display_name, bio = bio, form = form, page = "Profile", user = user, friendStatus = friendStatus)
+    return render_template("profile.html", profilepic = profilepic, likes = total_likes, posts = posts, artworks = artworks, friends = num_friends, display_name = display_name, bio = bio, form = form, page = "Profile", user = user, friendStatus = friendStatus)
 
 
 @app.route("/sendFriendRequest/<user>", methods = ["GET"])
@@ -397,7 +399,7 @@ def viewFriends(user):
             friends.append(cursor.fetchone()[0])
         if len(friends) == 0:
             noFriends = True
-    return render_template("friends.html", user = user, friends = friends, noFriends=noFriends)
+    return render_template("friends.html", user = user, friends = friends, noFriends=noFriends, page = "Friends")
         
 
 

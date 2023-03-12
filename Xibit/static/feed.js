@@ -52,9 +52,10 @@ function init() {
         const date = document.createElement('p');
         date.setAttribute("id", "date_of_post");
         const tag = document.createElement('p')
-        tag.setAttribute("id", "tags")
+        tag.setAttribute("id", "tags_text")
         like = document.createElement('button');
         like.setAttribute("id", "likes" + i.toString());
+        like.setAttribute("class", "likebtn");
 
         newDiv.setAttribute("id", "post" + i.toString());
         topDiv.setAttribute("id", "top" + i.toString());
@@ -75,8 +76,11 @@ function init() {
             like.setAttribute("name", false);
         }
 
-
-        document.getElementById("main").appendChild(topDiv);
+        if (document.getElementById("main_viewpost") != null) {
+            document.getElementById("main_viewpost").appendChild(topDiv);
+        } else { 
+            document.getElementById("main").appendChild(topDiv);
+        }
         document.getElementById("top" + i.toString()).appendChild(newDiv);
         document.getElementById("post" + i.toString()).appendChild(proDiv);
         document.getElementById('pro' + i.toString()).appendChild(newPfp);
