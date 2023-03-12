@@ -2,7 +2,7 @@
 
 {% block main_content %} 
 
-<h1 class="friend_H1">Friend requests for {{ g.user }}</h1>
+<h1 class="about_heading" style="text-align: center;">Friend Requests for {{ g.user }}</h1>
 
 {% if noFriendRequests == True %} 
 <p class="friend_text">No pending friend requests at this time</p>
@@ -10,7 +10,7 @@
 
 {% for requester in friendsRequesters %}
 
-    <a href="{{ url_for('profile', user = requester) }}">{{ requester }}</a>
+    <a href="{{ url_for('profile', user = requester) }}" class="text">{{ requester }}</a>
     <a href="{{ url_for('acceptFriendRequest', user = requester) }}">Accept Friend Request</a>
     <a href="{{ url_for('deleteFriend', user = requester) }}">Reject Friend Request</a>
 
