@@ -44,7 +44,7 @@
         
             <div class="comment_div">
                 {% for comment in comments %} 
-                    <p id="display_post"><img id="post_pfp" href="{{ comment['profilepic'] }}"/>{{ comment['displayName'] }}</p>
+                    <p id="display_post"><img id="post_pfp" src="../static/images/profilepics/{{ comment['profilepic'] }}"/>{{ comment['displayName'] }}</p>
                     <p id="username_post"><a href = "{{url_for('profile', user = comment['username'])}}" class="username_link">@{{ comment['username'] }}</a></option>
                     <div class="pro_div"></div>
                     <p class="text">{{ comment['comment'] }}</p>
