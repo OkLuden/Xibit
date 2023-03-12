@@ -2,13 +2,13 @@
 
 ![Xibit Banner](Xibit/static/images/xibit_banner.png)
 
-Klaudia Kulas - Front End and General Design
+<b>Klaudia Kulas</b> - Front End and General Design
 
-Robert Coughlan - JavaScript Back End
+<b>Robert Coughlan</b> - JavaScript Back End
 
-Dylan Mulcahy - Python Back End
+<b>Dylan Mulcahy</b> - Python Back End
 
-Darragh Hession - Server and Database Management
+<b>Darragh Hession</b> - Server and Database Management
 
 <h2>Our Vision</h2>
 
