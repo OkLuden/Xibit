@@ -683,7 +683,7 @@ input[type=text] {
     display: none;
 }
 
-#tags {
+#tags_text {
     color: #ffffff;
     font-family: "Lato", sans-serif;
     font-size: 20px;

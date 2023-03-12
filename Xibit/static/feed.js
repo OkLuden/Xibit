@@ -52,7 +52,7 @@ function init() {
         const date = document.createElement('p');
         date.setAttribute("id", "date_of_post");
         const tag = document.createElement('p')
-        tag.setAttribute("id", "tags")
+        tag.setAttribute("id", "tags_text")
         like = document.createElement('button');
         like.setAttribute("id", "likes" + i.toString());
         like.setAttribute("class", "likebtn");
