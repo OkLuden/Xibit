@@ -695,6 +695,12 @@ input[type=text] {
     margin-bottom: 10px;
 }
 
+/* FRIENDS LIST */
+.friendslist_container {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
 /* FOOTER */
 footer {
     background-color: #282828;

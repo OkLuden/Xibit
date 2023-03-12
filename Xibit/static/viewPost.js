@@ -43,8 +43,8 @@ function init() {
         display.setAttribute("id", "display_post");
         const date = document.createElement('p');
         date.setAttribute("id", "date_of_post");
-        const tag = document.createElement('p')
-        tag.setAttribute("id", "tags")
+        const tag = document.createElement('p');
+        tag.setAttribute("class", "tags");
         like = document.createElement('button');
         like.setAttribute("id", "likes" + i.toString());
 
