@@ -16,7 +16,7 @@
 
         <a href="{{ url_for('profile', user = friend) }}" class="text">{{ friend }}</a>
         {% if user == g.user %} 
-            <a href="{{ url_for('deleteFriend', user = friend)}}" class="text">Remove friend</a>
+            <a href="{{ url_for('deleteFriend', user = friend)}}" class="rm_friend_text">Remove friend</a>
         {% endif %}
     <div class="comment_divider"></div>
     {% endfor %}
