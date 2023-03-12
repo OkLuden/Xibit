@@ -35,6 +35,7 @@ function init() {
         
         const newImg = document.createElement('img');
         newImg.setAttribute("id", "post_image" + i.toString());
+        newImg.setAttribute("class", "post_image");
         const newPfp = document.createElement('img');
         newPfp.setAttribute("id", "post_pfp");
         const newDiv = document.createElement('div');

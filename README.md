@@ -31,3 +31,15 @@ Each user is able to customize their own profile however they like. You are able
 <h3>Feed</h3>
 
 The feed allows you to view everybody's artwork! With the ability to search by tags and sort artworks, Xibit is very fair to it's users by not prioritizing top posts over others. As the user you can sort posts from newest, oldest, most liked and posts only by people from your friends list! You are able to like posts, comment on them and view their artists profile to see even more.
+
+<h2>Featured Artworks</h2>
+
+Below if a few artworks created using Xibit!
+
+![Xibit Artwork](readme-images/download.png)
+
+![Xibit Artwork2](readme-images/download1.png)
+
+![Xibit Artwork3](readme-images/download2.png)
+
+![Xibit Artwork4](readme-images/download3.png)
