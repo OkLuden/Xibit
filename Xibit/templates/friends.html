@@ -6,10 +6,10 @@
 
 {% block main_content %} 
 
-<h1 class="friend_H1">Friends for {{ user }}</h1>
+<h1 class="friend_H1">Friends for @{{ user }}</h1>
 
 {% if noFriends == True %} 
-<p class="friend_text">No friends found LOL</p>
+<p class="friend_text">No friends found</p>
 {% endif %}
 
 {% for friend in friends %}
