@@ -55,6 +55,7 @@ function init() {
         tag.setAttribute("id", "tags")
         like = document.createElement('button');
         like.setAttribute("id", "likes" + i.toString());
+        like.setAttribute("class", "likebtn");
 
         newDiv.setAttribute("id", "post" + i.toString());
         topDiv.setAttribute("id", "top" + i.toString());
